@@ -1,0 +1,29 @@
+To think about GUIs properly, we need to realize that they're actually two separate things: rendering systems (graphical) and state management systems (user interfaces). Rendering systems using "widgets" or components composed out of widgets are pretty well solved and well thought out, once all their state is set.
+
+A UI is essentially just a way to interact with some sort of code: it's a way to use an API.
+
+To use an API, you need two things: the functions you want to call, which I will call actions, and the parameters you want to call them with, which I will call state.
+
+The parameters, or state, are basically the state of your widgets: whether a checkbox is checked, the value of a textbox, a slider.
+
+Using the idea of state machines to manage state is nice, and there are even nicer things like statecharts or hierarchal state machines, and we can derive redux from this: reducers are simply state transitions. There is also a deeper connection between state machines, reducers, and monoids in that all state machines are monoids, and reduce is actually a way to think about monoids.
+
+So in order to change state, we should think of it as state transitions (usually with some parameters). 
+
+However, state transitions are not really our "functions" in the API-centric way of thinking about UIs. Our functions are more like the ideas in ReactiveX/RxDart/cycle.js/observables/streams/whatever you want to call it. I want to call them actions, but that's already taken by state transitions in redux so it's a bit difficult.
+
+Essentially, once we have our state, we e.g. click a button, and perform an action. *Because we want the user interface to continue to be interactive*, we have to use some sort of asynchronous or multithreaded model - but most of these languages that have implemented these ideas are single-threaded languages with runtimes, so they use the async APIs because it's "the right way" to do it. Async i.e. polling has many nice benefits in systems languages as well, but in general I think async is a bit over-hyped.
+
+In fact, many UIs follow this pattern but are not async: command-line interfaces are an example. Using the structopt crate in rust makes it pretty obvious: to define your state, you define a struct and annotate it with what are essentially data bindings to your views' input, the command line parameters. Then, you can dispatch actions based on the state and the action you want to perform. However, for command line programs we don't usually bother with async because the "rendering" only happens once: usually, we just wait for IO and then do some processing and print out to the screen.
+
+So, to sum up:
+
+- Define states
+- Define actions
+- Loop:
+  - wait for input (user input, animation ticks, action returns)
+  - perform state change or action based on input
+  	- maybe "perform action, action causes state change"
+  - state is pumped through components
+  - render components (whether that means a GUI's widgets, a TUI's widgets, a command line, or something more complex like a voice application)
+

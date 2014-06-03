@@ -1,0 +1,5 @@
+We don't need to use inheritance to propagate styling if we make our widget tree explicitly a tree: instead of storing a tree of just widgets, we can store a tree of widgets and style objects (and make sure the style objects can be composed, so you can take a textStyle and a background style and compose them into a single object
+
+- how do we then use the style when rendering the widget?
+
+i think we just need more dynamicism. so attempt to downcast from the any trait (or maybe an AnyStyle) trait. we could do the compositios simply by having a linked list of `AnyStyle`s and trying to downcast for each one, or perhaps more optimally we have a hashmap of the trait or struct ids somehow, which we can accumulate into and update as we layout, going down the tree

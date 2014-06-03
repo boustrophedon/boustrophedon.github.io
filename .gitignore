@@ -1,0 +1,4 @@
+*.bak
+out/
+tmp/
+__pycache__
