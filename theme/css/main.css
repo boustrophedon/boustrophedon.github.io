@@ -11,21 +11,18 @@
 @import url("reset.css");
 @import url("pygment.css");
 @import url("typogrify.css");
-@import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz&subset=latin);
-@import url(http://fonts.googleapis.com/css?family=Crimson+Text:400,400italic,600,600italic,700,700italic);
-@import url(http://fonts.googleapis.com/css?family=Droid+Sans+Mono);
 /***** Global *****/
 /* Body */
 body {
     background: #FDF6E3;
     color: #8A887B;
     font-size: 16px;
-    font-family: 'Crimson Text', 'Trebuchet MS', Trebuchet, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: Arial, sans-serif; /* changed */
     /*line-height: 1.429;*/
     margin: 0;
     padding: 0;
     text-align: left;
-    text-shadow:0px 0px 1px #BFBFBF;
+    /* text-shadow:0px 0px 1px #BFBFBF; */ /* removed */
     padding-top:120px;
 }
 
@@ -53,12 +50,12 @@ h5 {font-size: 1.143em}	/* 16px */
 h6 {font-size: 1em}		/* 14px */
 
 h1, h2, h3, h4, h5, h6 {
-    text-shadow:0px 0px 1px #BFBFBF;
+    /* text-shadow:0px 0px 1px #BFBFBF; */
 	font-weight: normal;
     font-style: normal;
 	line-height: 50px;
 	/*margin-bottom: .8em;*/
-    font-family: 'Crimson Text', 'Yanone Kaffeesatz', arial, serif;
+    font-family: arial, serif;
 }
 h1 {
     font-size: 50px;
