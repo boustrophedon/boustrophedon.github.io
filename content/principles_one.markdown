@@ -8,7 +8,7 @@ It starts with "The Human Visual System and Color" for the first 100ish pages, c
 
 Color spaces was too abstract for something that I thought should have been more visceral considering that it's color, but I think the main point of the chapter is that saying "it's just color, how difficult can it be?" is a very big mistake. There are problems with how a human perceives color, the unintuitiveness of the [CIE XYZ color space](http://en.wikipedia.org/wiki/CIE_XYZ), and more importantly the gamut that your monitor or printer is able to render. The chapter on color spaces also talks about the problem of perceptual uniformity; that is, in the XYZ color space, changes oof equal distance are not equally perceptible.
 
-![MacAdam ellipse](http://upload.wikimedia.org/wikipedia/commons/f/f4/CIExy1931_MacAdam.png)
+![MacAdam ellipse](https://upload.wikimedia.org/wikipedia/commons/f/f4/CIExy1931_MacAdam.png)
 
 The ellipses shown were reported to be of constant color in an [experiment](http://en.wikipedia.org/wiki/MacAdam_ellipse), and they may or may not on your computer because the ellipses are enlarged and your computer may display the colors differently, so that there is a perceivable difference.
 
