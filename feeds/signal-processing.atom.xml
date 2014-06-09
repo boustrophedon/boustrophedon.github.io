@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Pro-cantabrigian hypsidolichocephalism</title><link href="https://boustrophedon.github.io/" rel="alternate"></link><link href="https://boustrophedon.github.io/feeds/signal-processing.atom.xml" rel="self"></link><id>https://boustrophedon.github.io/</id><updated>2014-06-09T01:17:30-04:00</updated><entry><title>Convolution</title><link href="https://boustrophedon.github.io/convolution.html" rel="alternate"></link><updated>2014-06-09T01:17:30-04:00</updated><author><name>Harry Stern</name></author><id>tag:https://boustrophedon.github.io,2014-06-09:convolution.html</id><summary type="html">&lt;p&gt;So I'm reading the chapter "Signals and Systems" in PDIS, and since I took Professor Goodman's &lt;a href="http://www.math.rutgers.edu/courses/357/index.html?arch=Spring_2014"&gt;DSP course&lt;/a&gt; a lot of the material is familiar to me, but presented in a different way or context. It's very neat to see things presented in a slightly unfamiliar way and then realize "oh, I know this." It's somehow validating your knowledge or something and is gratifying in a weird but nice way.&lt;/p&gt;
+&lt;p&gt;In particular, this sentence really clicked for me in sort of mapping different intuitions to the same underlying idea:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Convolution is important because it tells us how to use a system's impulse response to find the output of the system to a given input.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;(at this point I continued reading)&lt;/p&gt;
+&lt;p&gt;The exposition in this book is really quite good. Following from the previous statement, we determined that $e^{\omega t}$ is an eigenfunction of LTI systems by taking the convolution with the system's impulse response $h(x)$. (this sounds like a simple statement, or at least a succinct one, but it takes a bit of time to understand) Its eigenvalue is the &lt;a href="http://en.wikipedia.org/wiki/Frequency_response"&gt;frequency response&lt;/a&gt; $\int h(\tau)e^{-\omega\tau}d\tau$. &lt;/p&gt;
+&lt;p&gt;Then we have:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This fact reveals that one of the easiest types of functions to study with respect to LTI systems are the complex exponentials, since they pass through such systems unchanged except for complex scaling. If we can represent an input signal as a sum of these functions, then we can find the response of the system to each exponential individually, and then sum the responses together. The Fourier series and transform provide precisely the tools that decompose a signal into a sum of exponentials.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;This seems like a very different way to arrive at Fourier series and transform than "let's decompose a function as a sum of sine and cosines because that sounds like fun". Basically, it gives us a reason why we might want to do such a thing a priori.&lt;/p&gt;&lt;script type= "text/javascript"&gt;
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+&lt;/script&gt;
+</summary><category term="Principles of Digital Image Synthesis"></category><category term="convolution"></category></entry></feed>

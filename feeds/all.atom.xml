@@ -1,5 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Pro-cantabrigian hypsidolichocephalism</title><link href="https://boustrophedon.github.io/" rel="alternate"></link><link href="https://boustrophedon.github.io/feeds/all.atom.xml" rel="self"></link><id>https://boustrophedon.github.io/</id><updated>2014-06-04T02:37:47-04:00</updated><entry><title>Principles of Digital Image Synthesis</title><link href="https://boustrophedon.github.io/principles-of-digital-image-synthesis.html" rel="alternate"></link><updated>2014-06-04T02:37:47-04:00</updated><author><name>Harry Stern</name></author><id>tag:https://boustrophedon.github.io,2014-06-04:principles-of-digital-image-synthesis.html</id><summary type="html">&lt;p&gt;So one of the things I'm doing this summer is reading &lt;a href="http://dl.acm.org/citation.cfm?id=527570"&gt;Principles of Digital Image Synthesis&lt;/a&gt; by &lt;a href="http://glassner.com/"&gt;Andrew Glassner&lt;/a&gt;. It's from 1995 which makes it almost 20 years old, but the fundamental mathematics don't change and it's quite comprehensive. I found it released freely &lt;a href="http://www.realtimerendering.com/blog/principles-of-digital-image-synthesis-now-free-for-download/"&gt;here&lt;/a&gt;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Pro-cantabrigian hypsidolichocephalism</title><link href="https://boustrophedon.github.io/" rel="alternate"></link><link href="https://boustrophedon.github.io/feeds/all.atom.xml" rel="self"></link><id>https://boustrophedon.github.io/</id><updated>2014-06-09T01:17:30-04:00</updated><entry><title>Convolution</title><link href="https://boustrophedon.github.io/convolution.html" rel="alternate"></link><updated>2014-06-09T01:17:30-04:00</updated><author><name>Harry Stern</name></author><id>tag:https://boustrophedon.github.io,2014-06-09:convolution.html</id><summary type="html">&lt;p&gt;So I'm reading the chapter "Signals and Systems" in PDIS, and since I took Professor Goodman's &lt;a href="http://www.math.rutgers.edu/courses/357/index.html?arch=Spring_2014"&gt;DSP course&lt;/a&gt; a lot of the material is familiar to me, but presented in a different way or context. It's very neat to see things presented in a slightly unfamiliar way and then realize "oh, I know this." It's somehow validating your knowledge or something and is gratifying in a weird but nice way.&lt;/p&gt;
+&lt;p&gt;In particular, this sentence really clicked for me in sort of mapping different intuitions to the same underlying idea:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Convolution is important because it tells us how to use a system's impulse response to find the output of the system to a given input.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;(at this point I continued reading)&lt;/p&gt;
+&lt;p&gt;The exposition in this book is really quite good. Following from the previous statement, we determined that $e^{\omega t}$ is an eigenfunction of LTI systems by taking the convolution with the system's impulse response $h(x)$. (this sounds like a simple statement, or at least a succinct one, but it takes a bit of time to understand) Its eigenvalue is the &lt;a href="http://en.wikipedia.org/wiki/Frequency_response"&gt;frequency response&lt;/a&gt; $\int h(\tau)e^{-\omega\tau}d\tau$. &lt;/p&gt;
+&lt;p&gt;Then we have:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This fact reveals that one of the easiest types of functions to study with respect to LTI systems are the complex exponentials, since they pass through such systems unchanged except for complex scaling. If we can represent an input signal as a sum of these functions, then we can find the response of the system to each exponential individually, and then sum the responses together. The Fourier series and transform provide precisely the tools that decompose a signal into a sum of exponentials.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;This seems like a very different way to arrive at Fourier series and transform than "let's decompose a function as a sum of sine and cosines because that sounds like fun". Basically, it gives us a reason why we might want to do such a thing a priori.&lt;/p&gt;&lt;script type= "text/javascript"&gt;
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+&lt;/script&gt;
+</summary><category term="Principles of Digital Image Synthesis"></category><category term="convolution"></category></entry><entry><title>Principles of Digital Image Synthesis</title><link href="https://boustrophedon.github.io/principles-of-digital-image-synthesis.html" rel="alternate"></link><updated>2014-06-04T02:37:47-04:00</updated><author><name>Harry Stern</name></author><id>tag:https://boustrophedon.github.io,2014-06-04:principles-of-digital-image-synthesis.html</id><summary type="html">&lt;p&gt;So one of the things I'm doing this summer is reading &lt;a href="http://dl.acm.org/citation.cfm?id=527570"&gt;Principles of Digital Image Synthesis&lt;/a&gt; by &lt;a href="http://glassner.com/"&gt;Andrew Glassner&lt;/a&gt;. It's from 1995 which makes it almost 20 years old, but the fundamental mathematics don't change and it's quite comprehensive. I found it released freely &lt;a href="http://www.realtimerendering.com/blog/principles-of-digital-image-synthesis-now-free-for-download/"&gt;here&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;It starts with "The Human Visual System and Color" for the first 100ish pages, covering "The Human Visual System", "Color Spaces", and "Displays". While I thought the chapter on how the eye works was interesting, I didn't really pay close attention to it, so that I feel like while I have a better understanding of how eyesight works than before, I don't think I could really explain it to someone else.&lt;/p&gt;
 &lt;p&gt;Color spaces was too abstract for something that I thought should have been more visceral considering that it's color, but I think the main point of the chapter is that saying "it's just color, how difficult can it be?" is a very big mistake. There are problems with how a human perceives color, the unintuitiveness of the &lt;a href="http://en.wikipedia.org/wiki/CIE_XYZ"&gt;CIE XYZ color space&lt;/a&gt;, and more importantly the gamut that your monitor or printer is able to render. The chapter on color spaces also talks about the problem of perceptual uniformity; that is, in the XYZ color space, changes of equal distance are not equally perceptible.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="MacAdam ellipse" src="https://upload.wikimedia.org/wikipedia/commons/f/f4/CIExy1931_MacAdam.png" /&gt;&lt;/p&gt;
