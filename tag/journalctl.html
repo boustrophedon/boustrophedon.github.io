@@ -1,34 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-        <title>Pro-cantabrigian hypsidolichocephalism &middot; articles tagged "journalctl"</title>
-        <link rel="shortcut icon" href="https://boustrophedon.github.io/favicon.ico" />
-<link href="https://boustrophedon.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Pro-cantabrigian hypsidolichocephalism Atom Feed" />
+<head>
 
-        <link rel="stylesheet" href="https://boustrophedon.github.io/theme/css/screen.css" type="text/css" />
-        <link rel="stylesheet" href="https://boustrophedon.github.io/theme/css/pygments.css" type="text/css" />
-    </head>
-    <body>
-<div id="header">
-            <ul id="nav">
-                <li class="ephemeral selected"><a href="https://boustrophedon.github.io/tag/journalctl.html">journalctl</a></li>
-                <li><a href="https://boustrophedon.github.io">Home</a></li>
-<li><a href="https://boustrophedon.github.io/archives.html">Archives</a></li>
-            </ul>
-            <div class="header_box">
-                <h1><a href="https://boustrophedon.github.io">Pro-cantabrigian hypsidolichocephalism</a></h1>
-            </div>
+    <meta charset="utf-8">
+
+
+
+
+    <meta name="author" content="">
+
+    <title>Pro-cantabrigian hypsidolichocephalism - journalctl</title>
+
+        <link rel="stylesheet" href="https://boustrophedon.github.io/theme/css/style.min.css?9a0dd849">
+
+
+    <link rel="shortcut icon" href="https://boustrophedon.github.io/theme/img/favicon.ico" />
+    <link rel="icon" sizes="16x16 32x32" href="https://boustrophedon.github.io/theme/img/favicon.ico">
+
+
+
+</head>
+
+<body>
+    <header id="sitehead">
+        <div class="sitehead">
+            <span id="sitehead">
+                <a href="https://boustrophedon.github.io">Pro-cantabrigian hypsidolichocephalism</a>
+            </span>
         </div>
-        <div id="wrapper">
-            <div id="content">
-                <h4 class="date">Sep 12,  2014</h4>
-                <div class="post">
-<h2 class="title">
-                        <a href="https://boustrophedon.github.io/how-to-make-daily-backups-with-rdiff-backup-and-systemd.html" rel="bookmark" title="Permanent Link to &quot;How to make daily backups with rdiff-backup and systemd&quot;">How to make daily backups with rdiff-backup and systemd</a>
-                    </h2>
+        <nav class="navbar">
+        </nav>
+    </header><!-- /header-siteheader -->
 
-                    <p>The other day I was talking to one of my friends and he mentioned how he lost a hard drive recently and consequently all of his stuff. I realized that, although I had bought a backup hard drive a little while ago, I hadn't done more than a couple backups with it when I felt like it. So I decided that I would finally set up regular backups of my home directory.</p>
+                <aside id="featured">
+                    <article>
+                        <h1 class="entry-title"><a href="https://boustrophedon.github.io/how-to-make-daily-backups-with-rdiff-backup-and-systemd.html">How to make daily backups with rdiff-backup and systemd</a></h1>
+                        <p>The other day I was talking to one of my friends and he mentioned how he lost a hard drive recently and consequently all of his stuff. I realized that, although I had bought a backup hard drive a little while ago, I hadn't done more than a couple backups with it when I felt like it. So I decided that I would finally set up regular backups of my home directory.</p>
 <p>I'd looked briefly at backup solutions before and thought that <a href="http://savannah.nongnu.org/projects/rdiff-backup">rdiff-backup</a> seemed like a good choice. I also want to do snapshots at some point either with straight-up rsync or rsnapshot, but for now just the differential backups are probably fine. So I chose rdiff-backup.</p>
 <p>One easily-solved problem I encountered was that I have large data files that I don't have space to back up and that aren't super necessary to back up in the first place. However, I wanted to keep track of the files. So I'm using <code>rdiff-backup --exclude</code> to exclude those directories, and then writing the output of <code>ls -lLR</code> in those directories to a file to keep track of what's in them. Since the -l option tells us the modified times, I didn't think it was necessary to write the listing files out into my actual home directory and then have that be part of the backup. EDIT: On second thought, it actually is necessary to do so. If, for example, the entire directory we're saving the listing of was deleted, and then the backup script ran again, the listing would be overwritten with nothing and it would be pointless. So we need to do the listing before running the background and it needs to output to a directory that is going to be backed up.</p>
 <p>I combined these two steps into a python script that prints some information about what it's doing and then runs the commands. I always prefer python scripts to bash because you don't have to worry about escaping, or portability, or unreadability, or any of the other problems one encounters with shell scripting.</p>
@@ -37,31 +44,28 @@
 <p>So I wrote a simple .service unit file that runs the python script I wrote as a oneshot, and then wrote a .timer file which tells systemd to run the corresponding .service file with the same name daily (<code>OnCalendar=daily</code>) and to run it ASAP if we missed the last time it was supposed to run (<code>Persistent=true</code>). The service file also has some options to set the nice value to 19 (the lowest priority) and lower the IO priority. (<code>Nice=19</code>, <code>IOSchedulingClass=2</code>, <code>IOSchedulingPriority=7</code>) These were mostly copied from <a href="https://wiki.archlinux.org/index.php/Systemd/cron_functionality">this page on the arch linux wiki</a>. Make sure to delete the in-line comments; they will cause errors if you try to actually use them as they are.</p>
 <p>I looked into using systemd user sessions to run these, but it seemed a bit complicated to set up and I wasn't entirely sure what the benefit was. Furthermore, I might use this script to do backups of /etc or something in the future, which would mean I wouldn't use a user session anyway. So instead I have the unit run as my own user (<code>User=username</code>) and copied the .service and .timer files into <code>/etc/systemd/system/</code>. I copied the python script that does the backups to <code>/usr/local/bin/backup-scripts/</code>, though you could just leave it in <code>/usr/local/bin/</code> just the same. The last step to make everything work is to enable the timer unit with something like <code>sudo systemctl enable my-backup.timer</code>.</p>
 <p>It's probably irrational, but I feel a bit nervous making my script and unit files public even though the worst/best thing that would probably happen would be someone pointing out a way to make them better. Email me or something if you want to see them, I guess? that feels really lame.</p>
+<footer class="post-info">
+    <abbr class="published" title="2014-09-12T02:02:54.810001-04:00">
+        Posted on Fri 12 September 2014 by  |     tags: <a href="https://boustrophedon.github.io/tag/backups.html">backups</a> <a href="https://boustrophedon.github.io/tag/rdiff-backup.html">rdiff-backup</a> <a href="https://boustrophedon.github.io/tag/systemd.html">systemd</a> <a href="https://boustrophedon.github.io/tag/journalctl.html">journalctl</a> <a href="https://boustrophedon.github.io/tag/cron.html">cron</a> <a href="https://boustrophedon.github.io/tag/anacron.html">anacron</a>     </abbr>
+</footer><!-- /footer-post-info -->
+                    </article>
+<div class="paginationer">
+    <p class="paginator">
+        Page 1 / 1
+    </p>
+</div>
+                </aside><!-- /aside-featured -->
+                </ol><!-- /ol-posts-list -->
+                </section><!-- /section-content -->
+    <section id="extras">
+    </section><!-- /sectin-extras -->
 
-                    <div class="clear"></div>
-                    <div class="info">
-<a href="https://boustrophedon.github.io/how-to-make-daily-backups-with-rdiff-backup-and-systemd.html">posted at  2:02 am</a>&nbsp;&middot;&nbsp;<a href="https://boustrophedon.github.io/category/system-administration.html" rel="tag">System Administration</a>
-                        <div class="tags">
-                            <a href="https://boustrophedon.github.io/tag/backups.html">backups</a>
-                            <a href="https://boustrophedon.github.io/tag/rdiff-backup.html">rdiff-backup</a>
-                            <a href="https://boustrophedon.github.io/tag/systemd.html">systemd</a>
-                            <a href="https://boustrophedon.github.io/tag/journalctl.html" class="selected">journalctl</a>
-                            <a href="https://boustrophedon.github.io/tag/cron.html">cron</a>
-                            <a href="https://boustrophedon.github.io/tag/anacron.html">anacron</a>
-                        </div>
-                    </div>
-                    <div class="clear"></div>
-                </div>
+    <footer id="footer">
+        <address id="about" class="vcard">
+            <a class="url fn" href="https://boustrophedon.github.io">Pro-cantabrigian hypsidolichocephalism</a>
+        </address><!-- /address-about -->
+    </footer><!-- /footer-footer -->
 
-                <div class="clear"></div>
-                <div id="footer">
-                    <p>
-                    Mockingbird theme by <a href="http://nevanscott.com/">Nevan Scott</a>
-                    &middot;
-                    <a class="atom" href="https://boustrophedon.github.io/feeds/all.atom.xml">Feed</a>
-                </div>
-            </div>
-            <div class="clear"></div>
-        </div>
-    </body>
+</body>
+
 </html>

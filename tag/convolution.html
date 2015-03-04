@@ -1,96 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-        <title>Pro-cantabrigian hypsidolichocephalism &middot; articles tagged "convolution"</title>
-        <link rel="shortcut icon" href="https://boustrophedon.github.io/favicon.ico" />
-<link href="https://boustrophedon.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Pro-cantabrigian hypsidolichocephalism Atom Feed" />
+<head>
 
-        <link rel="stylesheet" href="https://boustrophedon.github.io/theme/css/screen.css" type="text/css" />
-        <link rel="stylesheet" href="https://boustrophedon.github.io/theme/css/pygments.css" type="text/css" />
-    </head>
-    <body>
-<div id="header">
-            <ul id="nav">
-                <li class="ephemeral selected"><a href="https://boustrophedon.github.io/tag/convolution.html">convolution</a></li>
-                <li><a href="https://boustrophedon.github.io">Home</a></li>
-<li><a href="https://boustrophedon.github.io/archives.html">Archives</a></li>
-            </ul>
-            <div class="header_box">
-                <h1><a href="https://boustrophedon.github.io">Pro-cantabrigian hypsidolichocephalism</a></h1>
-            </div>
+    <meta charset="utf-8">
+
+
+
+
+    <meta name="author" content="">
+
+    <title>Pro-cantabrigian hypsidolichocephalism - convolution</title>
+
+        <link rel="stylesheet" href="https://boustrophedon.github.io/theme/css/style.min.css?9a0dd849">
+
+
+    <link rel="shortcut icon" href="https://boustrophedon.github.io/theme/img/favicon.ico" />
+    <link rel="icon" sizes="16x16 32x32" href="https://boustrophedon.github.io/theme/img/favicon.ico">
+
+
+
+</head>
+
+<body>
+    <header id="sitehead">
+        <div class="sitehead">
+            <span id="sitehead">
+                <a href="https://boustrophedon.github.io">Pro-cantabrigian hypsidolichocephalism</a>
+            </span>
         </div>
-        <div id="wrapper">
-            <div id="content">
-                <h4 class="date">Jun  9,  2014</h4>
-                <div class="post">
-<h2 class="title">
-                        <a href="https://boustrophedon.github.io/convolution.html" rel="bookmark" title="Permanent Link to &quot;Convolution&quot;">Convolution</a>
-                    </h2>
+        <nav class="navbar">
+        </nav>
+    </header><!-- /header-siteheader -->
 
-                    <p>So I'm reading the chapter "Signals and Systems" in PDIS, and since I took Professor Goodman's <a href="http://www.math.rutgers.edu/courses/357/index.html?arch=Spring_2014">DSP course</a> a lot of the material is familiar to me, but presented in a different way or context. It's very neat to see things presented in a slightly unfamiliar way and then realize "oh, I know this." It's somehow validating your knowledge or something and is gratifying in a weird but nice way.</p>
+                <aside id="featured">
+                    <article>
+                        <h1 class="entry-title"><a href="https://boustrophedon.github.io/convolution.html">Convolution</a></h1>
+                        <p>So I'm reading the chapter "Signals and Systems" in PDIS, and since I took Professor Goodman's <a href="http://www.math.rutgers.edu/courses/357/index.html?arch=Spring_2014">DSP course</a> a lot of the material is familiar to me, but presented in a different way or context. It's very neat to see things presented in a slightly unfamiliar way and then realize "oh, I know this." It's somehow validating your knowledge or something and is gratifying in a weird but nice way.</p>
 <p>In particular, this sentence really clicked for me in sort of mapping different intuitions to the same underlying idea:</p>
 <blockquote>
 <p>Convolution is important because it tells us how to use a system's impulse response to find the output of the system to a given input.</p>
 </blockquote>
 <p>(at this point I continued reading)</p>
-<p>The exposition in this book is really quite good. Following from the previous statement, we determined that $e^{\omega t}$ is an eigenfunction of LTI systems by taking the convolution with the system's impulse response $h(x)$. (this sounds like a simple statement, or at least a succinct one, but it takes a bit of time to understand) Its eigenvalue is the <a href="http://en.wikipedia.org/wiki/Frequency_response">frequency response</a> $\int h(\tau)e^{-\omega\tau}d\tau$. </p>
+<p>The exposition in this book is really quite good. Following from the previous statement, we determined that <span class="math">\(e^{\omega t}\)</span> is an eigenfunction of LTI systems by taking the convolution with the system's impulse response <span class="math">\(h(x)\)</span>. (this sounds like a simple statement, or at least a succinct one, but it takes a bit of time to understand) Its eigenvalue is the <a href="http://en.wikipedia.org/wiki/Frequency_response">frequency response</a> <span class="math">\(\int h(\tau)e^{-\omega\tau}d\tau\)</span>. </p>
 <p>Then we have:</p>
 <blockquote>
 <p>This fact reveals that one of the easiest types of functions to study with respect to LTI systems are the complex exponentials, since they pass through such systems unchanged except for complex scaling. If we can represent an input signal as a sum of these functions, then we can find the response of the system to each exponential individually, and then sum the responses together. The Fourier series and transform provide precisely the tools that decompose a signal into a sum of exponentials.</p>
 </blockquote>
-<p>This seems like a very different way to arrive at Fourier series and transform than "let's decompose a function as a sum of sine and cosines because that sounds like fun". Basically, it gives us a reason why we might want to do such a thing a priori.</p><script type= "text/javascript">
-    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-        var mathjaxscript = document.createElement('script');
-        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-        mathjaxscript.type = 'text/javascript';
-        mathjaxscript.src = 'https:' == document.location.protocol
-                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
-                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
-        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
-            "MathJax.Hub.Config({" +
-            "    config: ['MMLorHTML.js']," +
-            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
-            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-            "    displayAlign: 'center'," +
-            "    displayIndent: '0em'," +
-            "    showMathMenu: true," +
-            "    tex2jax: { " +
-            "        inlineMath: [ ['$','$'] ], " +
-            "        displayMath: [ ['$$','$$'] ]," +
-            "        processEscapes: true," +
-            "        preview: 'TeX'," +
-            "    }, " +
-            "    'HTML-CSS': { " +
-            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
-            "    } " +
-            "}); ";
-        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+<p>This seems like a very different way to arrive at Fourier series and transform than "let's decompose a function as a sum of sine and cosines because that sounds like fun". Basically, it gives us a reason why we might want to do such a thing a priori.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
     }
+    
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
 </script>
+<footer class="post-info">
+    <abbr class="published" title="2014-06-09T01:17:30.012716-04:00">
+        Posted on Mon 09 June 2014 by  |     tags: <a href="https://boustrophedon.github.io/tag/principles-of-digital-image-synthesis.html">Principles of Digital Image Synthesis</a> <a href="https://boustrophedon.github.io/tag/convolution.html">convolution</a>     </abbr>
+</footer><!-- /footer-post-info -->
+                    </article>
+<div class="paginationer">
+    <p class="paginator">
+        Page 1 / 1
+    </p>
+</div>
+                </aside><!-- /aside-featured -->
+                </ol><!-- /ol-posts-list -->
+                </section><!-- /section-content -->
+    <section id="extras">
+    </section><!-- /sectin-extras -->
 
+    <footer id="footer">
+        <address id="about" class="vcard">
+            <a class="url fn" href="https://boustrophedon.github.io">Pro-cantabrigian hypsidolichocephalism</a>
+        </address><!-- /address-about -->
+    </footer><!-- /footer-footer -->
 
-                    <div class="clear"></div>
-                    <div class="info">
-<a href="https://boustrophedon.github.io/convolution.html">posted at  1:17 am</a>&nbsp;&middot;&nbsp;<a href="https://boustrophedon.github.io/category/signal-processing.html" rel="tag">Signal Processing</a>
-                        <div class="tags">
-                            <a href="https://boustrophedon.github.io/tag/principles-of-digital-image-synthesis.html">Principles of Digital Image Synthesis</a>
-                            <a href="https://boustrophedon.github.io/tag/convolution.html" class="selected">convolution</a>
-                        </div>
-                    </div>
-                    <div class="clear"></div>
-                </div>
+</body>
 
-                <div class="clear"></div>
-                <div id="footer">
-                    <p>
-                    Mockingbird theme by <a href="http://nevanscott.com/">Nevan Scott</a>
-                    &middot;
-                    <a class="atom" href="https://boustrophedon.github.io/feeds/all.atom.xml">Feed</a>
-                </div>
-            </div>
-            <div class="clear"></div>
-        </div>
-    </body>
 </html>

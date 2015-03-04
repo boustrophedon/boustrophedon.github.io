@@ -1,67 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-        <title>Pro-cantabrigian hypsidolichocephalism &middot; articles tagged "systemd"</title>
-        <link rel="shortcut icon" href="https://boustrophedon.github.io/favicon.ico" />
-<link href="https://boustrophedon.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Pro-cantabrigian hypsidolichocephalism Atom Feed" />
+<head>
 
-        <link rel="stylesheet" href="https://boustrophedon.github.io/theme/css/screen.css" type="text/css" />
-        <link rel="stylesheet" href="https://boustrophedon.github.io/theme/css/pygments.css" type="text/css" />
-    </head>
-    <body>
-<div id="header">
-            <ul id="nav">
-                <li class="ephemeral selected"><a href="https://boustrophedon.github.io/tag/systemd.html">systemd</a></li>
-                <li><a href="https://boustrophedon.github.io">Home</a></li>
-<li><a href="https://boustrophedon.github.io/archives.html">Archives</a></li>
-            </ul>
-            <div class="header_box">
-                <h1><a href="https://boustrophedon.github.io">Pro-cantabrigian hypsidolichocephalism</a></h1>
-            </div>
+    <meta charset="utf-8">
+
+
+
+
+    <meta name="author" content="">
+
+    <title>Pro-cantabrigian hypsidolichocephalism - systemd</title>
+
+        <link rel="stylesheet" href="https://boustrophedon.github.io/theme/css/style.min.css?9a0dd849">
+
+
+    <link rel="shortcut icon" href="https://boustrophedon.github.io/theme/img/favicon.ico" />
+    <link rel="icon" sizes="16x16 32x32" href="https://boustrophedon.github.io/theme/img/favicon.ico">
+
+
+
+</head>
+
+<body>
+    <header id="sitehead">
+        <div class="sitehead">
+            <span id="sitehead">
+                <a href="https://boustrophedon.github.io">Pro-cantabrigian hypsidolichocephalism</a>
+            </span>
         </div>
-        <div id="wrapper">
-            <div id="content">
-                <h4 class="date">Sep 12,  2014</h4>
-                <div class="post">
-<h2 class="title">
-                        <a href="https://boustrophedon.github.io/how-to-make-daily-backups-with-rdiff-backup-and-systemd.html" rel="bookmark" title="Permanent Link to &quot;How to make daily backups with rdiff-backup and systemd&quot;">How to make daily backups with rdiff-backup and systemd</a>
-                    </h2>
+        <nav class="navbar">
+        </nav>
+    </header><!-- /header-siteheader -->
 
-                    <p>The other day I was talking to one of my friends and he mentioned how he lost a hard drive recently and consequently all of his stuff. I realized that, although I had bought a backup hard drive a little while ago, I hadn't done more than a couple backups with it when I felt like it. So I decided that I would finally set up regular backups of my home directory.</p>
-<p>I'd looked briefly at backup solutions before and thought that <a href="http://savannah.nongnu.org/projects/rdiff-backup">rdiff-backup</a> seemed like a good choice. I also want to do snapshots at some point either with straight-up rsync or rsnapshot, but for now just the differential backups are probably fine. So I chose rdiff-backup.</p>
-<p>One easily-solved problem I encountered was that I have large data files that I don't have space to back up and that aren't super necessary to back up in the first place. However, I wanted to keep track of the files. So I'm using <code>rdiff-backup --exclude</code> to exclude those directories, and then writing the output of <code>ls -lLR</code> in those directories to a file to keep track of what's in them. Since the -l option tells us the modified times, I didn't think it was necessary to write the listing files out into my actual home directory and then have that be part of the backup. EDIT: On second thought, it actually is necessary to do so. If, for example, the entire directory we're saving the listing of was deleted, and then the backup script ran again, the listing would be overwritten with nothing and it would be pointless. So we need to do the listing before running the background and it needs to output to a directory that is going to be backed up.</p>
-<p>I combined these two steps into a python script that prints some information about what it's doing and then runs the commands. I always prefer python scripts to bash because you don't have to worry about escaping, or portability, or unreadability, or any of the other problems one encounters with shell scripting.</p>
-<p>The other half of the backup problem is actually running the backups. Putting a backup command in your crontab isn't the best idea for a desktop or laptop because it might be scheduled to run while your computer is off, resulting in a missed backup. <a href="http://en.wikipedia.org/wiki/Anacron">Anacron</a> is traditionally the solution to this: it runs cron jobs on a hourly/daily/monthly/whatever basis and, more importantly, will run jobs that were missed while the computer was off.</p>
-<p>However, I knew that systemd somewhat-recently gained support for doing cron-like things, and I knew that if I used systemd and wrote a unit file to run the backups, I could get the output easily and nicely into systemd's journal, making it easy to check that backups are running. If I put it in cron or anacron, which on my system are both covered by cronie, the output from my backup script would be mixed together with the other cronjobs' outputs. (I think.)</p>
-<p>So I wrote a simple .service unit file that runs the python script I wrote as a oneshot, and then wrote a .timer file which tells systemd to run the corresponding .service file with the same name daily (<code>OnCalendar=daily</code>) and to run it ASAP if we missed the last time it was supposed to run (<code>Persistent=true</code>). The service file also has some options to set the nice value to 19 (the lowest priority) and lower the IO priority. (<code>Nice=19</code>, <code>IOSchedulingClass=2</code>, <code>IOSchedulingPriority=7</code>) These were mostly copied from <a href="https://wiki.archlinux.org/index.php/Systemd/cron_functionality">this page on the arch linux wiki</a>. Make sure to delete the in-line comments; they will cause errors if you try to actually use them as they are.</p>
-<p>I looked into using systemd user sessions to run these, but it seemed a bit complicated to set up and I wasn't entirely sure what the benefit was. Furthermore, I might use this script to do backups of /etc or something in the future, which would mean I wouldn't use a user session anyway. So instead I have the unit run as my own user (<code>User=username</code>) and copied the .service and .timer files into <code>/etc/systemd/system/</code>. I copied the python script that does the backups to <code>/usr/local/bin/backup-scripts/</code>, though you could just leave it in <code>/usr/local/bin/</code> just the same. The last step to make everything work is to enable the timer unit with something like <code>sudo systemctl enable my-backup.timer</code>.</p>
-<p>It's probably irrational, but I feel a bit nervous making my script and unit files public even though the worst/best thing that would probably happen would be someone pointing out a way to make them better. Email me or something if you want to see them, I guess? that feels really lame.</p>
+                <aside id="featured">
+                    <article>
+                        <h1 class="entry-title"><a href="https://boustrophedon.github.io/how-im-deploying-dart-server-code-on-digitalocean.html">How I'm deploying Dart server code on DigitalOcean</a></h1>
+                        <p>So I finally started to work on my multiplayer breakout clone in dart that I've been meaning to do forever. It's moderately functional now. This post is how I am deploying the server code on digitalocean. It's written mostly for someone who has maybe used a desktop linux environment and isn't completely lost on the command line, but who maybe hasn't set up a server before. Here is the short version:</p>
+<ul>
+<li>create a new fedora droplet<ul>
+<li>ssh keys</li>
+</ul>
+</li>
+<li>yum update (optional)</li>
+<li>create new user</li>
+<li>copy ssh keys to new user's directory<ul>
+<li>make sure permissions are correct</li>
+</ul>
+</li>
+<li>add user to wheel</li>
+<li>remove root login from sshd_config</li>
+<li>add dartapps user<ul>
+<li>useradd -r -s /sbin/nologin dartapps</li>
+</ul>
+</li>
+<li>download and unzip dart-sdk to /opt/</li>
+<li>symlink /opt/dart-sdk/bin/{dart,dart2js,pub} to /usr/bin/{dart,dart2js,pub}</li>
+<li>cd to /usr/local/bin and git clone the repo</li>
+<li>This is what I did originally to get deps working:<ul>
+<li>if not running as root, switch to root</li>
+<li>run <code>PUB_CACHE=/usr/local/bin/dart-breakout/pub-cache pub get</code></li>
+</ul>
+</li>
+<li>You can also choose to do the previous step and the following on the server, or locally and scp the file:<ul>
+<li>after getting the dependencies with pub get, create a build/ directory and run:
+    <code>dart2js --categories=Server --output-type=dart bin/server.dart -o build/server.dart</code></li>
+</ul>
+</li>
+<li>create systemd unit file<ul>
+<li>if building with dart2js, set the exec file accordingly</li>
+</ul>
+</li>
+<li>enable unit file</li>
+<li>start unit file</li>
+<li>yay</li>
+</ul>
+<p>First, create a digitalocean droplet running Fedora (21 is the latest they have as of 3/15). You should probably choose to have your ssh key included.</p>
+<p>The next step is optional: Do a <code>yum update</code>. This, of course, updates all of your packages and may take a little while. It will also most likely give you some security fixes that you probably want.</p>
+<p>Next we're going to create a new user so that you're not running as root all the time, because that is a bad idea. run <code>useradd NEWUSERNAME</code> with whatever you want, and follow the directions. Add this user to wheel with <code>usermod -a -G wheel NEWUSERNAME</code>, which will give it access to sudo. You can modify your /etc/sudoers (with <code>visudo</code> !) so that you don't have to type your password for sudo, or not, depending on your preference. Finally, if you added ssh keys on droplet creation, copy them from .ssh/authorized_keys to /home/NEWUSERNAME/.ssh/authorized_keys and make sure to chown and chgrp your new /home/NEWUSERNAME/.ssh/ directory so it's owned by your new user.</p>
+<p>Since digitalocean provides console access via its web dashboard, there's really no reason to allow root logins from ssh, so now that we have a new user that we can log in to (check to make sure you can log in first; you may have to reboot the server) let's fix that. Edit /etc/ssh/sshd_config as root and uncomment the line <code>PermitRootLogin yes</code>, and change yes to no. Try sshing to the droplet as root. If it still works, you need to restart the ssh server or at least reload the configs.</p>
+<p>Now we're going to create a user to run our dart server. We want it to have very few privileges on the system in case someone takes advantage of a vulnerability in the server and is able to execute arbitrary code, and it is also convenient for other purposes, like bandwidth-limiting, disk space quotas, other monitoring stuff that I'm not going to cover. I'm going to call this user 'dartapps' but you can call it whatever. To create it, run <code>useradd -r -s /sbin/nologin dartapps</code>. The -r option makes the user a system user, without a home directory, and -s /sbin/nologin means that it doesn't have a login shell; you cannot login as this user even if you gave it a password.</p>
+<p>It is now time to install the dart sdk. Open https://www.dartlang.org/tools/download.html#other and copy the 64-bit linux download url. Download it into /opt and unzip it (you will probably need to <code>yum install unzip</code>). In order to make things convenient, you can symlink any or all of the files in /opt/dart-sdk/bin/ to /usr/bin/ by doing <code>ln -s /opt/dart-sdk/bin/dart /usr/bin/dart</code>, and similarly for the others. At the very least you will want to do this for the dart and pub commands. You may also need to <code>chmod o+rx /opt/dart-sdk/bin/dart</code> if you cannot run e.g. <code>dart --help</code> from your NEWUSERNAME user.</p>
+<p>At this point we finally get to download our own code. Either scp your server code, git clone it, or whatever, into some directory. I chose /usr/local/bin/dart-breakout/ for my breakout code, but it could just have easily gone into /srv/ or something. /srv may in fact be a better choice.</p>
+<p>There is an optional, somewhat unsupported step here: Instead of copying all your code over, you may, on your local development machine, create a build/bin directory in your pub package file structure. Then, run the following command, assuming your server dart code is in bin/server.dart: <code>dart2js --categories=Server --output-type=dart bin/server.dart -o build/bin/server.dart</code>. This runs "dart2dart" on your code and puts it all in a single file, but instead of outputting js it outputs dart code. You may also do this on the server after getting the dependencies as explained in the next paragraph.</p>
+<p>If you did not follow the above optional step, this is what I originally did: Normally, pub downloads your packages into ~/.pub-cache. However, our dartapps user does not have a home directory. If we try to run <code>pub get</code> as root, pub will install our dependencies into /root/.pub-cache, which is of course unreadable by the dartapps user. We can fix this by either creating a global pub-cache inside, say, /usr/local/include/ or /usr/local/lib/, but I chose the option of creating it inside my server's code directory, so /usr/local/bin/dart-breakout/pub-cache. This is already a bit messy and a mild abuse of /usr/local/bin, and the better option is to compile all your dart code to a single file as in the above step.</p>
+<p>In order to create this extra pub cache directory, we need to (as root), run <code>PUB_CACHE=/usr/local/bin/dart-breakout/pub-cache pub get</code>. Setting the PUB_CACHE variable tells pub where to put the cache, and sets up the symlinks to point at that local cache for our application. Of course, be sure to substitute dart-breakout for your own name. You should test that the dependencies are installed and permissions are correct by running the server as a non-root user.</p>
+<p>Lastly, we get monitoring, logging, and restart-on-crash for free by creating a simple systemd unit file that runs our server as the dartapps user. Drop this file into /etc/systemd/system/dart-breakout.service, replacing dart-breakout in both the filename and inside the file as needed:</p>
+<div class="highlight"><pre><span class="k">[Service]</span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/bin/dart /usr/local/bin/dart-breakout/bin/server.dart</span>
+<span class="na">Restart</span><span class="o">=</span><span class="s">always</span>
+<span class="na">StandardOutput</span><span class="o">=</span><span class="s">syslog</span>
+<span class="na">StandardError</span><span class="o">=</span><span class="s">syslog</span>
+<span class="na">SyslogIdentifier</span><span class="o">=</span><span class="s">dart-breakout</span>
+<span class="na">User</span><span class="o">=</span><span class="s">dartapps</span>
+<span class="na">Group</span><span class="o">=</span><span class="s">dartapps</span>
 
-                    <div class="clear"></div>
-                    <div class="info">
-<a href="https://boustrophedon.github.io/how-to-make-daily-backups-with-rdiff-backup-and-systemd.html">posted at  2:02 am</a>&nbsp;&middot;&nbsp;<a href="https://boustrophedon.github.io/category/system-administration.html" rel="tag">System Administration</a>
-                        <div class="tags">
-                            <a href="https://boustrophedon.github.io/tag/backups.html">backups</a>
-                            <a href="https://boustrophedon.github.io/tag/rdiff-backup.html">rdiff-backup</a>
-                            <a href="https://boustrophedon.github.io/tag/systemd.html" class="selected">systemd</a>
-                            <a href="https://boustrophedon.github.io/tag/journalctl.html">journalctl</a>
-                            <a href="https://boustrophedon.github.io/tag/cron.html">cron</a>
-                            <a href="https://boustrophedon.github.io/tag/anacron.html">anacron</a>
-                        </div>
-                    </div>
-                    <div class="clear"></div>
-                </div>
+<span class="k">[Install]</span>
+<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+</pre></div>
 
-                <div class="clear"></div>
-                <div id="footer">
-                    <p>
-                    Mockingbird theme by <a href="http://nevanscott.com/">Nevan Scott</a>
-                    &middot;
-                    <a class="atom" href="https://boustrophedon.github.io/feeds/all.atom.xml">Feed</a>
-                </div>
-            </div>
-            <div class="clear"></div>
-        </div>
-    </body>
+
+<p>If you followed the optional "dart2dart" step, replace the project/bin/server.dart file with the compiled file, which you would probably install to /usr/local/bin/ directly.</p>
+<p>And now we're done! Run (as root) <code>systemctl enable dart-breakout</code> to enable the service to run on startup, and <code>systemctl start dart-breakout</code> to start the server now. You can use <code>journalctl -u dart-breakout</code> to view the output of your program.</p>
+<footer class="post-info">
+    <abbr class="published" title="2015-03-04T02:56:20.036915-05:00">
+        Posted on Wed 04 March 2015 by  |     tags: <a href="https://boustrophedon.github.io/tag/dart.html">dart</a> <a href="https://boustrophedon.github.io/tag/deployment.html">deployment</a> <a href="https://boustrophedon.github.io/tag/systemd.html">systemd</a> <a href="https://boustrophedon.github.io/tag/fedora.html">fedora</a> <a href="https://boustrophedon.github.io/tag/websockets.html">websockets</a>     </abbr>
+</footer><!-- /footer-post-info -->
+                    </article>
+                </aside><!-- /aside-featured -->
+                    <section id="content">
+                        <hr />
+                        <ol id="posts-list">
+
+                <li>
+                    <article class="entry">
+                        <header>
+                            <h3 class="entry-title"><a href="https://boustrophedon.github.io/how-to-make-daily-backups-with-rdiff-backup-and-systemd.html" rel="bookmark" title="Permalink to How to make daily backups with rdiff-backup and systemd">How to make daily backups with rdiff-backup and systemd</a></h3>
+                            <aside class="entry-title-date">2014-09-12</aside>
+                        </header>
+
+                        <div class="entry-content">
+                            <p>The other day I was talking to one of my friends and he mentioned how he lost a hard drive recently and consequently all of his stuff. I realized that, although I had bought a backup hard drive a little while ago, I hadn't done more than a couple ...</p>
+                        </div><!-- /dev-entry-content -->
+                        <a class="jump" href="https://boustrophedon.github.io/how-to-make-daily-backups-with-rdiff-backup-and-systemd.html">more</a>
+                    </article>
+                </li>
+                </ol><!-- /ol-posts-list -->
+<div class="paginationer">
+    <p class="paginator">
+        Page 1 / 1
+    </p>
+</div>
+                </section><!-- /section-content -->
+    <section id="extras">
+    </section><!-- /sectin-extras -->
+
+    <footer id="footer">
+        <address id="about" class="vcard">
+            <a class="url fn" href="https://boustrophedon.github.io">Pro-cantabrigian hypsidolichocephalism</a>
+        </address><!-- /address-about -->
+    </footer><!-- /footer-footer -->
+
+</body>
+
 </html>
