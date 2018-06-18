@@ -3,6 +3,8 @@ Category: System Administration
 Tags: dart, deployment, systemd, fedora, websockets
 Date: 2015-03-04
 
+**NOTE: this post was written in 2015 and much of the dart-specific stuff does not necessarily apply anymore**
+
 So I finally started to work on my multiplayer breakout clone in dart that I've been meaning to do forever. It's moderately functional now. This post is how I am deploying the server code on digitalocean. It's written mostly for someone who has maybe used a desktop linux environment and isn't completely lost on the command line, but who maybe hasn't set up a server before. Here is the short version:
 
 - create a new fedora droplet
