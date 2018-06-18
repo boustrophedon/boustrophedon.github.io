@@ -3,7 +3,7 @@ Category: Self
 Tags: blog
 Date: 2018-06-18
 
-I haven't used this blog in about 3.5 years but I finally graduated and I'm spending the summer working on stuff I want to work on. Hopefully I'm going to use this to talk about the stuff I've been working on.
+I haven't used this blog in about 3 years but I finally graduated and I'm spending the summer working on stuff I want to work on. Hopefully I'm going to use this to talk about the stuff I've been working on.
 
 The [pelican](https://getpelican.com/) theme is new (you can find it [here](https://github.com/boustrophedon/boustrophedon.github.io/blob/master/pelican/minimalXY0) and is a minimalization of the [MinimalXY theme](https://github.com/petrnohejl/MinimalXY), which is itself based off the minimalX theme. I just removed all the extra stuff like analytics, disqus, and some fonts that were only being used for like 3 icons. The name of the blog is just the two longest words in my `/usr/share/dict/words`.
 
