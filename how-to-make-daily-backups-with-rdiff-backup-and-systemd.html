@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>How to make daily backups with rdiff-backup and systemd &ndash; electroencephalographic counterrevolutionaries</title>
+
+    <!-- Meta -->
+    <meta name="description" content="electroencephalographic counterrevolutionaries &ndash; ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Social -->
+    <meta property="article:author" content="Harry Stern" />
+    <meta property="article:section" content="System Administration" />
+    <meta property="article:published_time" content="2014-09-12" />
+
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="How to make daily backups with rdiff-backup and systemd"/>
+    <meta property="og:description" content="The other day I was talking to one of my friends and he mentioned how he lost a hard drive recently and consequently all of his stuff. I realized that, although I had bought a backup hard drive a little while ago, I hadn&#39;t done more than a couple backups …"/>
+    <meta property="og:site_name" content="electroencephalographic counterrevolutionaries" />
+    <meta property="og:url" content="https://boustrophedon.github.io/how-to-make-daily-backups-with-rdiff-backup-and-systemd.html"/>
+
+
+    <!-- Feed -->
+    <link rel="alternate" type="application/atom+xml" href="https://boustrophedon.github.io/feeds/all.atom.xml" title="electroencephalographic counterrevolutionaries Atom Feed" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:regular,bold">
+    <link rel="stylesheet" type="text/css" href="https://boustrophedon.github.io/theme/css/w3.css">
+    <link rel="stylesheet" type="text/css" href="https://boustrophedon.github.io/theme/css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://boustrophedon.github.io/theme/css/pygments-highlight-github.css">
+
+    <!-- Icon -->
+
+  </head>
+
+  <body>
+    <div class="w3-row w3-card w3-white">
+      <header id="header">
+	      <a href="https://boustrophedon.github.io" id="site-title"> electroencephalographic counterrevolutionaries </span>
+        <nav id="header-menu">
+          <ul>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/categories.html">Categories</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/archive.html">Archive</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/about.html">About</a></li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+
+
+
+    <br><br><br>
+
+    <article>
+      <header class="w3-container col-main">
+        <h1>How to make daily backups with rdiff-backup and systemd</h1>
+        <div class="post-info">
+          <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+            <span><time datetime="2014-09-12T00:00:00-04:00">Fri 12 September 2014</time> in <a href="https://boustrophedon.github.io/category/system-administration.html" title="All articles in category System Administration">System Administration</a></span>
+          </div>
+          <div>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="https://boustrophedon.github.io/tag/backups.html" title="All articles with Backups tag">#backups</a>
+            </span>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="https://boustrophedon.github.io/tag/rdiff-backup.html" title="All articles with Rdiff-Backup tag">#rdiff-backup</a>
+            </span>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="https://boustrophedon.github.io/tag/systemd.html" title="All articles with Systemd tag">#systemd</a>
+            </span>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="https://boustrophedon.github.io/tag/journalctl.html" title="All articles with Journalctl tag">#journalctl</a>
+            </span>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="https://boustrophedon.github.io/tag/cron.html" title="All articles with Cron tag">#cron</a>
+            </span>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="https://boustrophedon.github.io/tag/anacron.html" title="All articles with Anacron tag">#anacron</a>
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <br>
+
+
+      <div class="col-main w3-container">
+        <section id="content">
+          <p>The other day I was talking to one of my friends and he mentioned how he lost a hard drive recently and consequently all of his stuff. I realized that, although I had bought a backup hard drive a little while ago, I hadn't done more than a couple backups with it when I felt like it. So I decided that I would finally set up regular backups of my home directory.</p>
+<p>I'd looked briefly at backup solutions before and thought that <a href="http://savannah.nongnu.org/projects/rdiff-backup">rdiff-backup</a> seemed like a good choice. I also want to do snapshots at some point either with straight-up rsync or rsnapshot, but for now just the differential backups are probably fine. So I chose rdiff-backup.</p>
+<p>One easily-solved problem I encountered was that I have large data files that I don't have space to back up and that aren't super necessary to back up in the first place. However, I wanted to keep track of the files. So I'm using <code>rdiff-backup --exclude</code> to exclude those directories, and then writing the output of <code>ls -lLR</code> in those directories to a file to keep track of what's in them. Since the -l option tells us the modified times, I didn't think it was necessary to write the listing files out into my actual home directory and then have that be part of the backup. EDIT: On second thought, it actually is necessary to do so. If, for example, the entire directory we're saving the listing of was deleted, and then the backup script ran again, the listing would be overwritten with nothing and it would be pointless. So we need to do the listing before running the background and it needs to output to a directory that is going to be backed up.</p>
+<p>I combined these two steps into a python script that prints some information about what it's doing and then runs the commands. I always prefer python scripts to bash because you don't have to worry about escaping, or portability, or unreadability, or any of the other problems one encounters with shell scripting.</p>
+<p>The other half of the backup problem is actually running the backups. Putting a backup command in your crontab isn't the best idea for a desktop or laptop because it might be scheduled to run while your computer is off, resulting in a missed backup. <a href="http://en.wikipedia.org/wiki/Anacron">Anacron</a> is traditionally the solution to this: it runs cron jobs on a hourly/daily/monthly/whatever basis and, more importantly, will run jobs that were missed while the computer was off.</p>
+<p>However, I knew that systemd somewhat-recently gained support for doing cron-like things, and I knew that if I used systemd and wrote a unit file to run the backups, I could get the output easily and nicely into systemd's journal, making it easy to check that backups are running. If I put it in cron or anacron, which on my system are both covered by cronie, the output from my backup script would be mixed together with the other cronjobs' outputs. (I think.)</p>
+<p>So I wrote a simple .service unit file that runs the python script I wrote as a oneshot, and then wrote a .timer file which tells systemd to run the corresponding .service file with the same name daily (<code>OnCalendar=daily</code>) and to run it ASAP if we missed the last time it was supposed to run (<code>Persistent=true</code>). The service file also has some options to set the nice value to 19 (the lowest priority) and lower the IO priority. (<code>Nice=19</code>, <code>IOSchedulingClass=2</code>, <code>IOSchedulingPriority=7</code>) These were mostly copied from <a href="https://wiki.archlinux.org/index.php/Systemd/cron_functionality">this page on the arch linux wiki</a>. Make sure to delete the in-line comments; they will cause errors if you try to actually use them as they are.</p>
+<p>I looked into using systemd user sessions to run these, but it seemed a bit complicated to set up and I wasn't entirely sure what the benefit was. Furthermore, I might use this script to do backups of /etc or something in the future, which would mean I wouldn't use a user session anyway. So instead I have the unit run as my own user (<code>User=username</code>) and copied the .service and .timer files into <code>/etc/systemd/system/</code>. I copied the python script that does the backups to <code>/usr/local/bin/backup-scripts/</code>, though you could just leave it in <code>/usr/local/bin/</code> just the same. The last step to make everything work is to enable the timer unit with something like <code>sudo systemctl enable my-backup.timer</code>.</p>
+<p>It's probably irrational, but I feel a bit nervous making my script and unit files public even though the worst/best thing that would probably happen would be someone pointing out a way to make them better. Email me or something if you want to see them, I guess? that feels really lame.</p>
+        </section>
+
+        <br><br><br>
+
+        <footer>
+          <div class="adjust-width">
+            <div id="author-block" class="w3-light-grey w3-border">
+              <div id="author-info">
+                <a href="https://boustrophedon.github.io"><img style="width: 60px; height: 60px;" src="https://avatars.githubusercontent.com/u/936147?s=240" onerror="this.src='theme/images/avatar.png'" alt="Avatar"></a>
+                <div style="margin-left: 20px; margin-top: 15px;">
+                  <a href="https://boustrophedon.github.io"><span id="author-name" class="w3-hover-text-dark-grey">Harry Stern</span></a>
+                  <p id="author-story">nothing personnel kid</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <br><br><br>
+
+
+
+        </footer>
+      </div>
+    </article>
+
+
+    <footer id="footer">
+      <div id="footer-copyright" class="w3-center w3-small w3-text-grey w3-padding-48">
+        <span>
+          &copy;
+          2014&dash;2018          Harry Stern
+ | <a href="https://boustrophedon.github.io/feeds/all.atom.xml">Atom feed</a>        </span>
+      </div>
+    </footer>
+
+  </body>
+</html>
