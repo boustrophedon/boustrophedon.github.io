@@ -41,7 +41,7 @@ MINIMALXY_CURRENT_YEAR = date.today().year
 AUTHOR_INTRO = u"hi I'm harry"
 AUTHOR_DESCRIPTION = u'nothing personnel kid'
 AUTHOR_AVATAR = 'https://avatars.githubusercontent.com/u/936147?s=240'
-AUTHOR_WEB = 'https://boustrophedon.github.io'
+AUTHOR_WEB = 'https://harrystern.net'
 
 # Social
 SOCIAL = (
