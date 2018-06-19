@@ -10,6 +10,9 @@ SITEURL = 'http://localhost:8000'
 
 THEME = 'minimalXY0'
 
+PLUGIN_PATHS = ["pelican-plugins"]
+PLUGINS = ['render_math', 'readtime']
+
 PATH = 'posts'
 OUTPUT_PATH = 'tmp'
 
