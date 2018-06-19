@@ -7,6 +7,8 @@ The goal of this theme is to remove all of the analytics, comments, and social m
 
 The RSS, LinkedIn, GitHub icons are from [simple-icons][https://github.com/simple-icons/simple-icons]. To add more, simply download the svgs from their website and put them in the images directory, updating the relevant templates.
 
+Optionally uses the [readtime](https://github.com/wayofnumbers/pelican-readtime) plugin to put an estimated read time in the dateline.
+
 Design focus
 ------------
 
