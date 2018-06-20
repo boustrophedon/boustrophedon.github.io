@@ -11,7 +11,34 @@ The book is written in what I can only describe as a very business-school textbo
 
 Reading the book has definitely sold me on the usefulness of OKRs, whereas before I was kind of ambivalent on them. When I first encountered them as an intern at Google, they were only really half-explained - we were told what they were but not the why (or maybe we were and I just didn't pay attention!). Looking back, I definitely had better OKRs for my first internship than my second, which correlates with being more successful in my first internship than my second, though there were many reasons why my second internship was not successful.
 
-I actually now think this book, or at least the summary at the end, should be required reading if you're going to use OKRs. Although the core idea is simple, the book expands on the idea and consequences: setting your goals ambitiously (stretch), focusing and narrowing down your goals to something achievable (focus and commit), how to align OKRs up and down the organization (align and connect), how to grade OKRs (track for accountability). 
+I actually now think this book, or at least the summary at the end, should be required reading if you're going to use OKRs. Although the core idea is simple, the book expands on the idea and consequences: setting your goals ambitiously (stretch), focusing and narrowing down your goals to something achievable (focus and commit), how to align OKRs up and down the organization (align and connect), how to grade OKRs (track for accountability).
+
+# Example OKRs
+
+Some of the examples in the book aren't actually that great, mostly in terms of the measurability of the key results or the certainty with which the objective is complete given the completion of the key results, but here's a very simple one about hiring in a company.
+
+#### Objective:
+
+Support company hiring.
+
+#### Key Results:
+
+1. Hire 1 director of finance and operations (talk to at least 3 candidates)
+2. Source 1 product marketing manager (meed with 5 candidates this quarter).
+3. Source 1 product manager (meed with 5 candidates this quarter).
+
+Here is an example from my personal OKRs for this summer, where the "complete three projects" is then a new objective with its own key results elsewhere:
+
+#### Objective:
+
+Improve resume and interviewing skills
+
+#### Key results:
+
+* Complete 10 blog posts by August 31, aiming for 1 per week
+* Complete three projects to add to resume
+* Complete 10 interviewing.io interviews by August 31, aiming for 1 per week
+* Read at least half of cracking the coding interview
 
 # OKRs as TDD
 
