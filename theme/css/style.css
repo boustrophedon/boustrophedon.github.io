@@ -129,7 +129,6 @@ ul.social li a:hover {
   padding: 16px;
   max-width: 1100px;
   font-size: 14pt;
-  text-align: right;
 }
 
 #header-menu ul {
@@ -147,6 +146,7 @@ ul.social li a:hover {
   padding-left: 25px;
   padding-right: 25px;
   white-space:nowrap;
+  text-align: right;
 }
 
 #intro {
