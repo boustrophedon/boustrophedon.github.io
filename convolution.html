@@ -41,9 +41,8 @@
 	      <a href="https://harrystern.net" id="site-title"> electroencephalographic counterrevolutionaries </a>
         <nav id="header-menu">
           <ul>
-            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/categories.html">Categories</a></li>
-            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/archive.html">Archive</a></li>
             <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/about.html">About</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/archive.html">Archive</a></li>
           </ul>
         </nav>
       </header>
@@ -59,7 +58,9 @@
         <div class="post-info">
           <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
             <span><time datetime="2014-06-09T00:00:00-04:00">Mon 09 June 2014</time> in <a href="https://harrystern.net/category/signal-processing.html" title="All articles in category Signal Processing">Signal Processing</a></span>
+   	  <span> - 3 min </span>
           </div>
+
           <div>
             <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
               <a href="https://harrystern.net/tag/principles-of-digital-image-synthesis.html" title="All articles with Principles Of Digital Image Synthesis tag">#Principles of Digital Image Synthesis</a>
@@ -82,12 +83,67 @@
 <p>Convolution is important because it tells us how to use a system's impulse response to find the output of the system to a given input.</p>
 </blockquote>
 <p>(at this point I continued reading)</p>
-<p>The exposition in this book is really quite good. Following from the previous statement, we determined that $e^{\omega t}$ is an eigenfunction of LTI systems by taking the convolution with the system's impulse response $h(x)$. (this sounds like a simple statement, or at least a succinct one, but it takes a bit of time to understand) Its eigenvalue is the <a href="http://en.wikipedia.org/wiki/Frequency_response">frequency response</a> $\int h(\tau)e^{-\omega\tau}d\tau$. </p>
+<p>The exposition in this book is really quite good. Following from the previous statement, we determined that <span class="math">\(e^{\omega t}\)</span> is an eigenfunction of LTI systems by taking the convolution with the system's impulse response <span class="math">\(h(x)\)</span>. (this sounds like a simple statement, or at least a succinct one, but it takes a bit of time to understand) Its eigenvalue is the <a href="http://en.wikipedia.org/wiki/Frequency_response">frequency response</a> <span class="math">\(\int h(\tau)e^{-\omega\tau}d\tau\)</span>. </p>
 <p>Then we have:</p>
 <blockquote>
 <p>This fact reveals that one of the easiest types of functions to study with respect to LTI systems are the complex exponentials, since they pass through such systems unchanged except for complex scaling. If we can represent an input signal as a sum of these functions, then we can find the response of the system to each exponential individually, and then sum the responses together. The Fourier series and transform provide precisely the tools that decompose a signal into a sum of exponentials.</p>
 </blockquote>
 <p>This seems like a very different way to arrive at Fourier series and transform than "let's decompose a function as a sum of sine and cosines because that sounds like fun". Basically, it gives us a reason why we might want to do such a thing a priori.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
         </section>
 
         <br><br><br>
@@ -96,7 +152,7 @@
           <div class="adjust-width">
             <div id="author-block" class="w3-light-grey w3-border">
               <div id="author-info">
-                <a href="https://harrystern.net"><img style="width: 60px; height: 60px;" src="https://avatars.githubusercontent.com/u/936147?s=240" onerror="this.src='theme/images/avatar.png'" alt="Avatar"></a>
+		      <a href="https://harrystern.net"><img style="width: 60px; height: 60px;" src="https://avatars.githubusercontent.com/u/936147?s=240" alt="Avatar"></a>
                 <div style="margin-left: 20px; margin-top: 15px;">
                   <a href="https://harrystern.net"><span id="author-name" class="w3-hover-text-dark-grey">Harry Stern</span></a>
                   <p id="author-story">nothing personnel kid</p>

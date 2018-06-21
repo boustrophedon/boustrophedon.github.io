@@ -17,7 +17,7 @@
 
     <meta property="og:type" content="article"/>
     <meta property="og:title" content="How I'm deploying Dart server code on DigitalOcean"/>
-    <meta property="og:description" content="So I finally started to work on my multiplayer breakout clone in dart that I&#39;ve been meaning to do forever. It&#39;s moderately functional now. This post is how I am deploying the server code on digitalocean. It&#39;s written mostly for someone who has maybe used a desktop linux environment and …"/>
+    <meta property="og:description" content="NOTE: this post was written in 2015 and much of the dart-specific stuff does not necessarily apply anymore So I finally started to work on my multiplayer breakout clone in dart that I&#39;ve been meaning to do forever. It&#39;s moderately functional now. This post is how I am deploying the …"/>
     <meta property="og:site_name" content="electroencephalographic counterrevolutionaries" />
     <meta property="og:url" content="https://harrystern.net/how-im-deploying-dart-server-code-on-digitalocean.html"/>
 
@@ -41,9 +41,8 @@
 	      <a href="https://harrystern.net" id="site-title"> electroencephalographic counterrevolutionaries </a>
         <nav id="header-menu">
           <ul>
-            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/categories.html">Categories</a></li>
-            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/archive.html">Archive</a></li>
             <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/about.html">About</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/archive.html">Archive</a></li>
           </ul>
         </nav>
       </header>
@@ -59,7 +58,9 @@
         <div class="post-info">
           <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
             <span><time datetime="2015-03-04T00:00:00-05:00">Wed 04 March 2015</time> in <a href="https://harrystern.net/category/system-administration.html" title="All articles in category System Administration">System Administration</a></span>
+   	  <span> - 6 min </span>
           </div>
+
           <div>
             <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
               <a href="https://harrystern.net/tag/dart.html" title="All articles with Dart tag">#dart</a>
@@ -85,7 +86,8 @@
 
       <div class="col-main w3-container">
         <section id="content">
-          <p>So I finally started to work on my multiplayer breakout clone in dart that I've been meaning to do forever. It's moderately functional now. This post is how I am deploying the server code on digitalocean. It's written mostly for someone who has maybe used a desktop linux environment and isn't completely lost on the command line, but who maybe hasn't set up a server before. Here is the short version:</p>
+          <p><strong>NOTE: this post was written in 2015 and much of the dart-specific stuff does not necessarily apply anymore</strong></p>
+<p>So I finally started to work on my multiplayer breakout clone in dart that I've been meaning to do forever. It's moderately functional now. This post is how I am deploying the server code on digitalocean. It's written mostly for someone who has maybe used a desktop linux environment and isn't completely lost on the command line, but who maybe hasn't set up a server before. Here is the short version:</p>
 <ul>
 <li>create a new fedora droplet<ul>
 <li>ssh keys</li>
@@ -159,7 +161,7 @@
           <div class="adjust-width">
             <div id="author-block" class="w3-light-grey w3-border">
               <div id="author-info">
-                <a href="https://harrystern.net"><img style="width: 60px; height: 60px;" src="https://avatars.githubusercontent.com/u/936147?s=240" onerror="this.src='theme/images/avatar.png'" alt="Avatar"></a>
+		      <a href="https://harrystern.net"><img style="width: 60px; height: 60px;" src="https://avatars.githubusercontent.com/u/936147?s=240" alt="Avatar"></a>
                 <div style="margin-left: 20px; margin-top: 15px;">
                   <a href="https://harrystern.net"><span id="author-name" class="w3-hover-text-dark-grey">Harry Stern</span></a>
                   <p id="author-story">nothing personnel kid</p>
