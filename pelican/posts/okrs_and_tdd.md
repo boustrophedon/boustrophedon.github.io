@@ -2,6 +2,7 @@ Title: OKRs are just TDD for project management: "Measure What Matters" by John 
 Category: Book Reviews
 Tags: OKRs, TDD, project management, book review
 Date: 2018-06-18
+Slug: okrs-are-tdd
 Summary: I've been reading "Measure What Matters" by John Doerr, which is about OKRs and how to use them, and realized while reading the book that OKRs are similar to TDD. Also, there's a rant about how YouTube doesn't know what it's doing.
 
 # Overview
