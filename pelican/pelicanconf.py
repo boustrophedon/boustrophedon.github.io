@@ -23,7 +23,6 @@ DEFAULT_LANG = 'en'
 # URL and HTML file paths
 ARCHIVES_SAVE_AS = 'archive.html'
 CATEGORIES_SAVE_AS = 'categories.html'
-AUTHOR_SAVE_AS = False
 AUTHORS_SAVE_AS = 'about.html'
 
 
