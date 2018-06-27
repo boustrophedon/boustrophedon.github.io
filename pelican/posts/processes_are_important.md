@@ -1,4 +1,5 @@
 Title: Processes are important
+Date: 1970-01-01
 Status: draft
 
 Processes are important.
