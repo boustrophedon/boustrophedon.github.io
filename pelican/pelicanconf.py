@@ -42,7 +42,12 @@ MINIMALXY_CURRENT_YEAR = date.today().year
 
 # Author
 AUTHOR_INTRO = u"hi I'm harry"
-AUTHOR_DESCRIPTION = u'nothing personnel kid'
+AUTHOR_DESCRIPTION = u"""
+I'm a recent graduate of Rutgers University with degrees in math and computer science. Geometry, rendering, and topology are my favorite topics, and I'm working on learning more about their applications to data science and machine learning.
+<br/>
+<br/>
+Also, the name of this blog is just the two longest words in my /usr/share/dict/words.
+"""
 AUTHOR_AVATAR = 'https://avatars.githubusercontent.com/u/936147?s=240'
 AUTHOR_WEB = 'https://harrystern.net'
 
