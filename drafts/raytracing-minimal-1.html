@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 
-    <title>A New Start &ndash; electroencephalographic counterrevolutionaries</title>
+    <title>Ray-tracing in 50 lines &ndash; electroencephalographic counterrevolutionaries</title>
 
     <!-- Meta -->
     <meta name="description" content="electroencephalographic counterrevolutionaries &ndash; ">
@@ -11,14 +11,14 @@
 
     <!-- Social -->
     <meta property="article:author" content="Harry Stern" />
-    <meta property="article:section" content="Self" />
-    <meta property="article:published_time" content="2018-06-17" />
+    <meta property="article:section" content="Raytracing" />
+    <meta property="article:published_time" content="2018-07-02" />
 
     <meta property="og:type" content="article"/>
-    <meta property="og:title" content="A New Start"/>
-    <meta property="og:description" content="I haven&#39;t used this blog in about 3 years but I finally graduated and I&#39;m spending the summer working on stuff I want to work on. Hopefully I&#39;m going to use this to talk about the stuff I&#39;ve been working on. The pelican theme is new (you can find it …"/>
+    <meta property="og:title" content="Ray-tracing in 50 lines"/>
+    <meta property="og:description" content="TODO"/>
     <meta property="og:site_name" content="electroencephalographic counterrevolutionaries" />
-    <meta property="og:url" content="https://harrystern.net/a-new-start.html"/>
+    <meta property="og:url" content="https://harrystern.net/drafts/raytracing-minimal-1.html"/>
 
 
     <!-- Feed -->
@@ -53,16 +53,22 @@
 
     <article>
       <header class="w3-container col-main">
-        <h1>A New Start</h1>
+        <h1>Ray-tracing in 50 lines</h1>
         <div class="post-info">
           <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
-            <span><time datetime="2018-06-17T00:00:00-04:00">Sun 17 June 2018</time> in <a href="https://harrystern.net/category/self.html" title="All articles in category Self">Self</a></span>
+            <span><time datetime="2018-07-02T00:00:00-04:00">Mon 02 July 2018</time> in <a href="https://harrystern.net/category/raytracing.html" title="All articles in category Raytracing">Raytracing</a></span>
    	  <span> - 2 min </span>
           </div>
 
           <div>
             <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
-              <a href="https://harrystern.net/tag/blog.html" title="All articles with Blog tag">blog</a>
+              <a href="https://harrystern.net/tag/raytracing.html" title="All articles with Raytracing tag">Raytracing</a>
+            </span>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="https://harrystern.net/tag/rust.html" title="All articles with Rust tag">Rust</a>
+            </span>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="https://harrystern.net/tag/geometry.html" title="All articles with Geometry tag">Geometry</a>
             </span>
           </div>
         </div>
@@ -73,10 +79,21 @@
 
       <div class="col-main w3-container">
         <section id="content">
-          <p>I haven't used this blog in about 3 years but I finally graduated and I'm spending the summer working on stuff I want to work on. Hopefully I'm going to use this to talk about the stuff I've been working on.</p>
-<p>The <a href="https://getpelican.com/">pelican</a> theme is new (you can find it <a href="https://github.com/boustrophedon/boustrophedon.github.io/blob/master/pelican/minimalXY0">here</a> and is a minimalization of the <a href="https://github.com/petrnohejl/MinimalXY">MinimalXY theme</a>, which is itself based off the minimalX theme. I just removed all the extra stuff like analytics, disqus, and some fonts that were only being used for like 3 icons. The name of the blog is just the two longest words in my <code>/usr/share/dict/words</code>.</p>
-<p>Overall there are a few things that I want to do this summer: One, I want to write a volumetric path tracer using Vulkan compute. Two, I want to improve my resume for when I apply for jobs in the Fall. Three, I want to improve my applied statistics and do some sort of data science project. They're all kind of related in that the renderer and data science stuff will improve my resume, but I feel like I want to do the renderer because I really want to, whereas the other stuff is more for "resume-padding" (which is in quotes because I still want to do them, but maybe I would prioritize other things if I weren't looking for a job). My "project ideas" category in my todo list has 21 entries.</p>
-<p>The first post, which might also be going up today, is going to be about OKRs and the book "Measure What Matters" by John Doerr. I may or may not write or include in that post my own OKRs for this summer for myself.</p>
+          <h1>What is Raytracing?</h1>
+<p>Ray-tracing is a method of generating images from 3D scenes by approximately simulating light directly, rather than using texture-mapped triangle rasterization as in real-time 3D systems like OpenGL, Direct3D, and Vulkan. This blog post aims to do the very least amount of simulation possible to be called a "ray-tracer". At some point in the future I would like to do an equivalent for triangle rasterization, which is actually somewhat more complicated in the minimal case.</p>
+<h1>Raytracing Basics</h1>
+<p>In our minimal example, we have the following situation:</p>
+<ul>
+<li>There is a "camera" which acts as a <a href="https://en.wikipedia.org/wiki/Pinhole_camera">pinhole camera</a>, located at a given position, that points in a direction.<ul>
+<li>The camera "projects" an image onto a screen, which in the human eye and in a real camera projects onto a screen behind the camera, but for our purposes will act more like a movie projector and project onto a screen in front of the camera. There are images later.</li>
+</ul>
+</li>
+<li>The screen has a given number of pixels, which are square for simplicity. In "screen-space", the pixels start at the top-left corner and increase downwards to the given height, and to the right to the given width. We say that <code>width/height</code> is the aspect ratio of our screen.</li>
+<li>There is a single sphere in our scene, given by a position and a radius.</li>
+</ul>
+<p>TODO insert image here</p>
+<h1>The Camera</h1>
+<p>If the image were projected behind the screen, as in a traditional pinhole camera or the human eye, the image would actually be inverted and the math would be a bit more tricky.</p>
         </section>
 
         <br><br><br>
