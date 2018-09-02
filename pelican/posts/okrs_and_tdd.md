@@ -29,19 +29,6 @@ Support company hiring.
 2. Source 1 product marketing manager (meed with 5 candidates this quarter).
 3. Source 1 product manager (meed with 5 candidates this quarter).
 
-Here is an example from my personal OKRs for this summer, where the "complete three projects" is then a new objective with its own key results elsewhere:
-
-#### Objective:
-
-Improve resume and interviewing skills
-
-#### Key results:
-
-* Complete 10 blog posts by August 31, aiming for 1 per week
-* Complete three projects to add to resume
-* Complete 10 interviewing.io interviews by August 31, aiming for 1 per week
-* Read at least half of cracking the coding interview
-
 # OKRs as TDD
 
 The realization that OKRs are just test-driven development for project management is what really solidified their usefulness for me. I haven't actually read a book on TDD (though I probably should), but I think that in the same way that TDD ensures you're writing code that does what you actually want, OKRs tell you whether you are achieving the goals you actually want. In particular, *you don't do things that don't contribute to your objectives* in the same way you don't write code that doesn't turn a test from red to green.
@@ -68,4 +55,4 @@ The last thought I have on this book is that, although almost all the testimonia
 
 Anyway, try it out.
 
-###### *Shoutouts to Allen, Tim, and Wayne for reading drafts of this post*
+###### *Thanks to Allen, Tim, and Wayne for reading drafts of this post*

@@ -1,0 +1,16 @@
+to make a type safe gui avoiding all the message passing and props stuff
+
+
+so you have a model with a type M
+say M = (T1, T2, T3,...) where each T could be just a float, a bool, or some kind of struct
+
+then you have a widget that exposes some parameters like my_radio_button_state, my_text_field_state, my_complex_state_struct_which_is_then_rendered_by_the_widget
+
+the problem is always how do we connect those two?
+
+write a function to connect them, dummy.
+
+a widget/component constructor takes a glue function which connects the model to the state
+this is kind of like a build function
+
+- furthermore the "connects" part can be an explicit stream/observable thing like in dartrx or whatever, so that the widget is automatically set dirty when the model updates

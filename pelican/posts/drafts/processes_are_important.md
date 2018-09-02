@@ -9,3 +9,5 @@ Processes are important.
 - having a process explicitly allows you to then talk about the process itself, and improve it.
 - okrs
 - sigma and kaizen or whatever those are?
+
+having a process allows you to make implict things explicit. TDD is another example of this. it turns implicit ideas of "this doesn't work" to explicitly failing tests

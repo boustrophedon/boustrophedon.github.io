@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 from datetime import date
 
 AUTHOR = 'Harry Stern'
-SITENAME = 'electroencephalographic counterrevolutionaries'
+SITENAME = 'recycled math'
 SITEURL = 'http://localhost:8000'
 
 THEME = 'minimalXY0'
@@ -42,10 +42,7 @@ MINIMALXY_CURRENT_YEAR = date.today().year
 # Author
 AUTHOR_INTRO = u"hi I'm harry"
 AUTHOR_DESCRIPTION = u"""
-I'm a recent graduate of Rutgers University with degrees in math and computer science. Geometry, rendering, and topology are my favorite topics, and I'm working on learning more about their applications to data science and machine learning.
-<br/>
-<br/>
-Also, the name of this blog is just the two longest words in my /usr/share/dict/words.
+I'm a recent graduate of Rutgers University with degrees in math and computer science. Geometry, rendering, and topology are my favorite topics. I want to get better at data science and machine learning and their relationship with geometry and topology.
 """
 AUTHOR_AVATAR = 'https://avatars.githubusercontent.com/u/936147?s=240'
 AUTHOR_WEB = 'https://harrystern.net'

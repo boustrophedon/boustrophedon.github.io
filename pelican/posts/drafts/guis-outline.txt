@@ -1,0 +1,94 @@
+Thesis/abstract: The "recent" trend of lifting state out of the "traditional" widget model is actually old, and can be derived from first principles. Through this derivation, we come upon some small modifications which are similar to existing solutions, and allow for even more flexibility in the presentation of different kinds of interfaces.
+
+Part 1: Theory
+- GUIs are graphical + user interface, so we should split out the graphical part from the user interface part (gtk/qt vs react, flutter)
+  - Also, why do we have widget trees in UIs: because they make layout faster, not because they are intrinsic to UIs
+* UIs are simply APIs: they are a list of capabilities or affordances. The "graphical" or "textual" or "command line" or even "alexa," part is how you input the parameters, or in other words, effect state change.
+  - This is actually how I got to the idea of lifting state out of widgets and I didn't realize this is what redux does with stores, but I'm probably not going to write that I had no idea how redux worked in the blog post because that would be embarrassing. It's actually funny how I'm reading stuff I wrote a week ago and they've been saying almost the same things in these talks I've been watching about how Redux works.
+- State change can be modeled as a finite state machine, and finite state machines are actually monoids! this is actually the true substance of redux - reduce is a way to think about monoids. [you (raph) actually wrote about the FSM/monoid correspondence in a blog post which partly gave me the idea]. You can see that it's a monoid and not a semigroup because of the "defaultState" parameter in reducers.
+  - Defining one "piece" of your state and the actions on it, and then putting it together with another "piece" of your state and some other actions is basically just the cartesian product of two monoids.
+  - Making state "immutable" is simply a way to prevent side effects in your state changes i.e. preserve the finite state machine abstraction and also prevents keeping references to "old" state, which isn't really an issue in rust
+  - The ability to replay state doesn't really have anything to do with the immutability, it's the fact that it's side-effect free that lets us do time-travelling and such. this is the biggest argument for me for keeping state changes separate from actions.
+- So if we view user interfaces as just "a way to interact with some sort of API", which again sounds trivial on the surface, how do we do it?
+- APIs are basically just function calls: we choose a function and we set some parameters and call the function
+- So we need a way to choose the function, choose the parameters, and call the function
+- The parameters should be pretty clear: it's the state of your app. it might be the contents of a text box, the status of a radio button, a command-line option, something you physically speak out loud, or some combination of these things.
+- So we have some actions that cause state transitions
+- What about choosing the function? We can associate an action with an input widget
+- So here's our "fundamental algorithm of user interfaces":
+  - wait for input (user input, animation tick, action completes)
+  - send action
+  - action causes state change
+  - state change is pumped through the widget tree
+  - widget tree is rendered
+  - loop
+
+
+this seems simple, but it's actually the core of "unidirectional dataflow" and almost precisely mirrors the steps mentioned at https://redux.js.org/basics/data-flow. however, the key is that the above algorithm implies the redux implementation: I actually only found that page when looking for flux "unidirectional dataflow" diagrams, not because I was trying to generalize the redux ideas.
+
+
+now you might say harry, this is so obvious. forget about flux, these ideas go back to this thing called phooey in 2007 at least. well no, actually, these ideas go all the way back to at least the 1960s if not earlier: command line interfaces. Take a look at how the structopt crate works for a perfect example. We have a struct with annotations that annotate which interface parameters correspond to which model parameters, and then we dispatch on an action, execute the action, update the UI (by printing), and then return control to the user.
+
+
+Part 2: Application. Integrating the theory into a complete UI toolkit
+- Two parts: State management and "rendering"
+  - Rendering can be a GUI, a TUI, a command line prompt, or even voice controls
+- Because the "rendering" part of a UI is separate, it should be defined separately from the code. Ideally, it should be in a markup language like QML. Given the same state, you should be able to "render" to different media (eg accessible version with bigger fonts, or even voice UI for blind people, or TUI for keyboard-only usage)
+  - Styling, both in terms of the layout algorithm (cassowary, flexbox, flutter's layout) and whether it's part of the widget tree like flutter or separate like CSS, I think is probably an implementation detail.
+
+
+- Optimization 1 (everyone does this): don't rerender the whole tree. only rerender when state changes (see below)
+- Optimization 2: redux and all these things are basically implementations of the observer pattern. instead of pumping state through the whole tree, you only pump it to observers - this is basically a caching optimization.  however, you don't need to explicitly subscribe to listeners or call setState because you can mark when things are dirty in a "get_state_mut" vs a "get_state" at action-time, and then when state is pumped through the tree, you only need to pump it through widgets that use it at render-time. you could say that "get_state_mut" is acting as your setState, except you don't need to remember to call it - if you don't call it you don't get your state.
+  - in rust in particular, you could implement this as a trait on a "StateContext" parameterized by T, and then ctx.get_state('MyState') could be ctx.get_state::<MyState>(). i think this might be similar to the "scoped model" idea?
+
+
+- Optimization 3: Use raph's state separation to decouple rendering and input, so you can handle/buffer input while rendering is taking place. you shouldn't even need to buffer - the state updates happen and the next time you can render, you just render. rendering can continue while the state updates happen because either you go "full persistent data structures" and clone when you do a render, or you leverage rust's mutability guarantees.
+- Optimization 4: Implement widget rendering in terms of a primitive API provided by the framework. i.e. a radio button would output either "draw native radio button" or "draw circle, if radio button is selected set background color and draw inner circle" Then the primitives can be implemented by a variety of backends. Flutter kind of does this but I don't think they have an explicit API, they just have render objects with a "render" api and the only backend is Skia. This is still fuzzy because I don't know if the output/backend API of the framework should be "render text, textures, and boxes" or "render basic widgets, which are then implemented by different backends which can be low-level like skia, or high level like winapi"
+
+---
+
+Unsolved problems:
+* Should widgets be allowed to have local state (and call the equivalent of setState, which will probably just be like mark_dirty)? Probably - it makes implementing things like scrollable lists and simple state like radio buttons easier.
+	- Even then I'm still not sure a radio button's state shouldn't be lifted out. If you think about it as "which state will be changed by actions", a radio button's state will probably never be changed except by the user and just read by actions (which should have access to both the widget tree and the state when you launch an action)
+* Data binding from declarative syntax for components - type safety
+	- That is, if i have
+```
+child:
+	TextWidget:
+		text: {{what goes here? the name of some state object/"store"?}}
+```
+and how do I check that the types are correct
+	- hashmap with Any type, and then abuse the type checker to make sure the types match?
+	- can I use a custom derive on the state structs to get strings of the different fields and use that?
+		- Still have to match the types
+	- If you don't allow using state in the widget syntax, then the widgets will be hardcoded in their implementations to get states with specific names/types, but maybe there's a workaround. eg declaring the component as Text<MyTextStore> and using the Any type somehow to match them.
+	- I think QML "solves" this by literally embedding javascript
+	- Basically there needs to be a lot more dynamicism and run-time checking than most Rust programs usually have unless there's a simple solution
+* I also shouldn't have to manually set up the observers in the widget tree - in some Dan Abramov talk (probably the first redux one) he said it like this: "if someone invites you to a party, you don't register for the party. you either go or you don't" - if you go to the party you shouldn't have to do extra work to register for it: the act of getting the data should set up the observable.
+* something I haven't worked out is a "theoretical basis" for the idea of pumping/pushing state through the render tree. i'm not sure if there is supposed to be one, or if it's an "implementation detail".
+	- use streams for both actions and state change, pump one into another? there is stuff about data-driven vs demand driven and push vs pull in the haskell stuff (https://wiki.haskell.org/Phooey and https://wiki.haskell.org/Reactive)
+* also not sure if making the widget tree declarative is an implementation detail or something more fundamental
+	- it provides separation of GUI and allows for hot-reloading, and allows switching out interfaces while keeping the same state
+	- my ideal demo would be a todo app where you can set state with a GUI, hot reload and replace the "widget tree/interface file/whatever" with a TUI file, and then top it off by using a TTS and voice-based thing
+* I don't have a fundamental "theoretical basis" for the immutability of states in the sense of functional programming, but I am not sure if that's not because it's unnecessary: in these dynamic languages the immutability is required because the language has no control over mutability at all. In Rust, you can do the equivalent of what these "persistent data structures" are secretly doing in the background by simply implementing Clone on your State, and then to do "time traveling" or "replays" or "hot reloading", just Clone your state at each action and save it somewhere. I'm not 100% this works because you can clone a reference, but I think the architecture should prevent you (in rust) from having references to things not in the same state/store anyway.
+* In a Flutter talk that went into architecture, it talked about using streams and even attaching the sink of one stream to the source of another or something like that (probably the other way around) in order to "chain" updates, specifically:
+	- in a shopping cart app, if you change your locale, you should be able to change the displayed prices and have them update
+	- https://www.youtube.com/watch?v=RS36gBEp8OI
+
+---
+further things to check out.
+
+add "elm" to all "react, flutter, etc" references
+
+should "side effects" be split out from mutating models like how it is in elm? I think they should just be run on a separate thread, and the reason that js and elm have to go through the library is basically because they are single-threaded with the exception of webworkers, so they have to run their own polling loops. in rust you can put a hyper client on a separate thread and return a future. when testing you should be able to pass in that future manually though - there are definitely existing solutions to this problem.
+
+using streams instead of observables to replace setState https://cycle.js.org/, ReactiveX / RxDart
+
+graphql for getting stores: https://facebook.github.io/relay/ - could use this to bind data to widgets with some level of type safety
+
+look into old haskell stuff and its references: https://wiki.haskell.org/Phooey https://wiki.haskell.org/Reactive https://wiki.haskell.org/DataDriven
+
+look at the implementation of yew. it handles types and data-binding via macros, which have poor error ergonomics and also are compile time only - no hot reload.
+
+citation for monoids and reduce: To sum up, a monoid is basically a way to describe an aggregation pattern – we have a list of things, we have some way of combining them, and we get a single aggregated object back at the end.
+https://fsharpforfunandprofit.com/posts/monoids-without-tears/

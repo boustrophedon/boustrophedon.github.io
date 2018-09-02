@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Ray Tracing and Property Testing: Part 1 &ndash; recycled math</title>
+
+    <!-- Meta -->
+    <meta name="description" content="recycled math &ndash; ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Social -->
+    <meta property="article:author" content="Harry Stern" />
+    <meta property="article:section" content="Ray tracing" />
+    <meta property="article:published_time" content="2018-07-02" />
+
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Ray Tracing and Property Testing: Part 1"/>
+    <meta property="og:description" content="TODO"/>
+    <meta property="og:site_name" content="recycled math" />
+    <meta property="og:url" content="https://harrystern.net/drafts/ray-tracing-minimal-1.html"/>
+
+
+    <!-- Feed -->
+    <link rel="alternate" type="application/atom+xml" href="https://harrystern.net/feeds/all.atom.xml" title="recycled math Atom Feed" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:regular,bold">
+    <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/w3.css">
+    <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/pygments-highlight-github.css">
+
+    <!-- Icon -->
+
+  </head>
+
+  <body>
+    <div class="w3-row w3-card w3-white">
+      <header id="header">
+	      <a href="https://harrystern.net" id="site-title"> recycled math </a>
+        <nav id="header-menu">
+          <ul>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/about.html">About</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/archive.html">Archive</a></li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+
+
+
+    <br><br><br>
+
+    <article>
+      <header class="w3-container col-main">
+        <h1>Ray Tracing and Property Testing: Part 1</h1>
+        <div class="post-info">
+          <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+            <span><time datetime="2018-07-02T00:00:00-04:00">Mon 02 July 2018</time> in <a href="https://harrystern.net/category/ray-tracing.html" title="All articles in category Ray tracing">Ray tracing</a></span>
+   	  <span> - 16 min </span>
+          </div>
+
+          <div>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="https://harrystern.net/tag/ray-tracing.html" title="All articles with Ray Tracing tag">Ray tracing</a>
+            </span>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="https://harrystern.net/tag/rust.html" title="All articles with Rust tag">Rust</a>
+            </span>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="https://harrystern.net/tag/geometry.html" title="All articles with Geometry tag">Geometry</a>
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <br>
+
+
+      <div class="col-main w3-container">
+        <section id="content">
+          <p>If you don't want to read this explanation, skip to <a href="">the code on GitHub</a> or <a href="">Part 2, </a></p>
+<h1>What is ray tracing?</h1>
+<p>Ray tracing is a general term for a method of generating images from 3D scenes by approximately simulating light directly, rather than using triangle rasterization as in real-time 3D systems like OpenGL, Direct3D, and Vulkan. This article aims to do the very least amount of simulation possible to be called a ray tracer. At some point in the future I would like to do an equivalent for triangle rasterization, which is somewhat more complicated in the minimal case.</p>
+<p>There are a million blog posts about "I made a ray tracer :)", so my focus in these posts are simplifying the coordinate transforms and intersection tests with easy vector math, and how to test a ray tracer using property testing (in Rust, but applicable everywhere).</p>
+<h1>What is property-based testing?</h1>
+<p>You're probably better off just reading the descriptions from the property testing frameworks themselves, like <a href="http://hackage.haskell.org/package/QuickCheck">QuickCheck for Haskell</a>, <a href="https://hypothesis.works/">Hypothesis for Python</a>, or the one we'll be using, <a href="https://github.com/AltSysrq/proptest">PropTest for Rust</a>.</p>
+<p>There's a <a href="https://hypothesis.works/articles/what-is-property-based-testing/">very good explanation</a> by the author of Hypothesis. You can think of property-testing as type-based fuzzing on steroids, but it's something a bit more. The basic idea is that instead of writing a static unit or integration or whatever test, where both the inputs and outputs are specified as constants in the code, we test that given a certain class of inputs, the output satisfies a given property. Fuzzing is essentially testing the property "it doesn't crash" with (usually) binary or text blob input generated by the fuzzer.</p>
+<p>Property testing frameworks allow us to write detailed property tests with relative ease, without using a generic binary/text fuzzer. The main benefits of using a framework like proptest is that it's easy to combine different generators to make new ones, and that it takes care of doing much of the actual case generation for you. Proptest also has nice features like saving the failure case inputs to disk, and doing shrinking on failure cases to find simpler examples.</p>
+<p>As an example, a traditional unit test for integer addition might be: "Given the inputs 2 and 2, assert that the output is 4.". This is a good, important test to have! However, even ten or a hundred of these tests don't give that much confidence that the code is correct: the implementation could be a precomputed table or even an interpolation polynomial! Similarly, a fuzzer for an expression evaluator might generate arbitrary strings and find that your code crashes with the input "1/0", or has a stack overflow and crashes if you have too many nested parenthesis, but it doesn't tell you why - you would then likely end up writing specific regression tests after you determine the source of the crash.</p>
+<p>If we instead test the properties of the code, we get both a wider range of inputs and much more fine-grained detail when something goes wrong. As an example, for addition we might want to test the properties <span class="math">\(a+0 = 0 + a = a\)</span>, <span class="math">\(a+b = b+a\)</span>, <span class="math">\(a+(b+c) = (a+b)+c\)</span>, and "if <span class="math">\(a&gt;0\)</span> and <span class="math">\(b&gt;0\)</span> then <span class="math">\(a+b&gt;0\)</span>". The last one is interesting because it asserts that given some other property (<span class="math">\(a,b &gt; 0\)</span>), another property holds. We can write a generator to make inputs with a given property when testing another property, essentially building a DAG of properties of our code. This could probably be a separate blog post, but it would be neat if a framework kept track of the dependencies in your proptests explicitly, so that you could trace up the tree to see the lowest-level property that is violated by the code you wrote when something goes wrong.</p>
+<p>Property testing doesn't help with:</p>
+<ul>
+<li>Hard-to-generate edge cases (e.g. <code>abs(MIN_INT)</code>)</li>
+<li>Performance tests (though in theory if your framework lets you fix a seed value for the rng, you could use it)</li>
+<li>End-to-end/acceptance tests</li>
+</ul>
+<p>In conclusion, property testing is a great way to codify assumptions and increase confidence in your code. Property testing is mostly orthogonal to the level of testing, but is more useful in unit and integration tests.</p>
+<h1>Property testing with ray tracing</h1>
+<p>Graphics code is somewhat notorious for being hard to test - I'm sure anyone reading this who has written OpenGL or D3D code has written a bunch of code, compiled it, and run it only to see a completely black window. Getting the first triangle to appear is always the hardest part!</p>
+<p>It's somewhat hard to write tests for that code with libraries like that (though Vulkan has some neat debug capabilities that you might be able to use for testing), but for a ray tracer it's not that hard. Of course, for both it's easy enough to write end-to-end tests that simply compare the resulting image to a gold master, but gold master tests are more like regression tests than end-to-end tests.</p>
+<p>What you'd actually like to test is "are my primary rays pointing in the direction I expect them to?", "is a triangle that is in front of the camera being rendered?", "is the lighting smooth?", "does global illumination work?", which could be measured by "does the ceiling of a Cornell box recieve enough light?". These are all great candidates for property tests!</p>
+<h1>Ray tracing Basics</h1>
+<p>In our tiny ray tracer, we have the following situation:</p>
+<ul>
+<li>There is a camera which acts as a <a href="https://en.wikipedia.org/wiki/Pinhole_camera">pinhole camera</a>, defined by its position in world space, the direction it's pointing, and the .<ul>
+<li>The camera projects an image onto a screen a given distance away from the camera, which in the human eye and in a real camera is behind the viewing aperture, but for our purposes will act more like a movie projector and project onto a screen in front of the camera.</li>
+<li>For simplicity, the field of view (fov) is at the "mathematical default" of 90 degrees. The field of view is essentially just a scaling operation on the screen - it just changes the area we can see by making the screen bigger. If we were to add a fov, we would simply multiply each sample coordinate by <span class="math">\(\tan(\texttt{fov}/2)\)</span>. It is easy to derive this from a diagram.</li>
+</ul>
+</li>
+<li>The image has a given number of pixels, which are square for simplicity. In image-space, the pixels start at the top-left corner and increase downwards to the given height, and to the right to the given width. We say that <span class="math">\(\frac{width}{height}\)</span> is the aspect ratio of our image.</li>
+<li>We compute the samples for our images by transforming the screen coordinates into world coordinates, and cast rays from the camera through the computed coordinates. The value of the sample at the given screen coordinate.</li>
+<li>There is a single sphere in our scene, given by a position and a radius.</li>
+<li>There are no light sources in our scene. Of course, this means we're not really rendering an image, it's more of a hit-buffer - did the ray hit an object. In later posts we will add a light and code to do lighting.</li>
+</ul>
+<p><img alt="A picture showing a camera casting rays through pixels in the screen, hitting a sphere, with other rays from a light source casting a shadow on the ground." src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Ray_trace_diagram.svg/640px-Ray_trace_diagram.svg.png" title="Original image from https://en.wikipedia.org/wiki/File:Ray_trace_diagram.svg"></p>
+<h1>Spaces</h1>
+<p>Lots of introductions to ray tracing talk about a bunch of different spaces: world space, camera space, object space, normalized device coordinates, etc. and use matrices to perform transformations between these spaces. In real-time raster-based systems, this is a necessity. For an introduction to ray tracing, especially a simple one, it's just extra information. However, production ray tracers do use matrices to do the computations that we do "by hand". </p>
+<p>In terms of the order in which we do transformations, ray tracing and rasterization work almost exactly oppositely. Ray tracing works "forwards" - starting at the pixels and then going through the camera and into world space. Rasterization-based pipelines work "backwards": each object is described in object coordinates, and is transformed through camera space, world space, perspective-transformed space (which actually transforms the objects <em>from</em> a frustum <em>into</em> a rectangular space), and into pixel/device coordinates. </p>
+<p>For this ray tracer, all our inputs and outputs are either in pixel space or world space, but internally we also transform from pixel space to screen space, and the camera also defines a coordinate system that is used when transforming from screen space to world space.</p>
+<p>We start with pixel coordinates which range from 0 to <code>width-1</code> in the x axis and 0 to <code>height-1</code> in the y axis.</p>
+<p>We then transform into screen space. The purpose of screen space is to transform the pixel samples into evenly-spaced coordinates centered around (0,0). It ranges from <span class="math">\(\pm\frac{\texttt{aspect}}{2}\)</span> in the x axis and <span class="math">\(\pm 0.5\)</span> in the y axis, so that we have a rectangle with the width equal to the aspect ratio and the height equal to 1.</p>
+<p>The next space that we have to deal with is "camera space", but we actually transform samples from screen space directly to world space. The camera is defined in terms of world space and we use it in the transformation, but we don't explicitly transform into camera space itself, where the camera is at the origin.</p>
+<p>Finally, we have world space, which is just a standard 3D cartesian coordinate system.</p>
+<h2>An aside: pixels aren't little squares</h2>
+<p><a href="http://alvyray.com/Memos/CG/Microsoft/6_pixel.pdf">"A Pixel Is Not A Little Square"</a> is the title of a famous memo by <a href="https://en.wikipedia.org/wiki/Alvy_Ray_Smith">Alvy Ray Smith</a> about how (who would have expected) pixels are not little squares. I'm mentioning this because I called the inital space that we start in "image or pixel space", but it's only partially accurate to call it that.</p>
+<p>The core of the memo (but it is very short and worth reading) is that a pixel is simply a sample at a point. If we want to then display the image over some area, we do some sort of filtering, transforming, and rescaling to reconstruct the image - the simplest of which is a box filter (little squares!). The concept is probably easier to understand when you have less "little squares" experience and intuition - the scanner and printer examples in the memo are good, and if you're familiar with audio sampling then this is exactly the same problem.</p>
+<p>From a ray tracing perspective, consider that if you want to render an image with given dimensions, and you shoot a single ray for each of the samples, the samples you take (i.e. the rays you cast) will be spaced out with some distance between them. One way you might try to increase the accuracy of your image is to shoot more rays from some of the points in between your "main" sample points. What do you do with these extra samples? You could simply display them, and increase the resolution of your image. If you don't want to do that, you have to combine them together in some way to get the original number of samples you wanted - this is a reconstruction filter! Now, imagine doing the same operation but solely with your original number of samples, and break your mind from the prison of little squares.</p>
+<p>In the end, for this ray tracer we're basically using little squares though. </p>
+<h1>Math</h1>
+<p>We aren't using a math library, just <code>[f32;3]</code> arrays of floats, for both vectors and points. We implement a few simple functions on them: </p>
+<h2>Addition and subtraction</h2>
+<p>These are straightforward coordinate-wise addition and subtraction.</p>
+<h2>Scale</h2>
+<p>This is again a straightforward coordinate-wise scale operation.</p>
+<h2>The dot product</h2>
+<p><img alt="A diagram showing a vector projection" src="https://upload.wikimedia.org/wikipedia/commons/7/72/Scalarproduct.gif" title="Original image from wikipedia https://commons.wikimedia.org/wiki/File:Scalarproduct.gif"></p>
+<p>The <a href="https://en.wikipedia.org/wiki/Dot_product">dot product</a> is a fundamental operation on vectors of any dimension. For two three-dimensional vectors <span class="math">\(u, v\)</span>, we compute it as <span class="math">\(u_1 \cdot v_1 + u_2 \cdot v_2 + u_3 \cdot v_3\)</span> i.e. we multiply each element of the vectors coordinate-wise and take the sum. Because it is also equal to <span class="math">\(|a||b|\cos(\theta)\)</span>, it has a variety of uses geometrically since it relates the coordinates of the vectors to the angle between them.</p>
+<p>We use it in two ways. First, to test whether a vector is pointing in the same direction as another: If vector A were the normal of a plane, is vector B pointing to the same side of the plane as A, on the plane, or the other side of the plane? Second, as a projection operator: A vector with length <span class="math">\(a \cdot b\)</span> and direction <span class="math">\(a\)</span> gives the projection of <span class="math">\(b\)</span> in the direction of <span class="math">\(a\)</span>.</p>
+<h2>The cross product</h2>
+<p><img alt="A diagram showing the cross product and the area of a parallelogram formed by the vectors" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Cross_product_parallelogram.svg/720px-Cross_product_parallelogram.svg.png" title="Original image from wikipedia https://en.wikipedia.org/wiki/File:Cross_product_parallelogram.svg"></p>
+<p>The <a href="https://en.wikipedia.org/wiki/Cross_product">cross product</a> is an interesting operation because unlike the dot product, it's relatively simple in 3D but gets much more complicated in higher dimensions. Geometrically, the cross product of two vectors gives you a third vector that is orthogonal to the first two. Its magnitude is equal to the signed area of the parallelogram formed by the first two vectors, which can be computed as <span class="math">\(|a||b|\sin(\theta)\)</span>.</p>
+<p>We use it to determine the third axis of the camera coordinate system given the forward and up directions.</p>
+<h1>The Camera</h1>
+<p>The camera is defined as a struct containing its position, the direction it is pointing, the up direction, and the near plane (also called the focal plane) which here is simply the distance from the camera to the screen we are projecting through. This is the simplest possible camera description: we're not including even basic features like field of view as mentioned above, and we're not including even simple fancy effects like depth of field.</p>
+<h2>Why do we need the up vector?</h2>
+<p>Why do we need to specify the up direction? Because if you look at something, what you see depends not only on the direction you're looking but also how your head is tilted. If you imagine an axis pointing from your neck through the top of your head, perpendicular to your eyes, this is the "up" vector. </p>
+<p>This only defines two axes however, so what about the third? The third is entirely determined by the handedness of your coordinate system.</p>
+<h2>Coordinate system handedness</h2>
+<p>Handedness is a property of a coordinate system given an ordering of the axes and/or a chosen direction that represents forward.</p>
+<p>You have to worry about this in OpenGL and Direct3D because normalized deviced coordinates are a pre-defined coordinate space with a given handedness, whereas we get to choose all the spaces. The choice we make here is whether to take cross(up, forward) or cross(forward, up) to get the third axis. In the end it doesn't really matter.</p>
+<h1>Image space</h1>
+<p><img alt="A cool drawing with a grid superimposed representing image space" src="https://harrystern.net/images/image_space.png"></p>
+<p>Right off the bat I have to mention again that these squares are not pixels, and the drawing shows a rectangular grid only for illustration purposes. Pixels are not little squares. Image space as mentioned above is a rectangular space ranging from 0 to <code>width-1</code> and 0 to <code>height-1</code>. Each point in image space is a pair <span class="math">\((x,y)\)</span> of two integer coordinates, representing <em>a sample</em> taken. In our case, a pixel represents a single ray cast and so a single sample, but in more advanced renderers there's usually some sort of multisampling happening for antialiasing, and advanced camera models may bend light or integrate multiple casts, and so on.</p>
+<p>Image space is the output space of our code: we take the value of the sample at each point in image space and put it into an image.</p>
+<h1>Screen space</h1>
+<p><img alt="A cool drawing with a grid superimposed representing screen space" src="https://harrystern.net/images/screen_space.png"></p>
+<p>Screen space is just image space with different coordinates. We use screen space to make it easier to transform sample positions from 2D to 3D. We could directly plug in the formula from our image to screen space function into the ray generation function, but it's nicer to think about it using screen space as an intermediary.</p>
+<p>Image coordinates are integer-indexed, but screen space coordinates are floating-point values. </p>
+<h2>The myth of pixel centers</h2>
+<p>Often you will see in ray tracing tutorials that the <span class="math">\(+0.5\)</span> term in the formula for turning pixel coordinates into screen space is "to sample at the center of a pixel." Well, as we know, pixels aren't little squares. But the formula works - if you leave the term out the image is not centered in the screen. This gives a pretty big clue as to what we're doing: centering the samples in the space, so that they're symmetric around (0,0). </p>
+<p>The reason why people think this is necessary again comes from real-time raster-based graphics systems: in fragment shaders in OpenGL the <code>gl_FragCoord</code> variable <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/gl_FragCoord.xhtml">"assumes pixel centers are located at half-pixel centers"</a> (I'm not sure if one of the instances of "centers" should be replaced with "coordinates"), but in DirectX <a href="https://aras-p.info/blog/2016/04/08/solving-dx9-half-pixel-offset/">this is not the case (?)</a>. This means you will have to offset by half a pixel-length when doing texturing, for example. (I think, I could be getting this part wrong).</p>
+<h1>Camera space</h1>
+<hr>
+<h1>Property testing the ray generation function</h1>
+<p>Note that if we return "0,0,0" from the ray generation function, the direction test passes but the length test fails. If we pass "0,0,0" the direction test fails (because the dot product becomes 0, which means the rays are pointing in the same direction. we could handle this in our test because our generated rays should never be pointing in the "up" or "right" directions)</p>
+<hr>
+<p>testing increases the confidence we have that our code is correct
+property testing is basically a multiplier on our confidence in our code</p>
+<p>the tdd cycle of red-green-refactor increases the confidence we have that our <em>tests</em> are correct: going from red to green lets us make sure our tests are working
+mutation testing is then a multiplier on our confidence in our tests</p>
+<p>using both property testing and mutation testing should then act even more multiplicitavely?</p>
+<hr>
+<p>future work:</p>
+<p>in the same way we check that the ray-hits are contiguous (locally check for neighbors), if we were generating normals we could check that the normals are locally smooth - this is essentially a way to test that the shading "looks smooth" (of course you should also test that the shading is calculated properly from the normals - i'm not sure that this isn't subjective though and would be better served via gold master testing)</p>
+<hr>
+<p>bugs that property testing help me find:</p>
+<ul>
+<li>I forgot to add 0.5  to the x and y coordinates.</li>
+<li>make clear the constraints on forward and up vectors: they have to be nonzero and orthogonal (and therefore not collinear, or equal)</li>
+<li>I wasn't multiplying the forward vector by the nearplane distance when computing the ray coordinates</li>
+</ul>
+<p>bugs that property testing wouldn't help you find:
+corner cases
+should_panic tests
+    - eg if you had a fancier Screen struct with a new method, you would probably want it to return a Result with an error or panic if you pass in 0,0</p>
+<hr>
+<p>Property testing builds a DAG, and this is how it is different from fuzzing. (In this post)[https://hypothesis.works/articles/what-is-property-based-testing/] by the author of Hypothesis, a property testing framework for Python that inspired proptest, he goes back and forth on whether property testing is fuzzing.</p>
+<p>Property testing should build a directed acyclic graph with "does it crash" at the root. It's not a tree because you can form diamonds - given property A and property B, you can test "given property A <em>and</em> property B, we have property C."</p>
+<hr>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+        </section>
+
+        <br><br><br>
+
+        <footer>
+          <div class="adjust-width">
+            <div id="author-block" class="w3-light-grey w3-border">
+              <div id="author-info">
+		      <a href="https://harrystern.net"><img style="width: 60px; height: 60px;" src="https://avatars.githubusercontent.com/u/936147?s=240" alt="Avatar"></a>
+                <div style="margin-left: 20px; margin-top: 15px;">
+                  <a href="https://harrystern.net"><span id="author-name" class="w3-hover-text-dark-grey">Harry Stern</span></a>
+                  <p id="author-story">
+I'm a recent graduate of Rutgers University with degrees in math and computer science. Geometry, rendering, and topology are my favorite topics. I want to get better at data science and machine learning and their relationship with geometry and topology.
+</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <br><br><br>
+
+
+
+        </footer>
+      </div>
+    </article>
+
+
+    <footer id="footer">
+      <div id="footer-copyright" class="w3-center w3-small w3-text-grey w3-padding-48">
+        <span>
+          &copy;
+          2014&dash;2018          Harry Stern
+ | <a href="https://harrystern.net/feeds/all.atom.xml">Atom feed</a>        </span>
+      </div>
+    </footer>
+
+  </body>
+</html>
