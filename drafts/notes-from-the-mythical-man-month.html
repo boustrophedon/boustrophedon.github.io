@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Notes from The Mythical Man-Month &ndash; recycled math</title>
+
+    <!-- Meta -->
+    <meta name="description" content="recycled math &ndash; ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Social -->
+    <meta property="article:author" content="Harry Stern" />
+    <meta property="article:section" content="Book Reviews" />
+    <meta property="article:published_time" content="1970-01-01" />
+
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Notes from The Mythical Man-Month"/>
+    <meta property="og:description" content="So basically nobody likes reading book reviews. I can&#39;t think of the last time I&#39;ve read a book review about a non-fiction book. These are basically my notes taken while reading. Taking notes for books like this that aren&#39;t math/algorithms books helps me internalize more of the information and …"/>
+    <meta property="og:site_name" content="recycled math" />
+    <meta property="og:url" content="https://harrystern.net/drafts/notes-from-the-mythical-man-month.html"/>
+
+
+    <!-- Feed -->
+    <link rel="alternate" type="application/atom+xml" href="https://harrystern.net/feeds/all.atom.xml" title="recycled math Atom Feed" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:regular,bold">
+    <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/w3.css">
+    <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/pygments-highlight-github.css">
+
+    <!-- Icon -->
+
+  </head>
+
+  <body>
+    <div class="w3-row w3-card w3-white">
+      <header id="header">
+	      <a href="https://harrystern.net" id="site-title"> recycled math </a>
+        <nav id="header-menu">
+          <ul>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/about.html">About</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/archive.html">Archive</a></li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+
+
+
+    <br><br><br>
+
+    <article>
+      <header class="w3-container col-main">
+        <h1>Notes from The Mythical Man-Month</h1>
+        <div class="post-info">
+          <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+            <span><time datetime="1970-01-01T00:00:00-05:00">Thu 01 January 1970</time> in <a href="https://harrystern.net/category/book-reviews.html" title="All articles in category Book Reviews">Book Reviews</a></span>
+   	  <span> - 6 min </span>
+          </div>
+
+          <div>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="https://harrystern.net/tag/software-development.html" title="All articles with Software Development tag">software development</a>
+            </span>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="https://harrystern.net/tag/project-management.html" title="All articles with Project Management tag">project management</a>
+            </span>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="https://harrystern.net/tag/book-reviews.html" title="All articles with Book Reviews tag">book reviews</a>
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <br>
+
+
+      <div class="col-main w3-container">
+        <section id="content">
+          <p>So basically nobody likes reading book reviews. I can't think of the last time I've read a book review about a non-fiction book. These are basically my notes taken while reading. Taking notes for books like this that aren't math/algorithms books helps me internalize more of the information and come back to review it later. I guess it's similar to the synthesis that happens when you do the exercises in a math textbook.</p>
+<h1>0 Many of the references and advice are dated</h1>
+<p>there's a section about how to use and budget space with a description of using tape drives vs core memory or something and how the latency from tape drives drove software to be better, and then when the hardware got better the software got worse.</p>
+<p>this is basically what happened with javascript and 4GB+ chrome tabs.</p>
+<h1>1 The Tar Pit</h1>
+<h2>Software projects still fail a lot</h2>
+<p>Large scale "tar pits" still happen today - healthcare.gov and the UK's NHS healthcare project also were overbudget/failed. Programming 40 years later is still young.</p>
+<h2>It's easier to build more complete programming products today</h2>
+<p>I think in some sense the distinction made about "programs" vs "programming products" are still useful, but in general it has become a lot easier to write and publish something closer to a "programming product" with a much smaller team because we have accumulated many existing "programming system products" already. In that sense, the "programming system product" classification is a bit outdated because new systems are created now by combining pre-existing products with a new solution.</p>
+<p>That is, because we have general-purpose operating systems like Linux, and general purpose web servers like nginx, and web server frameworks in every language imaginable, turning a "program" that consists of some functions that interact with a database into a fully-featured, interactive website ("programming system product"), is a much easier feat.</p>
+<p>On the other hand, producing products such that "every input and output conforms in syntax and semantics with precisely defined interfaces [...] it uses only a prescribed budget of resources - memory space, input-output devices, computer time" is much harder because of the generality of the systems that we build upon.</p>
+<h2>It's still fun to program</h2>
+<p>The section called "The Joys of the Craft" is basically still true: it's still fun to program as an act of creation.</p>
+<p>I'm going to try to make fewer notes that are just "yes this is still true", that said, it is also to some extent that programming also sucks sometimes, but I feel like we've made a lot of improvements so that it does not suck nearly as much if you use the correct tools.</p>
+<h1>2 The Mythical Man-Month</h1>
+<h2>Making estimates is hard</h2>
+<p>There was an article that I read some time ago about a company that specifically practices making estimates, and making them more accurate, using confidence intervals or something. I cannot find it now, but it is a contrast to the agile/kanban/whatever kind of software development practices that have emerged which have moved away from release dates and or making estimates at all.</p>
+<p>I think I found it: the book was "How to Measure Anything" by Douglas Hubbard, but the only articles <a href="https://www.lesswrong.com/posts/ybYBCK9D7MZCcdArB/how-to-measure-anything">like this one</a> like this one had no comments on HN.</p>
+<h2>Optimism in programmers/programming</h2>
+<p>I feel like it isn't that all programmers are optimists, but that the <a href="https://en.wikipedia.org/wiki/Serial-position_effect#Recency_effect">recency effect</a> makes it easier to be an optimist in the sense that once you get something working, you forget that it was difficult to get working. It was definitely the case for me for a long time. I would say recently, especially since starting to do "proper TDD", being conditioned to <em>expect</em> tests to fail first somewhat obviates the recency effect. I am also not sure that the recency effect is the right way to describe it.</p>
+<h2>The mythical man-month</h2>
+<h1>? surgical team model</h1>
+<p>why didn't this take off (to some extent)? part of it is that a lot of the staff was obviated by computers, but at the same time that means the programmer's/surgeon's time is also taken up entering non-code into computers.</p>
+<p>additionally, a lot of open source projects kind of are like this: there are one or two main/core contributers, and a long tail of secondary contributers that kind of take up the "secondary" work. it would be nice if more people specifically did this "secondary/bookkeeping" work but if you're volunteering your time, you want to work on the fun stuff.</p>
+<p>Steve Klabnik does a lot of this "secondary" stuff, especially wrt documentation, for the rust project.</p>
+<h1>10 Documents</h1>
+<p>"objectives" are mentioned as a document for a software project, with the "goals, desiderata, constraints, and priorities". OKRs are a way to structure this. :)</p>
+<p>Some of the stuff about budget and market and forecasting is very focused towards "product development" in the "lean startup" sense: there is an existing market with existing customers and you want to deliver an improvement or incremental offering. that specific advice probably isn't as useful for startups.</p>
+<h1>11 Throw one away</h1>
+<p>"The management question, therefore, is not whether to build a pilot system and throw it away. You <em>will</em> do that. The only question is whether to plan in advance to build a throwaway, or to promise to deliver the throwaway to customers.</p>
+<h2>Embrace change</h2>
+<p>iterate and pivot</p>
+<h2>reluctance to document</h2>
+<p>From a reference by Cosgrove, unsure of the exact reference
+"By documenting a design, the designer exposes himself to the criticisms of everyone, and he must be able to defend everything he writes. If the organization structure is threatening in any way, nothing is going to be documented until it is completely defensible"</p>
+<p>google did multiple studies about a similiar effect: feeling psychologically safe and supported by teammates, not being afraid of criticism, was one of the most important factors in what makes a good team.</p>
+<h2>"bugs found" curve</h2>
+<p>p 121, graph depicting bugs found vs months since installation of a particular release of software. it starts off high as you can imagine, and decreases over time (this is a section about program maintenance) but then after a while the number of bugs found increases.</p>
+<h1>12 Sharp Tools</h1>
+<p>this is a juicy one. "Even at this late date, many programming projects are still operating like machine shops so far as tools are concerned. Each master mechanic has his own personal set, collected over a lifetime and carefully locked and guarded - the visible evidences of personal skiils. Just so, the programmer keeps little editors, sorts, binary dumps, disk space utilities, etc. stashed away in his file."</p>
+<p>The following sections about having teams or at least people devoted to building tools to enhance other programmers' productivity, even though the specifics of the tools mentioned are very outdated, is strongly embodied at a lot of the current top technology firms.</p>
+<p>However, the reasoning is kind of different. Personal utility code sets and tools aren't really a thing anymore, but there are so many tools now: programming languages, editors, debuggers, operating systems, deployment frameworks, etc., that a programmer is now categorized by the knowledge they have of these specific pre-existing tools. The specific tools you use are not nearly as important and take a relatively small time to learn compared to the specifics of the actual software you are building. </p>
+        </section>
+
+        <br><br><br>
+
+        <footer>
+          <div class="adjust-width">
+            <div id="author-block" class="w3-light-grey w3-border">
+              <div id="author-info">
+		      <a href="https://harrystern.net"><img style="width: 60px; height: 60px;" src="https://avatars.githubusercontent.com/u/936147?s=240" alt="Avatar"></a>
+                <div style="margin-left: 20px; margin-top: 15px;">
+                  <a href="https://harrystern.net"><span id="author-name" class="w3-hover-text-dark-grey">Harry Stern</span></a>
+                  <p id="author-story">
+I'm a recent graduate of Rutgers University with degrees in math and computer science. Geometry, rendering, and topology are my favorite topics. I want to get better at data science and machine learning and their relationship with geometry and topology.
+</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <br><br><br>
+
+
+
+        </footer>
+      </div>
+    </article>
+
+
+    <footer id="footer">
+      <div id="footer-copyright" class="w3-center w3-small w3-text-grey w3-padding-48">
+        <span>
+          &copy;
+          2014&dash;2018          Harry Stern
+ | <a href="https://harrystern.net/feeds/all.atom.xml">Atom feed</a>        </span>
+      </div>
+    </footer>
+
+  </body>
+</html>

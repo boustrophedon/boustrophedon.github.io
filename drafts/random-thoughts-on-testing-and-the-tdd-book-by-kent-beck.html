@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Random thoughts on testing and the TDD book by Kent Beck &ndash; recycled math</title>
+
+    <!-- Meta -->
+    <meta name="description" content="recycled math &ndash; ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Social -->
+    <meta property="article:author" content="Harry Stern" />
+    <meta property="article:section" content="Software development" />
+    <meta property="article:published_time" content="1970-01-01" />
+
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Random thoughts on testing and the TDD book by Kent Beck"/>
+    <meta property="og:description" content="Notes on Test Driven Development by Kent Beck Mocks This section is mostly a response or agreement with this blog post by Martin Fowler. Outside-in vs bottom-up The difference between these two is not the end result: you can end up with working, tested code either way like this. The …"/>
+    <meta property="og:site_name" content="recycled math" />
+    <meta property="og:url" content="https://harrystern.net/drafts/random-thoughts-on-testing-and-the-tdd-book-by-kent-beck.html"/>
+
+
+    <!-- Feed -->
+    <link rel="alternate" type="application/atom+xml" href="https://harrystern.net/feeds/all.atom.xml" title="recycled math Atom Feed" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:regular,bold">
+    <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/w3.css">
+    <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/pygments-highlight-github.css">
+
+    <!-- Icon -->
+
+  </head>
+
+  <body>
+    <div class="w3-row w3-card w3-white">
+      <header id="header">
+	      <a href="https://harrystern.net" id="site-title"> recycled math </a>
+        <nav id="header-menu">
+          <ul>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/about.html">About</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/archive.html">Archive</a></li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+
+
+
+    <br><br><br>
+
+    <article>
+      <header class="w3-container col-main">
+        <h1>Random thoughts on testing and the TDD book by Kent Beck</h1>
+        <div class="post-info">
+          <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+            <span><time datetime="1970-01-01T00:00:00-05:00">Thu 01 January 1970</time> in <a href="https://harrystern.net/category/software-development.html" title="All articles in category Software development">Software development</a></span>
+   	  <span> - 2 min </span>
+          </div>
+
+          <div>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="https://harrystern.net/tag/testing.html" title="All articles with Testing tag">testing</a>
+            </span>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="https://harrystern.net/tag/tdd.html" title="All articles with Tdd tag">TDD</a>
+            </span>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="https://harrystern.net/tag/mutation-testing.html" title="All articles with Mutation Testing tag">mutation testing</a>
+            </span>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="https://harrystern.net/tag/mocking.html" title="All articles with Mocking tag">mocking</a>
+            </span>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="https://harrystern.net/tag/property-testing.html" title="All articles with Property Testing tag">property testing</a>
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <br>
+
+
+      <div class="col-main w3-container">
+        <section id="content">
+          <h1>Notes on Test Driven Development by Kent Beck</h1>
+<h1>Mocks</h1>
+<p>This section is mostly a response or agreement with <a href="https://martinfowler.com/articles/mocksArentStubs.html">this blog post </a> by Martin Fowler.</p>
+<h2>Outside-in vs bottom-up</h2>
+<p>The difference between these two is not the end result: you can end up with working, tested code either way like this. The difference is in how easy it is for the programmer to do so. With bottom-up, writing unit tests firsts and very few mocks, you always have working code, and can easily, for example, revert to the previous commit and be in a working state. If you write the acceptance/system/etc tests first, you will not have working code for a while and instead continue to pile up failing tests, or, if you use mocks, you simply build a tower of mocks that do nothing. </p>
+<hr>
+<h1>type systems</h1>
+<p>There's lots of talk about the relationship between strong type systems and strong testing procedures (see <a href="http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html">here</a> and <a href="https://www.facebook.com/notes/kent-beck/functional-tdd-a-clash-of-cultures/472392329460303">here</a>, and <a href="">here</a> for some examples)</p>
+<p>as with the difference between writing unit tests first vs writing system tests first (outside-in vs bottom-up) the difference is not in the end result but the view from a programmer's perspective.</p>
+<p>the power of strong type systems lies in the ability to reason locally about the code. If you have a function in rust, you can always know what type a variable is, and what operations it can perform. Certainly with dynamic languages you can do some level of static analysis and have IDE plugins that let you see what a variable <em>might</em> be, but in highly dynamic languages you never really know without actually executing the program.</p>
+<hr>
+<h1>Mutation testing and property testing</h1>
+<p>mutation testing: fix test inputs, change output
+property testing: change test input, fix "output"</p>
+<p>in the red-green-refactor cycle, property testing adds confidence to the "green" part - that your code is working
+mutation testing adds confidence to the "red" part - that your tests are working! </p>
+        </section>
+
+        <br><br><br>
+
+        <footer>
+          <div class="adjust-width">
+            <div id="author-block" class="w3-light-grey w3-border">
+              <div id="author-info">
+		      <a href="https://harrystern.net"><img style="width: 60px; height: 60px;" src="https://avatars.githubusercontent.com/u/936147?s=240" alt="Avatar"></a>
+                <div style="margin-left: 20px; margin-top: 15px;">
+                  <a href="https://harrystern.net"><span id="author-name" class="w3-hover-text-dark-grey">Harry Stern</span></a>
+                  <p id="author-story">
+I'm a recent graduate of Rutgers University with degrees in math and computer science. Geometry, rendering, and topology are my favorite topics. I want to get better at data science and machine learning and their relationship with geometry and topology.
+</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <br><br><br>
+
+
+
+        </footer>
+      </div>
+    </article>
+
+
+    <footer id="footer">
+      <div id="footer-copyright" class="w3-center w3-small w3-text-grey w3-padding-48">
+        <span>
+          &copy;
+          2014&dash;2018          Harry Stern
+ | <a href="https://harrystern.net/feeds/all.atom.xml">Atom feed</a>        </span>
+      </div>
+    </footer>
+
+  </body>
+</html>
