@@ -1,0 +1,5 @@
+http://www.wildcrest.com/Potel/Portfolio/mvp.pdf linked from
+https://www.martinfowler.com/eaaDev/uiArchs.html
+http://stlab.cc/tips/about-mvc.html adobe guy who had the same thought that "A common model that is often completely overlooked is the model for function arguments. When you have a command, button, gesture, or menu item in your application, these are bound to a function. The function itself is not typically a zeroary function but rather has a set of arguments that are constructed through other parts of the UI."
+
+http://heim.ifi.uio.no/~trygver/2003/javazone-jaoo/MVC_pattern.pdf original MVC ideator book on mvc pattern
