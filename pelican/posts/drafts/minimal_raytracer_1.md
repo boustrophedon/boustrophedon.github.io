@@ -128,7 +128,7 @@ You have to worry about this in OpenGL and Direct3D because normalized deviced c
 
 # Image space
 
-![A cool drawing with a grid superimposed representing image space]({filename}/images/image_space.png)
+![A cool drawing with a grid superimposed representing image space]({static}/images/image_space.png)
 
 Right off the bat I have to mention again that these squares are not pixels, and the drawing shows a rectangular grid only for illustration purposes. Pixels are not little squares. Image space as mentioned above is a rectangular space ranging from 0 to `width-1` and 0 to `height-1`. Each point in image space is a pair $(x,y)$ of two integer coordinates, representing *a sample* taken. In our case, a pixel represents a single ray cast and so a single sample, but in more advanced renderers there's usually some sort of multisampling happening for antialiasing, and advanced camera models may bend light or integrate multiple casts, and so on.
 
@@ -136,7 +136,7 @@ Image space is the output space of our code: we take the value of the sample at 
 
 # Screen space
 
-![A cool drawing with a grid superimposed representing screen space]({filename}/images/screen_space.png)
+![A cool drawing with a grid superimposed representing screen space]({static}/images/screen_space.png)
 
 Screen space is just image space with different coordinates. We use screen space to make it easier to transform sample positions from 2D to 3D. We could directly plug in the formula from our image to screen space function into the ray generation function, but it's nicer to think about it using screen space as an intermediary.
 
