@@ -1,0 +1,41 @@
+    {% extends "base.html" %}
+
+    {% block title %}{{ article.title|striptags }} &ndash; {{ SITENAME }}{% endblock %}
+
+    {% block content %}
+
+    <br><br>
+
+    <article>
+      <header class="col-main">
+        <h1>{{ article.title }}</h1>
+        <div class="post-info">
+          <div class="" style="flex-grow: 1;">
+            <span><time datetime="{{ article.date.isoformat() }}">{{ article.locale_date }}</time> in <a href="{{ SITEURL }}/{{ article.category.url }}" title="All articles in category {{ article.category }}">{{ article.category }}</a></span>
+   	  {% if article.readtime %}
+   	  <span> - {{article.readtime.minutes}} min </span>
+   	  {% endif %}
+          </div>
+        </div>
+      </header>
+
+      <br>
+
+      {% if article.headerimage %}
+      <div class="headerimage-article">
+        <img src="{{ article.headerimage }}" style="width: 100%;">
+        {% if article.headerimagecaption %}
+          <p class="caption">{{ article.headerimagecaption }}</p>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      <div class="col-main">
+        <section id="content">
+          {{article.content}}
+        </section>
+
+      </div>
+    </article>
+
+    {% endblock content %}

@@ -2,6 +2,7 @@ Title: A New Start
 Category: Self
 Tags: blog
 Date: 2018-06-17
+Status: draft
 
 I haven't used this blog in about 3 years but I finally graduated and I'm spending the summer working on stuff I want to work on. Hopefully I'm going to use this to talk about the stuff I've been working on.
 

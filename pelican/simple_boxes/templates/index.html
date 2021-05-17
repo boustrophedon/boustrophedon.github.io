@@ -1,0 +1,46 @@
+    {% extends "base.html" %}
+
+    {% block content_title %}
+    {% endblock %}
+
+    {% block content %}
+
+    <br><br><br>
+
+    <section id="listing">
+      {% for article in articles_page.object_list %}
+      <article class="col-main">
+        <header>
+          {% if article.headerimage %}
+          <div class="headerimage-card">
+            <a href="{{ SITEURL }}/{{ article.url }}"><img src="{{ article.headerimage }}" style="width: 100%;"></a>
+          </div>
+          {% endif %}
+          <h2><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></h2>
+          <div class="post-info">
+            <div class="" style="flex-grow: 1;">
+              <span><time datetime="{{ article.date.isoformat() }}">{{ article.locale_date }}</time> in <a href="{{ SITEURL }}/{{ article.category.url }}" title="All articles in category {{ article.category }}">{{ article.category }}</a></span> 
+	      {% if article.readtime %}
+	      <span> - {{article.readtime.minutes}} min </span>
+	      {% endif %}
+            </div>
+          </div>
+        </header>
+
+        <div class="entry-content">
+          {{ article.summary|striptags }}
+        </div>
+      </article>
+
+      <br><br><br>
+
+      {% endfor %}
+
+      {% if articles_page.has_other_pages() %}
+      {% include 'pagination.html' %}
+      <br><br><br>
+      {% endif %}
+
+    </section>
+
+    {% endblock content %}

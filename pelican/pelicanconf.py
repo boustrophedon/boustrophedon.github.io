@@ -8,7 +8,8 @@ AUTHOR = 'Harry Stern'
 SITENAME = 'recycled math'
 SITEURL = 'http://localhost:8000'
 
-THEME = 'minimalXY0'
+THEME = 'simple_boxes'
+#THEME = 'minimalXY0'
 
 PLUGIN_PATHS = ["plugins"]
 PLUGINS = ['render_math', 'readtime']
@@ -27,6 +28,7 @@ AUTHORS_SAVE_AS = 'about.html'
 
 
 FEED_ALL_ATOM = 'feeds/all.atom.xml'
+FEED_ALL_RSS = 'feeds/all.rss.xml'
 TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
@@ -34,15 +36,15 @@ CATEGORY_FEED_ATOM = None
 
 DEFAULT_PAGINATION = 10
 
-# MINIMALXY settings
+# settings for footer copyright
 
-MINIMALXY_START_YEAR = 2014
-MINIMALXY_CURRENT_YEAR = date.today().year
+BLOG_START_YEAR = 2014
+BLOG_CURRENT_YEAR = date.today().year
 
 # Author
 AUTHOR_INTRO = u"hi I'm harry"
 AUTHOR_DESCRIPTION = u"""
-I'm a recent graduate of Rutgers University with degrees in math and computer science. Geometry, rendering, and topology are my favorite topics. I want to get better at data science and machine learning and their relationship with geometry and topology.
+I like math, computer science, and their intersection, especially graphics, geometry, and topology. I believe testing is the most important part of writing code.
 """
 AUTHOR_AVATAR = 'https://avatars.githubusercontent.com/u/936147?s=240'
 AUTHOR_WEB = 'https://harrystern.net'
@@ -50,7 +52,7 @@ AUTHOR_WEB = 'https://harrystern.net'
 # Social
 SOCIAL = (
     ('github', 'https://github.com/boustrophedon'),
-    ('linkedin', 'https://www.linkedin.com/in/harry-stern-013920158/'),
+    ('linkedin', 'https://www.linkedin.com/in/harry-stern'),
 )
 
 # Menu

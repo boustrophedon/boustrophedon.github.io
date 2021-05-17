@@ -1,0 +1,37 @@
+    {% extends "base.html" %}
+
+    {% block title %}About &ndash; {{ SITENAME }}{% endblock %}
+
+    {% block content %}
+
+    <br><br>
+
+    <div class="col-main">
+      <h1>About me</h1>
+
+      <br>
+
+      {%- for author, articles in authors|sort %}
+      {% if author==AUTHOR %}
+      <div id="{{ author.page_name[7:] }}" style="padding: 10px;">
+        <div style="display: flex; align-items: center;">
+          <img style="width: 120px; height: 120px;" src="{{ AUTHOR_AVATAR }}">
+          <span class="" style="font-size: 16pt; font-weight: bold; margin-left: 20px;">{{ author }}</span>
+        </div>
+
+        <p style="font-size: 12pt; font-style: italic; margin-top: 36px;">{{ AUTHOR_DESCRIPTION }}</p>
+
+        <div style="display: flex; flex-wrap: wrap;">
+          <ul class="social" style="flex-grow: 1; padding: 0px;  margin-top: 12px; margin-bottom: 0px;">
+            {% for name, link in SOCIAL %}
+	    <li style="font-size: 18pt;"><a class="sc-{{ name }}" href="{{ link }}" target="_blank"><img class="icon" src="../theme/images/{{ name }}.svg"></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      {% endif %}
+      {% endfor %}
+    </div>
+
+    {% endblock content %}

@@ -23,10 +23,10 @@
 
     <!-- Feed -->
     <link rel="alternate" type="application/atom+xml" href="https://harrystern.net/feeds/all.atom.xml" title="recycled math Atom Feed" />
+    <link rel="alternate" type="application/rss+xml" href="https://harrystern.net/feeds/all.rss.xml" title="recycled math RSS Feed" />
 
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:regular,bold">
-    <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/w3.css">
     <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/style.css">
     <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/pygments-highlight-github.css">
 
@@ -35,13 +35,13 @@
   </head>
 
   <body>
-    <div class="w3-row w3-card w3-white">
+    <div class="header-box">
       <header id="header">
-	      <a href="https://harrystern.net" id="site-title"> recycled math </a>
+	    <a href="https://harrystern.net" id="site-title"> recycled math </a>
         <nav id="header-menu">
           <ul>
-            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/about.html">About</a></li>
-            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/archive.html">Archive</a></li>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/archive.html">Archive</a></li>
           </ul>
         </nav>
       </header>
@@ -49,33 +49,15 @@
 
 
 
-    <br><br><br>
+    <br><br>
 
     <article>
-      <header class="w3-container col-main">
+      <header class="col-main">
         <h1>How I'm deploying Dart server code on DigitalOcean</h1>
         <div class="post-info">
-          <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+          <div class="" style="flex-grow: 1;">
             <span><time datetime="2015-03-04T00:00:00-05:00">Wed 04 March 2015</time> in <a href="https://harrystern.net/category/system-administration.html" title="All articles in category System Administration">System Administration</a></span>
    	  <span> - 6 min </span>
-          </div>
-
-          <div>
-            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
-              <a href="https://harrystern.net/tag/dart.html" title="All articles with Dart tag">dart</a>
-            </span>
-            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
-              <a href="https://harrystern.net/tag/deployment.html" title="All articles with Deployment tag">deployment</a>
-            </span>
-            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
-              <a href="https://harrystern.net/tag/systemd.html" title="All articles with Systemd tag">systemd</a>
-            </span>
-            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
-              <a href="https://harrystern.net/tag/fedora.html" title="All articles with Fedora tag">fedora</a>
-            </span>
-            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
-              <a href="https://harrystern.net/tag/websockets.html" title="All articles with Websockets tag">websockets</a>
-            </span>
           </div>
         </div>
       </header>
@@ -83,7 +65,7 @@
       <br>
 
 
-      <div class="col-main w3-container">
+      <div class="col-main">
         <section id="content">
           <p><strong>NOTE: this post was written in 2015 and much of the dart-specific stuff does not necessarily apply anymore</strong></p>
 <p>So I finally started to work on my multiplayer breakout clone in dart that I've been meaning to do forever. It's moderately functional now. This post is how I am deploying the server code on digitalocean. It's written mostly for someone who has maybe used a desktop linux environment and isn't completely lost on the command line, but who maybe hasn't set up a server before. Here is the short version:</p>
@@ -136,7 +118,7 @@
 <p>If you did not follow the above optional step, this is what I originally did: Normally, pub downloads your packages into ~/.pub-cache. However, our dartapps user does not have a home directory. If we try to run <code>pub get</code> as root, pub will install our dependencies into /root/.pub-cache, which is of course unreadable by the dartapps user. We can fix this by either creating a global pub-cache inside, say, /usr/local/include/ or /usr/local/lib/, but I chose the option of creating it inside my server's code directory, so /usr/local/bin/dart-breakout/pub-cache. This is already a bit messy and a mild abuse of /usr/local/bin, and the better option is to compile all your dart code to a single file as in the above step.</p>
 <p>In order to create this extra pub cache directory, we need to (as root), run <code>PUB_CACHE=/usr/local/bin/dart-breakout/pub-cache pub get</code>. Setting the PUB_CACHE variable tells pub where to put the cache, and sets up the symlinks to point at that local cache for our application. Of course, be sure to substitute dart-breakout for your own name. You should test that the dependencies are installed and permissions are correct by running the server as a non-root user.</p>
 <p>Lastly, we get monitoring, logging, and restart-on-crash for free by creating a simple systemd unit file that runs our server as the dartapps user. Drop this file into /etc/systemd/system/dart-breakout.service, replacing dart-breakout in both the filename and inside the file as needed:</p>
-<div class="highlight"><pre><span></span><span class="k">[Service]</span>
+<div class="highlight"><pre><span></span><code><span class="k">[Service]</span>
 <span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/bin/dart /usr/local/bin/dart-breakout/bin/server.dart</span>
 <span class="na">Restart</span><span class="o">=</span><span class="s">always</span>
 <span class="na">StandardOutput</span><span class="o">=</span><span class="s">syslog</span>
@@ -147,45 +129,22 @@
 
 <span class="k">[Install]</span>
 <span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>If you followed the optional "dart2dart" step, replace the project/bin/server.dart file with the compiled file, which you would probably install to /usr/local/bin/ directly.</p>
 <p>And now we're done! Run (as root) <code>systemctl enable dart-breakout</code> to enable the service to run on startup, and <code>systemctl start dart-breakout</code> to start the server now. You can use <code>journalctl -u dart-breakout</code> to view the output of your program.</p>
         </section>
 
-        <br><br><br>
-
-        <footer>
-          <div class="adjust-width">
-            <div id="author-block" class="w3-light-grey w3-border">
-              <div id="author-info">
-		      <a href="https://harrystern.net"><img style="width: 60px; height: 60px;" src="https://avatars.githubusercontent.com/u/936147?s=240" alt="Avatar"></a>
-                <div style="margin-left: 20px; margin-top: 15px;">
-                  <a href="https://harrystern.net"><span id="author-name" class="w3-hover-text-dark-grey">Harry Stern</span></a>
-                  <p id="author-story">
-I'm a recent graduate of Rutgers University with degrees in math and computer science. Geometry, rendering, and topology are my favorite topics. I want to get better at data science and machine learning and their relationship with geometry and topology.
-</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <br><br><br>
-
-
-
-        </footer>
       </div>
     </article>
 
 
     <footer id="footer">
-      <div id="footer-copyright" class="w3-center w3-small w3-text-grey w3-padding-48">
+      <div id="footer-copyright" class="">
         <span>
           &copy;
-          2014&dash;2019          Harry Stern
- | <a href="https://harrystern.net/feeds/all.atom.xml">Atom feed</a>        </span>
+          2014&dash;2021          Harry Stern
+ | <a href="https://harrystern.net/feeds/all.atom.xml">Atom feed</a> | <a href="https://harrystern.net/feeds/all.rss.xml">RSS feed</a>        </span>
       </div>
     </footer>
 

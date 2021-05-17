@@ -23,10 +23,10 @@
 
     <!-- Feed -->
     <link rel="alternate" type="application/atom+xml" href="https://harrystern.net/feeds/all.atom.xml" title="recycled math Atom Feed" />
+    <link rel="alternate" type="application/rss+xml" href="https://harrystern.net/feeds/all.rss.xml" title="recycled math RSS Feed" />
 
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:regular,bold">
-    <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/w3.css">
     <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/style.css">
     <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/pygments-highlight-github.css">
 
@@ -35,13 +35,13 @@
   </head>
 
   <body>
-    <div class="w3-row w3-card w3-white">
+    <div class="header-box">
       <header id="header">
-	      <a href="https://harrystern.net" id="site-title"> recycled math </a>
+	    <a href="https://harrystern.net" id="site-title"> recycled math </a>
         <nav id="header-menu">
           <ul>
-            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/about.html">About</a></li>
-            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/archive.html">Archive</a></li>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/archive.html">Archive</a></li>
           </ul>
         </nav>
       </header>
@@ -49,24 +49,15 @@
 
 
 
-    <br><br><br>
+    <br><br>
 
     <article>
-      <header class="w3-container col-main">
+      <header class="col-main">
         <h1>Principles of Digital Image Synthesis</h1>
         <div class="post-info">
-          <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+          <div class="" style="flex-grow: 1;">
             <span><time datetime="2014-06-04T00:00:00-04:00">Wed 04 June 2014</time> in <a href="https://harrystern.net/category/computer-graphics.html" title="All articles in category Computer Graphics">Computer Graphics</a></span>
    	  <span> - 3 min </span>
-          </div>
-
-          <div>
-            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
-              <a href="https://harrystern.net/tag/principles-of-digital-image-synthesis.html" title="All articles with Principles Of Digital Image Synthesis tag">Principles of Digital Image Synthesis</a>
-            </span>
-            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
-              <a href="https://harrystern.net/tag/color-systems.html" title="All articles with Color Systems tag">color systems</a>
-            </span>
           </div>
         </div>
       </header>
@@ -74,7 +65,7 @@
       <br>
 
 
-      <div class="col-main w3-container">
+      <div class="col-main">
         <section id="content">
           <p>So one of the things I'm doing this summer is reading <a href="http://dl.acm.org/citation.cfm?id=527570">Principles of Digital Image Synthesis</a> by <a href="http://glassner.com/">Andrew Glassner</a>. It's from 1995 which makes it almost 20 years old, but the fundamental mathematics don't change and it's quite comprehensive. I found it released freely <a href="http://www.realtimerendering.com/blog/principles-of-digital-image-synthesis-now-free-for-download/">here</a></p>
 <p>It starts with "The Human Visual System and Color" for the first 100ish pages, covering "The Human Visual System", "Color Spaces", and "Displays". While I thought the chapter on how the eye works was interesting, I didn't really pay close attention to it, so that I feel like while I have a better understanding of how eyesight works than before, I don't think I could really explain it to someone else.</p>
@@ -86,38 +77,16 @@
 <p>I wrote surprisingly more than I thought I would for what amounts to a summary of a cursory reading of the (if I may) more boring parts of a textbook.</p>
         </section>
 
-        <br><br><br>
-
-        <footer>
-          <div class="adjust-width">
-            <div id="author-block" class="w3-light-grey w3-border">
-              <div id="author-info">
-		      <a href="https://harrystern.net"><img style="width: 60px; height: 60px;" src="https://avatars.githubusercontent.com/u/936147?s=240" alt="Avatar"></a>
-                <div style="margin-left: 20px; margin-top: 15px;">
-                  <a href="https://harrystern.net"><span id="author-name" class="w3-hover-text-dark-grey">Harry Stern</span></a>
-                  <p id="author-story">
-I'm a recent graduate of Rutgers University with degrees in math and computer science. Geometry, rendering, and topology are my favorite topics. I want to get better at data science and machine learning and their relationship with geometry and topology.
-</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <br><br><br>
-
-
-
-        </footer>
       </div>
     </article>
 
 
     <footer id="footer">
-      <div id="footer-copyright" class="w3-center w3-small w3-text-grey w3-padding-48">
+      <div id="footer-copyright" class="">
         <span>
           &copy;
-          2014&dash;2019          Harry Stern
- | <a href="https://harrystern.net/feeds/all.atom.xml">Atom feed</a>        </span>
+          2014&dash;2021          Harry Stern
+ | <a href="https://harrystern.net/feeds/all.atom.xml">Atom feed</a> | <a href="https://harrystern.net/feeds/all.rss.xml">RSS feed</a>        </span>
       </div>
     </footer>
 

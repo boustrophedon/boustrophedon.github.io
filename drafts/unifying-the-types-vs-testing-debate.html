@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Unifying the Types vs Testing debate &ndash; recycled math</title>
+
+    <!-- Meta -->
+    <meta name="description" content="recycled math &ndash; ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Social -->
+    <meta property="article:author" content="Harry Stern" />
+    <meta property="article:section" content="drafts" />
+    <meta property="article:published_time" content="9999-12-31" />
+
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Unifying the Types vs Testing debate"/>
+    <meta property="og:description" content="after watching a cpp talk about how unit testing mimics the modern scientific method in that we don&#39;t try and prove things true, we try and invalidate the null hypothesis (i.e. show the lack of a bug), I realized this is related to the classic &#34;types vs testing&#34; debate …"/>
+    <meta property="og:site_name" content="recycled math" />
+    <meta property="og:url" content="https://harrystern.net/drafts/unifying-the-types-vs-testing-debate.html"/>
+
+
+    <!-- Feed -->
+    <link rel="alternate" type="application/atom+xml" href="https://harrystern.net/feeds/all.atom.xml" title="recycled math Atom Feed" />
+    <link rel="alternate" type="application/rss+xml" href="https://harrystern.net/feeds/all.rss.xml" title="recycled math RSS Feed" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:regular,bold">
+    <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/pygments-highlight-github.css">
+
+    <!-- Icon -->
+
+  </head>
+
+  <body>
+    <div class="header-box">
+      <header id="header">
+	    <a href="https://harrystern.net" id="site-title"> recycled math </a>
+        <nav id="header-menu">
+          <ul>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/archive.html">Archive</a></li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+
+
+
+    <br><br>
+
+    <article>
+      <header class="col-main">
+        <h1>Unifying the Types vs Testing debate</h1>
+        <div class="post-info">
+          <div class="" style="flex-grow: 1;">
+            <span><time datetime="9999-12-31T23:59:59.999999-04:56"></time> in <a href="https://harrystern.net/category/drafts.html" title="All articles in category drafts">drafts</a></span>
+   	  <span> - 2 min </span>
+          </div>
+        </div>
+      </header>
+
+      <br>
+
+
+      <div class="col-main">
+        <section id="content">
+          <p>after watching a cpp talk about how unit testing mimics the modern scientific method in that we don't try and prove things true, we try and invalidate the null hypothesis (i.e. show the lack of a bug), I realized this is related to the classic "types vs testing" debate.</p>
+<p>Per the <a href="https://en.wikipedia.org/wiki/Curry%E2%80%93Howard_correspondence">Curry-Howard correspondence</a>, types are essentially theorems, statements about objects, and the code we write is a "proof" for that theorem (by construction).</p>
+<p>Similarly, when we do an experiment (or write a test), really we want to state a theorem about the physical world: "light travels at a certain speed in a vacuum", but we can't prove that theorem, so we are forced to resort to testing that our expectations match reality by doing an experiment, e.g. via <a href="https://en.wikipedia.org/wiki/Fizeau%E2%80%93Foucault_apparatus">a Fizeau–Foucault apparatus</a>.</p>
+<p>However, like writing a unit test with specific values, this only tells us about the behavior of the system in this specific, controlled instance.</p>
+<p>So the conclusion here is that just like in the real world, we have both proofs and experiments: For things that we can write proofs (types) for, we should, and for everything else we do experiments (tests) to validate our theories.</p>
+<p>What this says to me though, is that because computers are mostly mathematical systems, we should strive as much as possible to encode logic into the type system, because proofs are stronger than experiments.</p>
+        </section>
+
+      </div>
+    </article>
+
+
+    <footer id="footer">
+      <div id="footer-copyright" class="">
+        <span>
+          &copy;
+          2014&dash;2021          Harry Stern
+ | <a href="https://harrystern.net/feeds/all.atom.xml">Atom feed</a> | <a href="https://harrystern.net/feeds/all.rss.xml">RSS feed</a>        </span>
+      </div>
+    </footer>
+
+  </body>
+</html>

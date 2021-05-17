@@ -23,10 +23,10 @@
 
     <!-- Feed -->
     <link rel="alternate" type="application/atom+xml" href="https://harrystern.net/feeds/all.atom.xml" title="recycled math Atom Feed" />
+    <link rel="alternate" type="application/rss+xml" href="https://harrystern.net/feeds/all.rss.xml" title="recycled math RSS Feed" />
 
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:regular,bold">
-    <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/w3.css">
     <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/style.css">
     <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/pygments-highlight-github.css">
 
@@ -35,13 +35,13 @@
   </head>
 
   <body>
-    <div class="w3-row w3-card w3-white">
+    <div class="header-box">
       <header id="header">
-	      <a href="https://harrystern.net" id="site-title"> recycled math </a>
+	    <a href="https://harrystern.net" id="site-title"> recycled math </a>
         <nav id="header-menu">
           <ul>
-            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/about.html">About</a></li>
-            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/archive.html">Archive</a></li>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/archive.html">Archive</a></li>
           </ul>
         </nav>
       </header>
@@ -49,62 +49,39 @@
 
 
 
-    <br><br><br>
+    <br><br>
 
     <article>
-      <header class="w3-container col-main">
+      <header class="col-main">
         <h1>First Post</h1>
         <div class="post-info">
-          <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+          <div class="" style="flex-grow: 1;">
             <span><time datetime="2014-06-03T00:00:00-04:00">Tue 03 June 2014</time> in <a href="https://harrystern.net/category/misc.html" title="All articles in category misc">misc</a></span>
    	  <span> - 1 min </span>
           </div>
-
         </div>
       </header>
 
       <br>
 
 
-      <div class="col-main w3-container">
+      <div class="col-main">
         <section id="content">
           <p>I've had several blogs over the years but I never really managed to consistently update one. The reason why I started this one is sort of stupid. I want to keep my streak on github, but I also want to spend time reading/learning computer graphics. However, I know that some days if I spend them reading I won't write any code, so the purpose of this blog is to make me actually learn something when I don't write code by forcing me to write about what I learned in order to keep the streak.</p>
 <p>I'm not sure if this is a good idea. Regardless, it was also a chance to set up my github.io page. I'm using pelican because it was easier to install on arch than jekyll since I already had pip installed and didn't feel like figuring out rubygems. </p>
 <p>Oh I forgot about the name. The css is fucked right now and I might just change the theme completely, but it is "Pro-cantabrigian hypsidolichocephalism", which are just two random words I picked from /usr/share/dict/words. It doesn't mean anything. Well, technically the words have a meaning but it's not important.</p>
         </section>
 
-        <br><br><br>
-
-        <footer>
-          <div class="adjust-width">
-            <div id="author-block" class="w3-light-grey w3-border">
-              <div id="author-info">
-		      <a href="https://harrystern.net"><img style="width: 60px; height: 60px;" src="https://avatars.githubusercontent.com/u/936147?s=240" alt="Avatar"></a>
-                <div style="margin-left: 20px; margin-top: 15px;">
-                  <a href="https://harrystern.net"><span id="author-name" class="w3-hover-text-dark-grey">Harry Stern</span></a>
-                  <p id="author-story">
-I'm a recent graduate of Rutgers University with degrees in math and computer science. Geometry, rendering, and topology are my favorite topics. I want to get better at data science and machine learning and their relationship with geometry and topology.
-</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <br><br><br>
-
-
-
-        </footer>
       </div>
     </article>
 
 
     <footer id="footer">
-      <div id="footer-copyright" class="w3-center w3-small w3-text-grey w3-padding-48">
+      <div id="footer-copyright" class="">
         <span>
           &copy;
-          2014&dash;2019          Harry Stern
- | <a href="https://harrystern.net/feeds/all.atom.xml">Atom feed</a>        </span>
+          2014&dash;2021          Harry Stern
+ | <a href="https://harrystern.net/feeds/all.atom.xml">Atom feed</a> | <a href="https://harrystern.net/feeds/all.rss.xml">RSS feed</a>        </span>
       </div>
     </footer>
 

@@ -20,10 +20,10 @@
 
     <!-- Feed -->
     <link rel="alternate" type="application/atom+xml" href="https://harrystern.net/feeds/all.atom.xml" title="recycled math Atom Feed" />
+    <link rel="alternate" type="application/rss+xml" href="https://harrystern.net/feeds/all.rss.xml" title="recycled math RSS Feed" />
 
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:regular,bold">
-    <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/w3.css">
     <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/style.css">
     <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/pygments-highlight-github.css">
 
@@ -32,13 +32,13 @@
   </head>
 
   <body>
-    <div class="w3-row w3-card w3-white">
+    <div class="header-box">
       <header id="header">
-	      <a href="https://harrystern.net" id="site-title"> recycled math </a>
+	    <a href="https://harrystern.net" id="site-title"> recycled math </a>
         <nav id="header-menu">
           <ul>
-            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/about.html">About</a></li>
-            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/archive.html">Archive</a></li>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/archive.html">Archive</a></li>
           </ul>
         </nav>
       </header>
@@ -47,7 +47,7 @@
 
     <br><br><br>
 
-    <div class="w3-container col-main w3-center">
+    <div class="col-main">
       <h2>Articles by Harry Stern</h2>
       <br>
       <a href="https://harrystern.net/author/harry-stern.html" style="display: flex; align-items: center; justify-content: center;"><img style="width: 50px; height: 50px;" src="https://avatars.githubusercontent.com/u/936147?s=240"></a>
@@ -58,55 +58,11 @@
     <br><br><br>
 
     <section id="listing">
-      <article class="w3-container w3-card-2 w3-white col-main">
-        <header>
-          <h2><a href="https://harrystern.net/okrs-are-tdd.html">OKRs are just TDD for project management: "Measure What Matters" by John Doerr</a></h2>
-          <div class="post-info">
-            <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
-              <span><time datetime="2018-06-18T00:00:00-04:00">Mon 18 June 2018</time> in <a href="https://harrystern.net/category/book-reviews.html" title="All articles in category Book Reviews">Book Reviews</a></span> 
-	      <span> - 7 min </span>
-            </div>
-          </div>
-        </header>
-
-        <div class="entry-content">
-          I've been reading "Measure What Matters" by John Doerr, which is about OKRs and how to use them, and realized while reading the book that OKRs are similar to TDD. Also, there's a rant about how YouTube doesn't know what it's doing.
-        </div>
-
-        <footer>
-          <a class="w3-btn w3-green w3-right" href="https://harrystern.net/okrs-are-tdd.html">Read &#10093;</a>
-        </footer>
-      </article>
-
-      <br><br><br>
-
-      <article class="w3-container w3-card-2 w3-white col-main">
-        <header>
-          <h2><a href="https://harrystern.net/a-new-start.html">A New Start</a></h2>
-          <div class="post-info">
-            <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
-              <span><time datetime="2018-06-17T00:00:00-04:00">Sun 17 June 2018</time> in <a href="https://harrystern.net/category/self.html" title="All articles in category Self">Self</a></span> 
-	      <span> - 2 min </span>
-            </div>
-          </div>
-        </header>
-
-        <div class="entry-content">
-          I haven't used this blog in about 3 years but I finally graduated and I'm spending the summer working on stuff I want to work on. Hopefully I'm going to use this to talk about the stuff I've been working on. The pelican theme is new (you can find it …
-        </div>
-
-        <footer>
-          <a class="w3-btn w3-green w3-right" href="https://harrystern.net/a-new-start.html">Read &#10093;</a>
-        </footer>
-      </article>
-
-      <br><br><br>
-
-      <article class="w3-container w3-card-2 w3-white col-main">
+      <article class="col-main">
         <header>
           <h2><a href="https://harrystern.net/how-im-deploying-dart-server-code-on-digitalocean.html">How I'm deploying Dart server code on DigitalOcean</a></h2>
           <div class="post-info">
-            <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+            <div class="" style="flex-grow: 1;">
               <span><time datetime="2015-03-04T00:00:00-05:00">Wed 04 March 2015</time> in <a href="https://harrystern.net/category/system-administration.html" title="All articles in category System Administration">System Administration</a></span> 
 	      <span> - 6 min </span>
             </div>
@@ -116,19 +72,15 @@
         <div class="entry-content">
           NOTE: this post was written in 2015 and much of the dart-specific stuff does not necessarily apply anymore So I finally started to work on my multiplayer breakout clone in dart that I've been meaning to do forever. It's moderately functional now. This post is how I am deploying the …
         </div>
-
-        <footer>
-          <a class="w3-btn w3-green w3-right" href="https://harrystern.net/how-im-deploying-dart-server-code-on-digitalocean.html">Read &#10093;</a>
-        </footer>
       </article>
 
       <br><br><br>
 
-      <article class="w3-container w3-card-2 w3-white col-main">
+      <article class="col-main">
         <header>
           <h2><a href="https://harrystern.net/how-to-make-daily-backups-with-rdiff-backup-and-systemd.html">How to make daily backups with rdiff-backup and systemd</a></h2>
           <div class="post-info">
-            <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+            <div class="" style="flex-grow: 1;">
               <span><time datetime="2014-09-12T00:00:00-04:00">Fri 12 September 2014</time> in <a href="https://harrystern.net/category/system-administration.html" title="All articles in category System Administration">System Administration</a></span> 
 	      <span> - 4 min </span>
             </div>
@@ -138,19 +90,15 @@
         <div class="entry-content">
           The other day I was talking to one of my friends and he mentioned how he lost a hard drive recently and consequently all of his stuff. I realized that, although I had bought a backup hard drive a little while ago, I hadn't done more than a couple backups …
         </div>
-
-        <footer>
-          <a class="w3-btn w3-green w3-right" href="https://harrystern.net/how-to-make-daily-backups-with-rdiff-backup-and-systemd.html">Read &#10093;</a>
-        </footer>
       </article>
 
       <br><br><br>
 
-      <article class="w3-container w3-card-2 w3-white col-main">
+      <article class="col-main">
         <header>
           <h2><a href="https://harrystern.net/this-will-make-some-people-mad.html">This will make some people mad</a></h2>
           <div class="post-info">
-            <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+            <div class="" style="flex-grow: 1;">
               <span><time datetime="2014-09-12T00:00:00-04:00">Fri 12 September 2014</time> in <a href="https://harrystern.net/category/dart.html" title="All articles in category Dart">Dart</a></span> 
 	      <span> - 2 min </span>
             </div>
@@ -160,19 +108,15 @@
         <div class="entry-content">
           In the shower today I came up with a pretty good metaphor for javascript vs. dart. You live in a desert. It is a no-fun, boring place. One day, someone from the Eich Construction Co. decides to make a playground. However, instead of a playground they end up making a …
         </div>
-
-        <footer>
-          <a class="w3-btn w3-green w3-right" href="https://harrystern.net/this-will-make-some-people-mad.html">Read &#10093;</a>
-        </footer>
       </article>
 
       <br><br><br>
 
-      <article class="w3-container w3-card-2 w3-white col-main">
+      <article class="col-main">
         <header>
           <h2><a href="https://harrystern.net/i-went-to-an-igda-nj-meetup-and-it-was-cool.html">I went to an IGDA NJ meetup and it was cool</a></h2>
           <div class="post-info">
-            <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+            <div class="" style="flex-grow: 1;">
               <span><time datetime="2014-07-03T00:00:00-04:00">Thu 03 July 2014</time> in <a href="https://harrystern.net/category/cogs.html" title="All articles in category COGS">COGS</a></span> 
 	      <span> - 2 min </span>
             </div>
@@ -182,19 +126,15 @@
         <div class="entry-content">
           Yesterday, July 1st, I went to the IGDA NJ arcade demo meetup thing instead of studying for my differential equations final on the 2nd. didn't do too well, oops. However, there were cool people there and there were some surprisingly cool games. More importantly, I talked to a few people …
         </div>
-
-        <footer>
-          <a class="w3-btn w3-green w3-right" href="https://harrystern.net/i-went-to-an-igda-nj-meetup-and-it-was-cool.html">Read &#10093;</a>
-        </footer>
       </article>
 
       <br><br><br>
 
-      <article class="w3-container w3-card-2 w3-white col-main">
+      <article class="col-main">
         <header>
           <h2><a href="https://harrystern.net/more-thoughts-on-cogs.html">More thoughts on COGS</a></h2>
           <div class="post-info">
-            <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+            <div class="" style="flex-grow: 1;">
               <span><time datetime="2014-07-03T00:00:00-04:00">Thu 03 July 2014</time> in <a href="https://harrystern.net/category/cogs.html" title="All articles in category COGS">COGS</a></span> 
 	      <span> - 3 min </span>
             </div>
@@ -204,19 +144,15 @@
         <div class="entry-content">
           I put the last post on the COGS Facebook group and Andrew made some good points, and I talked to V and Billy and they made similar points (those two also gave me other ideas which I will talk about later in this post). Basically, making a game that's big …
         </div>
-
-        <footer>
-          <a class="w3-btn w3-green w3-right" href="https://harrystern.net/more-thoughts-on-cogs.html">Read &#10093;</a>
-        </footer>
       </article>
 
       <br><br><br>
 
-      <article class="w3-container w3-card-2 w3-white col-main">
+      <article class="col-main">
         <header>
           <h2><a href="https://harrystern.net/thoughts-on-what-cogs-should-be.html">Thoughts on what COGS should be</a></h2>
           <div class="post-info">
-            <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+            <div class="" style="flex-grow: 1;">
               <span><time datetime="2014-07-03T00:00:00-04:00">Thu 03 July 2014</time> in <a href="https://harrystern.net/category/cogs.html" title="All articles in category COGS">COGS</a></span> 
 	      <span> - 2 min </span>
             </div>
@@ -226,19 +162,15 @@
         <div class="entry-content">
           COGS (domain is new so it might not work yet) is the game development club I co-founded with some people at Rutgers. It used to be an informal seminar run by Lars and some other people based on a former professor's notes from a seminar class. The problem I was …
         </div>
-
-        <footer>
-          <a class="w3-btn w3-green w3-right" href="https://harrystern.net/thoughts-on-what-cogs-should-be.html">Read &#10093;</a>
-        </footer>
       </article>
 
       <br><br><br>
 
-      <article class="w3-container w3-card-2 w3-white col-main">
+      <article class="col-main">
         <header>
           <h2><a href="https://harrystern.net/convolution.html">Convolution</a></h2>
           <div class="post-info">
-            <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+            <div class="" style="flex-grow: 1;">
               <span><time datetime="2014-06-09T00:00:00-04:00">Mon 09 June 2014</time> in <a href="https://harrystern.net/category/signal-processing.html" title="All articles in category Signal Processing">Signal Processing</a></span> 
 	      <span> - 3 min </span>
             </div>
@@ -248,19 +180,15 @@
         <div class="entry-content">
           So I'm reading the chapter "Signals and Systems" in PDIS, and since I took Professor Goodman's DSP course a lot of the material is familiar to me, but presented in a different way or context. It's very neat to see things presented in a slightly unfamiliar way and then realize …
         </div>
-
-        <footer>
-          <a class="w3-btn w3-green w3-right" href="https://harrystern.net/convolution.html">Read &#10093;</a>
-        </footer>
       </article>
 
       <br><br><br>
 
-      <article class="w3-container w3-card-2 w3-white col-main">
+      <article class="col-main">
         <header>
           <h2><a href="https://harrystern.net/principles-of-digital-image-synthesis.html">Principles of Digital Image Synthesis</a></h2>
           <div class="post-info">
-            <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+            <div class="" style="flex-grow: 1;">
               <span><time datetime="2014-06-04T00:00:00-04:00">Wed 04 June 2014</time> in <a href="https://harrystern.net/category/computer-graphics.html" title="All articles in category Computer Graphics">Computer Graphics</a></span> 
 	      <span> - 3 min </span>
             </div>
@@ -270,33 +198,39 @@
         <div class="entry-content">
           So one of the things I'm doing this summer is reading Principles of Digital Image Synthesis by Andrew Glassner. It's from 1995 which makes it almost 20 years old, but the fundamental mathematics don't change and it's quite comprehensive. I found it released freely here It starts with "The Human …
         </div>
+      </article>
 
-        <footer>
-          <a class="w3-btn w3-green w3-right" href="https://harrystern.net/principles-of-digital-image-synthesis.html">Read &#10093;</a>
-        </footer>
+      <br><br><br>
+
+      <article class="col-main">
+        <header>
+          <h2><a href="https://harrystern.net/first-post.html">First Post</a></h2>
+          <div class="post-info">
+            <div class="" style="flex-grow: 1;">
+              <span><time datetime="2014-06-03T00:00:00-04:00">Tue 03 June 2014</time> in <a href="https://harrystern.net/category/misc.html" title="All articles in category misc">misc</a></span> 
+	      <span> - 1 min </span>
+            </div>
+          </div>
+        </header>
+
+        <div class="entry-content">
+          I've had several blogs over the years but I never really managed to consistently update one. The reason why I started this one is sort of stupid. I want to keep my streak on github, but I also want to spend time reading/learning computer graphics. However, I know that …
+        </div>
       </article>
 
       <br><br><br>
 
 
-      <div class="w3-center">
-        <ul class="w3-pagination">
-          <li><a class="w3-green" href="https://harrystern.net/author/harry-stern.html">1</a></li>
-          <li><a class="" href="https://harrystern.net/author/harry-stern2.html">2</a></li>
-          <li><a href="https://harrystern.net/author/harry-stern2.html">&#10095;</a></li>
-        </ul>
-      </div>
-      <br><br><br>
 
     </section>
 
 
     <footer id="footer">
-      <div id="footer-copyright" class="w3-center w3-small w3-text-grey w3-padding-48">
+      <div id="footer-copyright" class="">
         <span>
           &copy;
-          2014&dash;2019          Harry Stern
- | <a href="https://harrystern.net/feeds/all.atom.xml">Atom feed</a>        </span>
+          2014&dash;2021          Harry Stern
+ | <a href="https://harrystern.net/feeds/all.atom.xml">Atom feed</a> | <a href="https://harrystern.net/feeds/all.rss.xml">RSS feed</a>        </span>
       </div>
     </footer>
 

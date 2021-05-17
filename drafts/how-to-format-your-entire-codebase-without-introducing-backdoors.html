@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>How to format your entire codebase without introducing backdoors &ndash; recycled math</title>
+
+    <!-- Meta -->
+    <meta name="description" content="recycled math &ndash; ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Social -->
+    <meta property="article:author" content="Harry Stern" />
+    <meta property="article:section" content="Programming" />
+    <meta property="article:published_time" content="2021-05-14" />
+
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="How to format your entire codebase without introducing backdoors"/>
+    <meta property="og:description" content="When working on legacy code with many developers, it&#39;s pretty common for someone to suggest running a code formatter on the whole codebase. Even small code formatting changes often get called out in code review for making the code harder to review. Why don&#39;t we automatically format our code? The …"/>
+    <meta property="og:site_name" content="recycled math" />
+    <meta property="og:url" content="https://harrystern.net/drafts/how-to-format-your-entire-codebase-without-introducing-backdoors.html"/>
+
+
+    <!-- Feed -->
+    <link rel="alternate" type="application/atom+xml" href="https://harrystern.net/feeds/all.atom.xml" title="recycled math Atom Feed" />
+    <link rel="alternate" type="application/rss+xml" href="https://harrystern.net/feeds/all.rss.xml" title="recycled math RSS Feed" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:regular,bold">
+    <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/pygments-highlight-github.css">
+
+    <!-- Icon -->
+
+  </head>
+
+  <body>
+    <div class="header-box">
+      <header id="header">
+	    <a href="https://harrystern.net" id="site-title"> recycled math </a>
+        <nav id="header-menu">
+          <ul>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/archive.html">Archive</a></li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+
+
+
+    <br><br>
+
+    <article>
+      <header class="col-main">
+        <h1>How to format your entire codebase without introducing backdoors</h1>
+        <div class="post-info">
+          <div class="" style="flex-grow: 1;">
+            <span><time datetime="2021-05-14T00:00:00-04:00">Fri 14 May 2021</time> in <a href="https://harrystern.net/category/programming.html" title="All articles in category Programming">Programming</a></span>
+   	  <span> - 5 min </span>
+          </div>
+        </div>
+      </header>
+
+      <br>
+
+
+      <div class="col-main">
+        <section id="content">
+          <p>When working on legacy code with many developers, it's pretty common for someone to suggest running a code formatter on the whole codebase. Even small code formatting changes often get called out in code review for making the code harder to review. Why don't we automatically format our code?</p>
+<p>The fundamental reason why this is a problem is that it's basically impossible to review the changes since they're likely to hit every file in your codebase. It would be very easy to introduce, for example, a hidden backdoor, and you also can't verify if, due to configuration differences, the formatting simply isn't as agreed upon without further systems in place.</p>
+<p>So how do we take a codebase without consistent style and make it pretty?</p>
+<h2>Step 0: Make a decision as a team to format the code</h2>
+<p>If you're working as a team (if you're the sole owner of your code presumably you can trust yourself to not introduce backdoors) you need to agree on what code style and formatter you're going to use. Try not to bikeshed too much and use the defaults your particular tool has.</p>
+<h2>Step 1: Make sure that code formatting is required on all future commits.</h2>
+<p>You must have an automated step in your review process or build pipeline to check that the code is formatted properly. If you don't do this, you'll eventually end up where you started: inconsistent formatting, unreadable test names, and needless clashes over style in code review.</p>
+<p>You may be able to enable this prior to actually formatting the rest of the codebase if your tool is able to process only diffs, but if not you will need to enable it immediately after committing the formatted code.</p>
+<p>In fact, <strong>you may be able to stop here!</strong> If you trust your CI system, it may be sufficient to post the code review and have your reviewers note that it passed the formatting check in your pipeline. If it isn't possible to do this or you would like to have more confidence, keep reading.</p>
+<h2>Step 2: Document the steps you will take to format the code</h2>
+<p>This may be as simple as "run command X in the root of the repository" or an entire script. Be sure to include any configuration files for the formatter! This should be pretty easy, as it should be the same as your automated system's setup.</p>
+<h2>Step 3: The Formatting Ceremony</h2>
+<p>This is the interesting part.</p>
+<p>Similar to a <a href="https://en.wikipedia.org/wiki/Key_signing_party">key-signing party</a> or the <a href="https://www.cloudflare.com/dns/dnssec/root-signing-ceremony/">Root DNS key signing ceremony</a>, decide as a team who you trust to make the changes, have them gather in a room (or use pre-shared gpg keys to sign the commits if you are fully remote), and have them all run the same steps to format the code.</p>
+<p>Then, by sharing the code (pushing separate branches to a shared repository, transferring via USB drive, or carrier pigeon), have each member diff their formatted code against the others' and check that there are no deviations. If you're remote, make sure to check the signatures on each commit with <code>git log --show-signature</code>.</p>
+<p>If everything checks out, pick someone at random to send out the pull request and have the other ceremony participants sign off after checking the commit id (and signature) matches the ones checked locally, hopefully in addition to the newly-added automated formatting check.</p>
+<h2>Remaining issues and alternative solutions</h2>
+<p>The biggest issue with a large formatting commit is that the output of <code>git blame</code> and to a lesser extent <code>git log</code> are obscured. Because your formatter will very likely touch a large percentage of the lines in your codebase, running <code>git blame</code> will show you the formatting commit as the most recent commit, instead of actual code changes, on most lines.</p>
+<p>There's a <a href="https://www.moxio.com/blog/43/ignoring-bulk-change-commits-with-git-blame">good article</a> describing a relatively recent feature of git which lets you configure a file (or command line parameter) listing commits that git blame should ignore. As noted in the article, most tools, like GitHub and GitLab, do not support this feature yet.</p>
+<p>Also, there may be a way to streamline the verification process if you're meeting physically in the same place, by doing some kind of variant of the <a href="https://en.wikipedia.org/wiki/Zimmermann%E2%80%93Sassaman_key-signing_protocol">Zimmermann-Sassaman key-signing protocol</a> used at key-signing parties.</p>
+<h3>An alternative and gradual but more annoying solution</h3>
+<p>There is an alternate, but more annoying way to make these changes without a single big commit, and without obscuring the git blame.</p>
+<p>You can run the code formatter per-diff, only on the code that has been changed. As your codebase is worked on, it will gradually be formatted. This can work if it's constantly under change, you have a lot of large commits and rewrites, or your codebase is mostly pretty clean and you just want to enforce the standard for new code only. There are cases where this will not work, if for example you want to change indentation style in Python or if your formatting style requires a specific method/class/variable naming convention and your commits do not touch all uses of the name.</p>
+<p>The main downside of this method is that your codebase becomes partially-formatted, which may make it more unreadable than it was before.</p>
+<p>The other downside of doing the formatting partially is that if you want to make this process automated, your formatter has to be able to work on diffs, which is not a particularly common feature. You may have to format the entire file and then use features of <code>git add</code> to only add the specific lines you want, which is annoying.</p>
+<h2>Summary</h2>
+<ul>
+<li>Agree to require code formatting on all commits</li>
+<li>Make it automated</li>
+<li>Gather trusted people in a room, or have them exchange gpg keys over a trusted channel if remote</li>
+<li>Everyone runs the same steps to format the code, exchanges the resulting commits, and verifies that</li>
+<li>The commits are all the same</li>
+<li>The signatures match (if working remotely)</li>
+<li>Randomly choose someone to push the code for review</li>
+<li>Everyone again verifies the code in the review matches their own diff, and approves the code</li>
+<li>Enable a formatting check in your CI pipeline / code review tool</li>
+<li>Use <code>git config blame.ignoreRevsFile</code> with a file that contains the formatting commit id to ignore it in <code>git blame</code></li>
+</ul>
+<p>I honestly don't know how many projects this is actually useful for: it's mostly written to try and convince my coworkers to do it for our codebase. I think you would get objections to doing this if you were even a mildly popular open source project.</p>
+<p>I'd love to hear about alternate methods to do this, or if you've successfully done something similar in your own codebase as a datapoint for implementing it at work. </p>
+        </section>
+
+      </div>
+    </article>
+
+
+    <footer id="footer">
+      <div id="footer-copyright" class="">
+        <span>
+          &copy;
+          2014&dash;2021          Harry Stern
+ | <a href="https://harrystern.net/feeds/all.atom.xml">Atom feed</a> | <a href="https://harrystern.net/feeds/all.rss.xml">RSS feed</a>        </span>
+      </div>
+    </footer>
+
+  </body>
+</html>

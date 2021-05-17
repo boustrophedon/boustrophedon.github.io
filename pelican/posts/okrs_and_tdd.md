@@ -3,7 +3,8 @@ Category: Book Reviews
 Tags: OKRs, TDD, project management, book review
 Date: 2018-06-18
 Slug: okrs-are-tdd
-Summary: I've been reading "Measure What Matters" by John Doerr, which is about OKRs and how to use them, and realized while reading the book that OKRs are similar to TDD. Also, there's a rant about how YouTube doesn't know what it's doing.
+Summary: I've been reading "Measure What Matters" by John Doerr, which is about OKRs and how to use them, and realized while reading the book that OKRs are similar to TDD.
+Status: draft
 
 # Overview
 
@@ -11,7 +12,7 @@ I've been reading "Measure What Matters" by John Doerr, which is about using [OK
 
 The book is written in a very business-school textbook style, heavy with case studies. The first half's chapters explain how to use OKRs, and the second half describes "applications and implications for the new world of work" which I would just describe as "other related stuff". It's very well written, and the case studies are the right length to break up the more textbook-like sections without themselves being overly monotonous.
 
-Reading the book has definitely sold me on the usefulness of OKRs, whereas before I was kind of ambivalent on them. When I first encountered them as an intern at Google, they were only really half-explained - we were told what they were but not the why (or maybe we were and I just didn't pay attention!). Looking back, I definitely had better OKRs for my first internship than my second, which correlates with being more successful in my first internship than my second, though there were many reasons why my second internship was not successful.
+Reading the book has definitely sold me on the usefulness of OKRs, whereas before I was kind of ambivalent on them. When I first encountered them as an intern at Google, they were only really half-explained - we were told what they were but not the why (or maybe we were and I just didn't pay attention). Looking back, I definitely had better OKRs for my first internship than my second, which correlates with being more successful in my first internship than my second, though there were many reasons why my second internship was not successful.
 
 I actually now think this book, or at least the summary at the end, should be required reading if you're going to use OKRs. Although the core idea is simple, the book expands on the idea and consequences: setting your goals ambitiously (stretch), focusing and narrowing down your goals to something achievable (focus and commit), how to align OKRs up and down the organization (align and connect), how to grade OKRs (track for accountability).
 
@@ -26,8 +27,8 @@ Support company hiring.
 #### Key Results:
 
 1. Hire 1 director of finance and operations (talk to at least 3 candidates)
-2. Source 1 product marketing manager (meed with 5 candidates this quarter).
-3. Source 1 product manager (meed with 5 candidates this quarter).
+2. Source 1 product marketing manager (meet with 5 candidates this quarter).
+3. Source 1 product manager (meet with 5 candidates this quarter).
 
 # OKRs as TDD
 

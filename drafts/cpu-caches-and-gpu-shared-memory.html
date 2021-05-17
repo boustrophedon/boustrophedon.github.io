@@ -23,10 +23,10 @@
 
     <!-- Feed -->
     <link rel="alternate" type="application/atom+xml" href="https://harrystern.net/feeds/all.atom.xml" title="recycled math Atom Feed" />
+    <link rel="alternate" type="application/rss+xml" href="https://harrystern.net/feeds/all.rss.xml" title="recycled math RSS Feed" />
 
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:regular,bold">
-    <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/w3.css">
     <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/style.css">
     <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/pygments-highlight-github.css">
 
@@ -35,13 +35,13 @@
   </head>
 
   <body>
-    <div class="w3-row w3-card w3-white">
+    <div class="header-box">
       <header id="header">
-	      <a href="https://harrystern.net" id="site-title"> recycled math </a>
+	    <a href="https://harrystern.net" id="site-title"> recycled math </a>
         <nav id="header-menu">
           <ul>
-            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/about.html">About</a></li>
-            <li class="w3-bottombar w3-border-white w3-hover-border-green"><a href="/archive.html">Archive</a></li>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/archive.html">Archive</a></li>
           </ul>
         </nav>
       </header>
@@ -49,30 +49,15 @@
 
 
 
-    <br><br><br>
+    <br><br>
 
     <article>
-      <header class="w3-container col-main">
+      <header class="col-main">
         <h1>CPU caches and GPU shared memory</h1>
         <div class="post-info">
-          <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+          <div class="" style="flex-grow: 1;">
             <span><time datetime="2018-10-15T00:00:00-04:00">Mon 15 October 2018</time> in <a href="https://harrystern.net/category/drafts.html" title="All articles in category drafts">drafts</a></span>
    	  <span> - 1 min </span>
-          </div>
-
-          <div>
-            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
-              <a href="https://harrystern.net/tag/hardware.html" title="All articles with Hardware tag">Hardware</a>
-            </span>
-            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
-              <a href="https://harrystern.net/tag/caches.html" title="All articles with Caches tag">caches</a>
-            </span>
-            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
-              <a href="https://harrystern.net/tag/gpu.html" title="All articles with Gpu tag">GPU</a>
-            </span>
-            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
-              <a href="https://harrystern.net/tag/cuda.html" title="All articles with Cuda tag">CUDA</a>
-            </span>
           </div>
         </div>
       </header>
@@ -80,45 +65,23 @@
       <br>
 
 
-      <div class="col-main w3-container">
+      <div class="col-main">
         <section id="content">
           <p>I was watching <a href="https://www.youtube.com/watch?v=WDIkqP4JbkE">a Scott Meyers talk on CPU caches</a> and towards the very end I realized something: Managing per-block shared memory is simply manually managing a "L4" CPU cache. Linear memory access patterns are <a href="https://cvw.cac.cornell.edu/gpu/coalesced">coalesced</a> such that it mimics the effect of linearly traversing data in a cache line (and in fact, Meyers mentions that strided memory access is detected by modern CPUs and this is also the case for coalesced memory access), but at the end he also fielded a question about whether we can "pin cache lines", and the answer being kind of but you really don't want to.</p>
 <p>However, in GPU programming, this is effectively what shared memory is: in a given thread block, you perform a main memory access, load it into a cache, and keep it there for a given duration specifically to reduce latency when accessing that same information again. In fact, <a href="https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__DEVICE.html#group__CUDART__DEVICE_1g6c9cc78ca80490386cf593b4baa35a15">there are functions</a> that allow you to dynamically partition the size of the L1 cache and available shared memory for some (older, it seems) GPUs.  </p>
 <p>In fact, the CUDA best practices guide <a href="https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#shared-memory-in-matrix-multiplication-c-ab">specifically says</a> "This illustrates the use of the shared memory as a user-managed cache when the hardware L1 cache eviction policy does not match up well with the needs of the application or when L1 cache is not used for reads from global memory."</p>
         </section>
 
-        <br><br><br>
-
-        <footer>
-          <div class="adjust-width">
-            <div id="author-block" class="w3-light-grey w3-border">
-              <div id="author-info">
-		      <a href="https://harrystern.net"><img style="width: 60px; height: 60px;" src="https://avatars.githubusercontent.com/u/936147?s=240" alt="Avatar"></a>
-                <div style="margin-left: 20px; margin-top: 15px;">
-                  <a href="https://harrystern.net"><span id="author-name" class="w3-hover-text-dark-grey">Harry Stern</span></a>
-                  <p id="author-story">
-I'm a recent graduate of Rutgers University with degrees in math and computer science. Geometry, rendering, and topology are my favorite topics. I want to get better at data science and machine learning and their relationship with geometry and topology.
-</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <br><br><br>
-
-
-
-        </footer>
       </div>
     </article>
 
 
     <footer id="footer">
-      <div id="footer-copyright" class="w3-center w3-small w3-text-grey w3-padding-48">
+      <div id="footer-copyright" class="">
         <span>
           &copy;
-          2014&dash;2019          Harry Stern
- | <a href="https://harrystern.net/feeds/all.atom.xml">Atom feed</a>        </span>
+          2014&dash;2021          Harry Stern
+ | <a href="https://harrystern.net/feeds/all.atom.xml">Atom feed</a> | <a href="https://harrystern.net/feeds/all.rss.xml">RSS feed</a>        </span>
       </div>
     </footer>
 
