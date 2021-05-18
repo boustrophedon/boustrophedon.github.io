@@ -6,7 +6,7 @@ Status: draft
 
 When working on legacy code with many developers, it's pretty common for someone to suggest running a code formatter on the whole codebase. Even small code formatting changes often get called out in code review for making the code harder to review. Why don't we automatically format our code?
 
-The fundamental reason why this is a problem is that it's basically impossible to review the changes since they're likely to hit every file in your codebase. It would be very easy to introduce, for example, a hidden backdoor, and you also can't verify if, due to configuration differences, the formatting simply isn't as agreed upon without further systems in place.
+The fundamental problem is that it's virtually impossible to review the changes since they're likely to hit every file in your codebase. It would be very easy to introduce, for example, a hidden backdoor, and you also can't verify if, due to configuration differences, the formatting simply isn't as agreed upon without further systems in place.
 
 So how do we take a codebase without consistent style and make it pretty?
 
@@ -23,7 +23,9 @@ In fact, **you may be able to stop here!** If you trust your CI system, it may b
 
 ## Step 2: Document the steps you will take to format the code
 
-This may be as simple as "run command X in the root of the repository" or an entire script. Be sure to include any configuration files for the formatter! This should be pretty easy, as it should be the same as your automated system's setup.
+We want to write this document for two reasons: One, so that when new developers join your team they can set up their environment to use the same formatting, and two, so that the actions performed during step 3 below are clear to everyone.
+
+This may be as simple as writing "run command X in the root of the repository" in your project's README or adding a script to your existing build process. Be sure to include any configuration files required for the formatter! Common IDE configurations are also nice. This step should be pretty easy, because it should be the same as your automated system's setup.
 
 ## Step 3: The Formatting Ceremony
 
@@ -67,6 +69,9 @@ The other downside of doing the formatting partially is that if you want to make
 - Enable a formatting check in your CI pipeline / code review tool
 - Use `git config blame.ignoreRevsFile` with a file that contains the formatting commit id to ignore it in `git blame`
 
-I honestly don't know how many projects this is actually useful for: it's mostly written to try and convince my coworkers to do it for our codebase. I think you would get objections to doing this if you were even a mildly popular open source project.
+I honestly don't know how many projects this is actually useful for: it's mostly written to try to convince my coworkers to do it for our codebase. I think there would be objections to doing this on an even mildly popular open source project.
 
 I'd love to hear about alternate methods to do this, or if you've successfully done something similar in your own codebase as a datapoint for implementing it at work. 
+
+
+*Thank you Victor, Stan, and Pasha for reviewing drafts of this article.*
