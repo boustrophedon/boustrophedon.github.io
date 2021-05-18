@@ -2,7 +2,6 @@ Title: How to format your entire codebase without introducing backdoors
 Category: Programming
 Tags: trusting trust, programming, git
 Date: 2021-05-14
-Status: draft
 
 When working on legacy code with many developers, it's pretty common for someone to suggest running a code formatter on the whole codebase. Even small code formatting changes often get called out in code review for making the code harder to review. Why don't we automatically format our code?
 
