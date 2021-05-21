@@ -19,11 +19,15 @@ There are a million blog posts about "I made a ray tracer :)", so my focus in th
 
 You're probably better off just reading the descriptions from the property testing frameworks themselves, like [QuickCheck for Haskell](http://hackage.haskell.org/package/QuickCheck), [Hypothesis for Python](https://hypothesis.works/), or the one we'll be using, [Proptest for Rust](https://github.com/AltSysrq/proptest). In particular, there's a [very good explanation](https://hypothesis.works/articles/what-is-property-based-testing/) by the author of Hypothesis.
 
-You can think of property-testing as type-based fuzzing on steroids, but it's something a bit more. The basic idea is that instead of writing a specific, static test, where both the inputs and outputs are specified as constants, we test that given a class of inputs, the output satisfies a given property. As an example, code fuzzers like [afl](https://en.wikipedia.org/wiki/American_fuzzy_lop_(fuzzer)) can be thought of as simple property testers that test the property "does the program crash", but they generally have more sophisticated test-generation methods than property testing frameworks.
+You can think of property-testing as type-based fuzzing on steroids, but it's something a bit more. The basic idea is that instead of writing a specific, static test, where both the inputs and outputs are specified as constants, we test that given a class of inputs, the output satisfies a given property. As an example, code fuzzers like [afl](https://en.wikipedia.org/wiki/American_fuzzy_lop_(fuzzer)) can be thought of as simple property testers that test the property "does the program crash".
 
-Property testing frameworks allow us to easily write detailed, unit-test-level property tests, without using a generic code fuzzer. In particular, it's easy to combine different input generators to make new ones, and it takes care of doing much of the actual case generation for you. Proptest also has nice features like saving the failure case inputs to disk, and doing shrinking on failure cases to find simpler examples.
+Property testing frameworks allow us to easily write detailed, unit test-level property tests, without using a generic code fuzzer. In particular, it's easy to combine different input generators to make new ones, and it takes care of doing much of the actual case generation for you. Proptest also has nice features like saving the failure case inputs to disk, and doing shrinking on failure cases to find simpler examples.
 
-As an example, a traditional unit test for integer addition might be: "Given the inputs 2 and 2, assert that the output is 4.". This is a good, important test to have! It's a very basic sanity test. However, even ten or a hundred of these tests don't give that much confidence that the code is correct: the implementation could be a precomputed table or even an interpolation polynomial!
+## Addition: Traditional unit test vs property test
+
+As an example, a traditional unit test for integer addition might be: "Given the inputs 2 and 2, assert that the output is 4.". This is a good, important test to have! It's a very basic sanity test.
+
+As an extension, you might consider writing a test that combines *every combination* of integers. For 32 bit integers, there's only 2^64 combinations, 
 
 If we instead test the properties of the code, we get both a wider range of inputs and much more fine-grained detail when something goes wrong. As an example, for addition we might want to test the properties $a+0 = 0 + a = a$, $a+b = b+a$, $a+(b+c) = (a+b)+c$, and "if $a>0$ and $b>0$ then $a+b>0$".
 
