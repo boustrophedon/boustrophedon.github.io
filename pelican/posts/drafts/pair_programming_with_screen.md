@@ -71,6 +71,22 @@ You can just open `~/.screenrc` with your favorite text editor and add the lines
 
 Using `.screenrc` to manage access also makes it easier to use screen's advanced multiuser acl features, like enabling read-only access. See the man page for more information.
 
+## Summary
+
+Set up ssh access for your friend, and then you run:
+
+```
+screen -US example_name
+C-a :multiuser on
+C-a :acladd friends_username
+```
+
+Then your friend sshs in and runs
+
+```
+screen -Ux your_username/example_name
+```
+
 ## Credits
 
 I used [this page](https://wiki.networksecuritytoolkit.org/index.php/HowTo_Share_A_Terminal_Session_Using_Screen) to remind myself how to do this, and really the reason I wrote this post is so that I don't have to find that page or one like it in the future when I forget.

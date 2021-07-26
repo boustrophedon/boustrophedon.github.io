@@ -102,6 +102,17 @@
 <p>In order to make this process easier, you can put some commands in a <code>.screenrc</code> file so that you don't have to do the permissions setup each time. Depending on your security requirements and level of trust, this may or may not be viable in your personal situation. e.g. I would not necessarily do it on a shared university machine, but I don't see an issue doing it on a secure corporate cloud machine where only other developers <em>may</em> have ssh access.</p>
 <p>You can just open <code>~/.screenrc</code> with your favorite text editor and add the lines <code>multiuser on</code> and <code>acladd &lt;username&gt;</code> as we did in steps 2 and 3 above. Then all your screen sessions will be multiuser-enabled and available to join by anyone whom you've given access to via <code>acladd</code>.</p>
 <p>Using <code>.screenrc</code> to manage access also makes it easier to use screen's advanced multiuser acl features, like enabling read-only access. See the man page for more information.</p>
+<h2>Summary</h2>
+<p>Set up ssh access for your friend, and then you run:</p>
+<div class="highlight"><pre><span></span><code>screen -US example_name
+C-a :multiuser on
+C-a :acladd friends_username
+</code></pre></div>
+
+<p>Then your friend sshs in and runs</p>
+<div class="highlight"><pre><span></span><code>screen -Ux your_username/example_name
+</code></pre></div>
+
 <h2>Credits</h2>
 <p>I used <a href="https://wiki.networksecuritytoolkit.org/index.php/HowTo_Share_A_Terminal_Session_Using_Screen">this page</a> to remind myself how to do this, and really the reason I wrote this post is so that I don't have to find that page or one like it in the future when I forget.</p>
         </section>
