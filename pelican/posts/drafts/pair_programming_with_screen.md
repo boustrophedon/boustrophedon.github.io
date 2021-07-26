@@ -18,7 +18,7 @@ Why not. Maybe you don't like screensharing because your Spotify playlist is ful
 
 To make this work you need to have access to a shared computer that you can ssh into. You can set this up with a single user (requires less configuration but not always ideal or possible, especially in corporate environments), two existing users if you're on a corporate or educational network and you already have shared access to several machines, or you can make an extra "guest" user and generate ssh keys per-guest, giving you the ability to revoke access easily.
 
-In the first case (one user), you would just need to generate a new ssh key via something like `ssh-keygen -t ecdsa -C "pair programming key $(date +%F)"` and give your friend the public key. Then all they need to do is ssh to your machine and use `screen -x <sessionname>` to attach to your screen session, without doing the extra setup below.
+In the first case (one user), you would just need to generate a new ssh key via something like `ssh-keygen -t ecdsa -C "pair programming key $(date +%F)"`, add it to your user's `authorized_keys` file, and give your friend the public key. Then all they need to do is ssh to your machine (on the same user as you) and use `screen -x` to attach to your screen session, without doing the extra setup for multiuser below.
 
 Additionally, there is information on the internet about SELinux needing to be enabled but that doesn't seem to be the case on my desktop or server that I tested on. The screen binary also must be suid root but that was already the case on my server and desktop as well. I suspect both these issues may have been Ubuntu-specific.
 
