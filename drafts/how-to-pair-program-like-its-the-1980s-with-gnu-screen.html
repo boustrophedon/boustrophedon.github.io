@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>How to pair program like it's the 1980s (with GNU Screen) &ndash; recycled math</title>
+
+    <!-- Meta -->
+    <meta name="description" content="recycled math &ndash; ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Social -->
+    <meta property="article:author" content="Harry Stern" />
+    <meta property="article:section" content="drafts" />
+    <meta property="article:published_time" content="2021-07-26" />
+
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="How to pair program like it's the 1980s (with GNU Screen)"/>
+    <meta property="og:description" content="What we&#39;re doing Suppose you want to pair program with someone remotely. You could use one of several online in-browser services or IDE plugins, but if your environment is special or you need access to some resources behind a VPN, these solutions may not work for you. Screen is a …"/>
+    <meta property="og:site_name" content="recycled math" />
+    <meta property="og:url" content="https://harrystern.net/drafts/how-to-pair-program-like-its-the-1980s-with-gnu-screen.html"/>
+
+
+    <!-- Feed -->
+    <link rel="alternate" type="application/atom+xml" href="https://harrystern.net/feeds/all.atom.xml" title="recycled math Atom Feed" />
+    <link rel="alternate" type="application/rss+xml" href="https://harrystern.net/feeds/all.rss.xml" title="recycled math RSS Feed" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:regular,bold&display=swap">
+    <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://harrystern.net/theme/css/pygments-highlight-github.css">
+
+    <!-- Icon -->
+
+  </head>
+
+  <body>
+    <div class="header-box">
+      <header id="header">
+	    <a href="https://harrystern.net" id="site-title"> recycled math </a>
+        <nav id="header-menu">
+          <ul>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/archive.html">Archive</a></li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+
+
+
+    <br><br>
+
+    <article>
+      <header class="col-main">
+        <h1>How to pair program like it's the 1980s (with GNU Screen)</h1>
+        <div class="post-info">
+          <div class="" style="flex-grow: 1;">
+            <span><time datetime="2021-07-26T00:00:00-04:00">Mon 26 July 2021</time> in <a href="https://harrystern.net/category/drafts.html" title="All articles in category drafts">drafts</a></span>
+   	  <span> - 6 min </span>
+          </div>
+        </div>
+      </header>
+
+
+      <div class="col-main">
+        <section id="content">
+          <h2>What we're doing</h2>
+<p>Suppose you want to pair program with someone remotely. You could use one of several online in-browser services or IDE plugins, but if your environment is special or you need access to some resources behind a VPN, these solutions may not work for you.</p>
+<p>Screen is a tool originally from 1987 that allows you to run multiple terminals in one session. It's particularly useful on servers, where you can leave your session running after disconnecting in the same way that when you put your laptop to sleep, all your windows are still there when you open it back up. Tmux is a similar (but released 20 years later and so makes a less interesting title) program that's also popular.</p>
+<p>We're going to use screen's multiuser feature to share the same screen session across two ssh sessions, letting two people interact remotely with the same shell at the same time. You could pair program by having each person type alternating letters if you really wanted.</p>
+<h2>Why</h2>
+<p>Why not. Maybe you don't like screensharing because your Spotify playlist is full of Taylor Swift, or your OnlyFans notifications will give away your secret NASCAR hobby. Maybe you're actually swapping who's typing frequently. Maybe you can't program without your One True Vim Configuration.</p>
+<h2>Prerequisites setup</h2>
+<p>To make this work you need to have access to a shared computer that you can ssh into. You can set this up with a single user (requires less configuration but not always ideal or possible, especially in corporate environments), two existing users if you're on a corporate or educational network and you already have shared access to several machines, or you can make an extra "guest" user and generate ssh keys per-guest, giving you the ability to revoke access easily.</p>
+<p>In the first case (one user), you would just need to generate a new ssh key via something like <code>ssh-keygen -t ecdsa -C "pair programming key $(date +%F)"</code> and give your friend the public key. Then all they need to do is ssh to your machine and use <code>screen -x &lt;sessionname&gt;</code> to attach to your screen session, without doing the extra setup below.</p>
+<p>Additionally, there is information on the internet about SELinux needing to be enabled but that doesn't seem to be the case on my desktop or server that I tested on. The screen binary also must be suid root but that was already the case on my server and desktop as well. I suspect both these issues may have been Ubuntu-specific.</p>
+<h2>Screen basics</h2>
+<p>The most basic usage of screen is just to type <code>screen</code>, which creates a new session. You can then use <code>C-a c</code> to create a new  terminal, and <code>C-a a</code> to switch back to the previous one. You can use <code>C-a n</code> to go to the next in order and <code>C-a p</code> to go to the previous.</p>
+<p><code>C-a d</code> <em>detaches</em> the current screen, leaving all your terminals running and ready to be re-opened later. Note that if you put your laptop to sleep or shut your computer down, they will of course also pause or be terminated - it's not magic.</p>
+<p>To resume a session, from a terminal we can run <code>screen -r</code>.</p>
+<p>I typically run <code>screen -Udr</code> to resume a session, where the <code>-U</code> enables Unicode, and using <code>-dr</code> instead of just <code>-r</code> will detach other currently attached terminals. This is useful if you were attached via a laptop and want to attach from a different computer, or simply if you're lazy and don't want to find whatever other terminal is attached.</p>
+<h2>Execution</h2>
+<p>There are a few parts:</p>
+<ol>
+<li>We need to give our screen session a name so it's easy to join</li>
+<li>We need to enable multiuser mode so other users can join</li>
+<li>We need to give the specific user we want access to the session</li>
+<li>The other user needs to attach to the shared session</li>
+</ol>
+<p>Incidentally, the third point is why it may be easier to make a guest account for pair programming on your machine, because then you can give that guest account access permanently as we'll see later.</p>
+<h3>1. Naming a session</h3>
+<p>When starting a screen session, we can name it with the <code>-S &lt;sessionname&gt;</code> argument. Combined with the unicode flag above, it would look like <code>screen -US shared</code>, for example.</p>
+<h3>2. Enable multiuser mode</h3>
+<p>To enable multiuser mode, type <code>C-a :multiuser on</code>. Once you hit <code>:</code> after <code>C-a</code>, it will appear in the bottom left where the status messages appear, and as you type the rest it will show up there.</p>
+<h3>3. Give the other user access to the session</h3>
+<p>To give the other user access to our session, type <code>C-a :acladd &lt;username&gt;</code> where <code>&lt;username&gt;</code> is the name of the user's login on the machine, e.g. <code>guest</code> or <code>harrystern</code>.</p>
+<h3>4. Attaching to the shared session</h3>
+<p>Once your friend has sshed to your server, all they need to do to join your session is use the <code>-x &lt;user&gt;/&lt;sessionname&gt;</code> flag instead of <code>-r</code>. So as before with the <code>-U</code> flag, the full command would look something like <code>screen -Ux harrystern/shared</code>.</p>
+<p>They should now see whatever you see on your terminal, and vice-versa. Anything you or they type <em>in the same terminal</em> will be shared, but you can open separate terminals with <code>C-a c</code> and view and use them separately. That is, the terminals themselves are shared but displaying them are not - you can view and type in one while your friend works in another, and switch between them freely. You just need to be careful about not accidentally typing when you're in the same terminal as someone else when they're working.</p>
+<h2>Using <code>.screenrc</code> for streamlined shared access</h2>
+<p>In order to make this process easier, you can put some commands in a <code>.screenrc</code> file so that you don't have to do the permissions setup each time. Depending on your security requirements and level of trust, this may or may not be viable in your personal situation. e.g. I would not necessarily do it on a shared university machine, but I don't see an issue doing it on a secure corporate cloud machine where only other developers <em>may</em> have ssh access.</p>
+<p>You can just open <code>~/.screenrc</code> with your favorite text editor and add the lines <code>multiuser on</code> and <code>acladd &lt;username&gt;</code> as we did in steps 2 and 3 above. Then all your screen sessions will be multiuser-enabled and available to join by anyone whom you've given access to via <code>acladd</code>.</p>
+<p>Using <code>.screenrc</code> to manage access also makes it easier to use screen's advanced multiuser acl features, like enabling read-only access. See the man page for more information.</p>
+<h2>Credits</h2>
+<p>I used <a href="https://wiki.networksecuritytoolkit.org/index.php/HowTo_Share_A_Terminal_Session_Using_Screen">this page</a> to remind myself how to do this, and really the reason I wrote this post is so that I don't have to find that page or one like it in the future when I forget.</p>
+        </section>
+
+      </div>
+    </article>
+
+
+    <footer id="footer">
+      <div id="footer-copyright" class="">
+        <span>
+          &copy;
+          2014&dash;2021          Harry Stern
+ | <a href="https://harrystern.net/feeds/all.atom.xml">Atom feed</a> | <a href="https://harrystern.net/feeds/all.rss.xml">RSS feed</a>        </span>
+      </div>
+    </footer>
+
+  </body>
+</html>
