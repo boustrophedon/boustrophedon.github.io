@@ -1,5 +1,7 @@
 Title: How to pair program like it's the 1980s (with GNU Screen)
+Slug: pair-programming-with-screen
 Date: 2021-07-26
+Summary: How to use GNU Screen to pair program remotely.
 Status: Draft
 
 ## What we're doing
