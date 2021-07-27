@@ -67,14 +67,14 @@
         <section id="content">
           <h2>What we're doing</h2>
 <p>Suppose you want to pair program with someone remotely. You could use one of several online in-browser services or IDE plugins, but if your environment is special or you need access to some resources behind a VPN, these solutions may not work for you.</p>
-<p>Screen is a tool originally from 1987 that allows you to run multiple terminals in one session. It's particularly useful on servers, where you can leave your session running after disconnecting in the same way that when you put your laptop to sleep, all your windows are still there when you open it back up. Tmux is a similar (but released 20 years later and so makes a less interesting title) program that's also popular.</p>
+<p>Screen is a tool that allows you to run multiple terminals in one session. It's particularly useful on servers, where you can leave your session running after disconnecting in the same way that when you put your laptop to sleep, all your windows are still there when you open it back up. Tmux is a similar (but released 20 years later and so makes a less interesting title) program that's probably more popular, and also supports multiuser access but with less sophisticated access controls.</p>
 <p>We're going to use screen's multiuser feature to share the same screen session across two ssh sessions, letting two people interact remotely with the same shell at the same time. You could pair program by having each person type alternating letters if you really wanted.</p>
 <h2>Why</h2>
-<p>Why not. Maybe you don't like screensharing because your Spotify playlist is full of Taylor Swift, or your OnlyFans notifications will give away your secret NASCAR hobby. Maybe you're actually swapping who's typing frequently. Maybe you can't program without your One True Vim Configuration.</p>
+<p>Why not? Maybe you don't like screensharing because your Spotify playlist is full of Taylor Swift, or your OnlyFans notifications will give away your secret NASCAR hobby. Maybe you're actually swapping who's typing frequently. Maybe you can't program without your One True Vim Configuration.</p>
 <h2>Prerequisites setup</h2>
 <p>To make this work you need to have access to a shared computer that you can ssh into. You can set this up with a single user (requires less configuration but not always ideal or possible, especially in corporate environments), two existing users if you're on a corporate or educational network and you already have shared access to several machines, or you can make an extra "guest" user and generate ssh keys per-guest, giving you the ability to revoke access easily.</p>
 <p>In the first case (one user), you would just need to generate a new ssh key via something like <code>ssh-keygen -t ecdsa -C "pair programming key $(date +%F)"</code>, add it to your user's <code>authorized_keys</code> file, and give your friend the public key. Then all they need to do is ssh to your machine (on the same user as you) and use <code>screen -x</code> to attach to your screen session, without doing the extra setup for multiuser below.</p>
-<p>Additionally, there is information on the internet about SELinux needing to be enabled but that doesn't seem to be the case on my desktop or server that I tested on. The screen binary also must be suid root but that was already the case on my server and desktop as well. I suspect both these issues may have been Ubuntu-specific.</p>
+<p>Additionally, there is information on the internet about SELinux needing to be enabled but that doesn't seem to be the case on my desktop or server that I tested on. The screen binary also must be suid root but that was already the case on my server and desktop as well. I did encounter a non-suid-root screen binary on a work computer, but all you need to do to resolve that is <code>sudo chmod u+s `which screen` &amp;&amp; sudo chmod 755 /var/run/screen</code>.</p>
 <h2>Screen basics</h2>
 <p>The most basic usage of screen is just to type <code>screen</code>, which creates a new session. You can then use <code>C-a c</code> to create a new  terminal, and <code>C-a a</code> to switch back to the previous one. You can use <code>C-a n</code> to go to the next in order and <code>C-a p</code> to go to the previous.</p>
 <p><code>C-a d</code> <em>detaches</em> the current screen, leaving all your terminals running and ready to be re-opened later. Note that if you put your laptop to sleep or shut your computer down, they will of course also pause or be terminated - it's not magic.</p>
@@ -101,7 +101,7 @@
 <h2>Using <code>.screenrc</code> for streamlined shared access</h2>
 <p>In order to make this process easier, you can put some commands in a <code>.screenrc</code> file so that you don't have to do the permissions setup each time. Depending on your security requirements and level of trust, this may or may not be viable in your personal situation. e.g. I would not necessarily do it on a shared university machine, but I don't see an issue doing it on a secure corporate cloud machine where only other developers <em>may</em> have ssh access.</p>
 <p>You can just open <code>~/.screenrc</code> with your favorite text editor and add the lines <code>multiuser on</code> and <code>acladd &lt;username&gt;</code> as we did in steps 2 and 3 above. Then all your screen sessions will be multiuser-enabled and available to join by anyone whom you've given access to via <code>acladd</code>.</p>
-<p>Using <code>.screenrc</code> to manage access also makes it easier to use screen's advanced multiuser acl features, like enabling read-only access. See the man page for more information.</p>
+<p>Using <code>.screenrc</code> to manage access also makes it easier to use screen's advanced multiuser acl features, like enabling read-only access by using the <code>-w</code> flag on the <code>acladd</code> command. See the man page for more information.</p>
 <h2>Summary</h2>
 <p>Set up ssh access for your friend, and then you run:</p>
 <div class="highlight"><pre><span></span><code>screen -US example_name
@@ -114,7 +114,7 @@ C-a :acladd friends_username
 </code></pre></div>
 
 <h2>Credits</h2>
-<p>I used <a href="https://wiki.networksecuritytoolkit.org/index.php/HowTo_Share_A_Terminal_Session_Using_Screen">this page</a> to remind myself how to do this, and really the reason I wrote this post is so that I don't have to find that page or one like it in the future when I forget.</p>
+<p>I used <a href="https://wiki.networksecuritytoolkit.org/index.php/HowTo_Share_A_Terminal_Session_Using_Screen">this page</a> to remind myself how to do this, and really the reason I wrote this post is so that I don't have to find that page in the future when I forget.</p>
         </section>
 
       </div>

@@ -8,13 +8,13 @@ Status: Draft
 
 Suppose you want to pair program with someone remotely. You could use one of several online in-browser services or IDE plugins, but if your environment is special or you need access to some resources behind a VPN, these solutions may not work for you.
 
-Screen is a tool originally from 1987 that allows you to run multiple terminals in one session. It's particularly useful on servers, where you can leave your session running after disconnecting in the same way that when you put your laptop to sleep, all your windows are still there when you open it back up. Tmux is a similar (but released 20 years later and so makes a less interesting title) program that's also popular.
+Screen is a tool that allows you to run multiple terminals in one session. It's particularly useful on servers, where you can leave your session running after disconnecting in the same way that when you put your laptop to sleep, all your windows are still there when you open it back up. Tmux is a similar (but released 20 years later and so makes a less interesting title) program that's probably more popular, and also supports multiuser access but with less sophisticated access controls.
 
 We're going to use screen's multiuser feature to share the same screen session across two ssh sessions, letting two people interact remotely with the same shell at the same time. You could pair program by having each person type alternating letters if you really wanted.
 
 ## Why
 
-Why not. Maybe you don't like screensharing because your Spotify playlist is full of Taylor Swift, or your OnlyFans notifications will give away your secret NASCAR hobby. Maybe you're actually swapping who's typing frequently. Maybe you can't program without your One True Vim Configuration.
+Why not? Maybe you don't like screensharing because your Spotify playlist is full of Taylor Swift, or your OnlyFans notifications will give away your secret NASCAR hobby. Maybe you're actually swapping who's typing frequently. Maybe you can't program without your One True Vim Configuration.
 
 ## Prerequisites setup
 
@@ -22,7 +22,7 @@ To make this work you need to have access to a shared computer that you can ssh 
 
 In the first case (one user), you would just need to generate a new ssh key via something like `ssh-keygen -t ecdsa -C "pair programming key $(date +%F)"`, add it to your user's `authorized_keys` file, and give your friend the public key. Then all they need to do is ssh to your machine (on the same user as you) and use `screen -x` to attach to your screen session, without doing the extra setup for multiuser below.
 
-Additionally, there is information on the internet about SELinux needing to be enabled but that doesn't seem to be the case on my desktop or server that I tested on. The screen binary also must be suid root but that was already the case on my server and desktop as well. I suspect both these issues may have been Ubuntu-specific.
+Additionally, there is information on the internet about SELinux needing to be enabled but that doesn't seem to be the case on my desktop or server that I tested on. The screen binary also must be suid root but that was already the case on my server and desktop as well. I did encounter a non-suid-root screen binary on a work computer, but all you need to do to resolve that is ``sudo chmod u+s `which screen` && sudo chmod 755 /var/run/screen``.
 
 ## Screen basics
 
@@ -69,7 +69,7 @@ In order to make this process easier, you can put some commands in a `.screenrc`
 
 You can just open `~/.screenrc` with your favorite text editor and add the lines `multiuser on` and `acladd <username>` as we did in steps 2 and 3 above. Then all your screen sessions will be multiuser-enabled and available to join by anyone whom you've given access to via `acladd`.
 
-Using `.screenrc` to manage access also makes it easier to use screen's advanced multiuser acl features, like enabling read-only access. See the man page for more information.
+Using `.screenrc` to manage access also makes it easier to use screen's advanced multiuser acl features, like enabling read-only access by using the `-w` flag on the `acladd` command. See the man page for more information.
 
 ## Summary
 
@@ -89,4 +89,4 @@ screen -Ux your_username/example_name
 
 ## Credits
 
-I used [this page](https://wiki.networksecuritytoolkit.org/index.php/HowTo_Share_A_Terminal_Session_Using_Screen) to remind myself how to do this, and really the reason I wrote this post is so that I don't have to find that page or one like it in the future when I forget.
+I used [this page](https://wiki.networksecuritytoolkit.org/index.php/HowTo_Share_A_Terminal_Session_Using_Screen) to remind myself how to do this, and really the reason I wrote this post is so that I don't have to find that page in the future when I forget.
