@@ -19,7 +19,7 @@
           <h2><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></h2>
           <div class="post-info">
             <div class="" style="flex-grow: 1;">
-              <span><time datetime="{{ article.date.isoformat() }}">{{ article.locale_date }}</time> in <a href="{{ SITEURL }}/{{ article.category.url }}" title="All articles in category {{ article.category }}">{{ article.category }}</a></span> 
+              <span><time datetime="{{ article.date.isoformat() }}">{{ article.locale_date }}</time></span>
 	      {% if article.readtime %}
 	      <span> - {{article.readtime.minutes}} min </span>
 	      {% endif %}
