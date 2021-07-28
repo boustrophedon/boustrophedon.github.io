@@ -2,7 +2,6 @@ Title: How to pair program like it's the 1980s (with GNU Screen)
 Slug: pair-programming-with-screen
 Date: 2021-07-26
 Summary: How to use GNU Screen to pair program remotely.
-Status: Draft
 
 ## What we're doing
 
@@ -20,7 +19,9 @@ Why not? Maybe you don't like screensharing because your Spotify playlist is ful
 
 To make this work you need to have access to a shared computer that you can ssh into. You can set this up with a single user (requires less configuration but not always ideal or possible, especially in corporate environments), two existing users if you're on a corporate or educational network and you already have shared access to several machines, or you can make an extra "guest" user and generate ssh keys per-guest, giving you the ability to revoke access easily.
 
-In the first case (one user), you would just need to generate a new ssh key via something like `ssh-keygen -t ecdsa -C "pair programming key $(date +%F)"`, add it to your user's `authorized_keys` file, and give your friend the public key. Then all they need to do is ssh to your machine (on the same user as you) and use `screen -x` to attach to your screen session, without doing the extra setup for multiuser below.
+In the first case (one user), you need your friend to generate a new ssh key via something like `ssh-keygen -t ecdsa -C "pair programming key $(date +%F)"`, have them send you the public key, and then add it to your `authorized_keys` file. Then all they need to do is ssh to your machine (on the same user as you) and use `screen -x` to attach to your screen session, without doing the extra setup for multiuser below.
+
+With a second guest user, you need to set up that user on your machine, have your friend generate the ssh key as above, and then add the key to the guest user's `authorized_keys` file.
 
 Additionally, there is information on the internet about SELinux needing to be enabled but that doesn't seem to be the case on my desktop or server that I tested on. The screen binary also must be suid root but that was already the case on my server and desktop as well. I did encounter a non-suid-root screen binary on a work computer, but all you need to do to resolve that is ``sudo chmod u+s `which screen` && sudo chmod 755 /var/run/screen``.
 
