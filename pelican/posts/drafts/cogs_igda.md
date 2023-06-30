@@ -2,6 +2,7 @@ Title: I went to an IGDA NJ meetup and it was cool
 Category: COGS
 Tags: COGS, IGDA, game development, networking or whatever
 Date: 2014-07-03
+Status: Draft
 
 Yesterday, July 1st, I went to the IGDA NJ arcade demo meetup thing instead of studying for my differential equations final on the 2nd. didn't do too well, oops. However, there were cool people there and there were some surprisingly cool games. More importantly, I talked to a few people who were at the very least interested in coming to talk to COGS. Everyone there was indie so I didn't even mention the word "sponsorship" and I wouldn't ask anyone there for money for COGS, but meeting people is always helpful because you can't predict who knows who.
 

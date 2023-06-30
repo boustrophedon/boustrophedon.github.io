@@ -2,6 +2,7 @@ Title: More thoughts on COGS
 Category: COGS
 Tags: COGS, game development
 Date: 2014-07-03
+Status: Draft
 
 I put the last post on the COGS Facebook group and Andrew made some good points, and I talked to V and Billy and they made similar points (those two also gave me other ideas which I will talk about later in this post). Basically, making a game that's big enough to be a group project is difficult to do during the semester for a variety of reasons, moreso if people don't have extrinsic motivation like getting a grade. So I don't think we're going to do a big club-wide game project.
 

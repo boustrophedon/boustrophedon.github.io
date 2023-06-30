@@ -2,6 +2,7 @@ Title: This will make some people mad
 Category: Dart
 Tags: Dart, Dartlang, Javascript, jimmies being rustled
 Date: 2014-09-12
+Status: Draft
 
 In the shower today I came up with a pretty good metaphor for javascript vs. dart.
 

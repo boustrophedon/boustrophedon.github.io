@@ -2,6 +2,7 @@ Title: Thoughts on what COGS should be
 Category: COGS
 Tags: COGS, game development
 Date: 2014-07-03
+Status: Draft
 
 [COGS](http://cogs.club/) (domain is new so it might not work yet) is the game development club I co-founded with some people at Rutgers. It used to be an informal seminar run by Lars and some other people based on a former professor's notes from a seminar class. 
 
