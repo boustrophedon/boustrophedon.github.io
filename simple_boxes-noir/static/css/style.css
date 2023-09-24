@@ -4,7 +4,7 @@ body {
   background-color: #303030;
   color: #DDDDDD;
   font-family: 'Open Sans', sans-serif;
-  font-size: 12pt;
+  font-size: 16pt;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -16,21 +16,21 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   margin-top: 0px;
   font-weight: bold;
-  font-size: 23pt;
+  font-size: 26pt;
 }
 
 h2 {
   font-weight: bold;
-  font-size: 20pt;
+  font-size: 24pt;
 }
 
 h3 {
   font-weight: bold;
-  font-size: 16pt;
+  font-size: 22pt;
 }
 
 h4 {
-  font-size: 16pt;
+  font-size: 20pt;
 }
 
 a {
@@ -43,7 +43,7 @@ a img:hover {
 }
 
 article {
-  font-size: 13pt;
+  /*font-size: 13pt;*/
   padding-top: 0;
 }
 
@@ -67,7 +67,7 @@ abbr[title] {
 
 .col-main {
   margin: auto;
-  width: 100%;
+  width: 90%;
   max-width: 900px;
   #border: solid 0.05rem;
   margin-bottom: 10px;
@@ -105,6 +105,7 @@ abbr[title] {
 .icon {
   height: 1em;
   width: 1em;
+  background: grey;
 }
 
 ul.social {
@@ -222,7 +223,7 @@ ul.social li a:hover {
 }
 
 #content code {
-  background-color:#f1f1f1;
+  background-color:#111111;
 }
 
 #content p {
@@ -270,13 +271,12 @@ ul.social li a:hover {
 /* Screen > 530px */
 
 @media screen and (min-width: 530px) {
-
   h1 {
-    font-size: 26pt;
+    font-size: 28pt;
   }
 
   article {
-    font-size: 14pt;
+    font-size: 18pt;
   }
 
   .adjust-width {
