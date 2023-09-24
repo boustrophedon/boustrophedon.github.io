@@ -1,7 +1,7 @@
 Title: Yet another E-Ink weather display - but in Rust!
 Date: 2023-09-16
 Slug: halldisplay
-Status: draft
+Status: Draft
 
 # What I made
 
@@ -9,7 +9,7 @@ I made one of those e-ink weather displays that you see on tech blogs and hacker
 
 ![hall display]({static}/images/halldisplay.png)
 
-The code can be found [on my github](https://github.com/boustrophedon/halldisplay).
+The code can be found [on my github](https://github.com/boustrophedon/eink-esp-weather-display).
 
 # Hardware
 
