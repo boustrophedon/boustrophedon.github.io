@@ -1,9 +1,6 @@
-Title: Yet another E-Ink weather display - but in Rust!
-Date: 2023-09-16
+Title: Yet another E-Ink weather display - but with Rust!
+Date: 2023-09-24
 Slug: halldisplay
-Status: Draft
-
-# What I made
 
 I made one of those e-ink weather displays that you see on tech blogs and hacker news sometimes. It can display the current weather, the temperature and precipitation forecast for the rest of the week, and my current and upcoming tasks from Todoist. It's powered by a couple NiMH AA batteries and lasts at least a couple months on a single charge, if not more.
 
@@ -25,7 +22,9 @@ I desoldered the on-board LEDs to increase battery life, since the power LED was
 
 # Software
 
-This project consists of two different Rust projects. First, there's the code that runs on the esp32 board connected to the display (the firmware), and then there's also code running on a server that gathers the data and renders it to both a png and the binary format used by the display. Originally I was going to do everything on-device, but since it's battery powered I thought it would be more efficient to just turn on the modem only briefly to download a single file that just gets pushed to the display directly, rather than having to make multiple requests to different APIs and then on top of actually do all the drawing operations.
+This project consists of two different Rust projects.
+
+There's the code that runs on the esp32 board connected to the display, and then there's also code running on a server that both gathers the data and renders it to a file. Originally I was going to do everything on-device, but since the display is battery-powered I thought it would be more efficient to download a single file and display it. So all the API requests, graph drawing, and text rendering operations happen on the server, and the display board effectively acts as a dumb terminal which just displays the data it receives.
 
 ## On-device software
 
@@ -33,7 +32,7 @@ This project consists of two different Rust projects. First, there's the code th
 
 For the "firmware" running on the esp32 board, I'm using esp-idf with the standard library (i.e. not no-std) via the esp-rs project.
 
-Setup is a tiny bit complicated, but [the esp-rs book](https://esp-rs.github.io/book/overview/using-the-standard-library.html) is a great guide and explains everything fairly clearly. Hopefully one day it will be as simple as "edit your runner in .cargo/config.toml to use espflash and then just `cargo run`" although I think for RISC-V boards with no-std it might be pretty close already. I added a Justfile that exports the libclang and esp toolchain environment variables internally so that I can run `just build` and `just run`.
+Setup is a tiny bit complicated, but [the esp-rs book](https://esp-rs.github.io/book/overview/using-the-standard-library.html) is a great guide and explains everything fairly clearly. Hopefully one day it will be as simple as "edit your runner in .cargo/config.toml to use espflash and then just `cargo run`" although I think for RISC-V boards with no-std it might be pretty close already. I added a Justfile that exports the libclang and esp toolchain environment variables internally so that I can `just build` and `just run`.
 
 The esp32-std embedded ecosystem is comprised of several different crates, including:
 - [esp-idf-sys](https://crates.io/crates/esp-idf-sys), which contains bindgen bindings to the [esp-idf C API](https://github.com/espressif/esp-idf)
@@ -128,9 +127,11 @@ Additionally, you can make a spreadsheet or mapping of labeled dimensions and us
 
 I tried out both freecad and onshape, and freecad seemed a bit too easy to get into a buggy state but I otherwise liked the constraint interface. In particular one tiny thing I liked about freecad was that the sketch turned a very visible green when it's fully constrained. Onshape's blue/black scheme is pretty low contrast and can be hard to see, especially when using flux or redshift. Maybe I just missed an external indicator that said whether the sketch was fully constrained or not. The built-in variables table in onshape was simpler than freecad, where you have to use spreadsheet workbench or a separate plugin, and even then I'm pretty sure you have to type `spreadsheet.<name>` or `dd.dd<name>` whenever you want to use a variable inside a sketch. I also didn't see a way in onshape to see a list of constraints like you can see in freecad.
 
-I had the case [printed by JLCPCB](https://3d.jlcpcb.com/3d-printing-quote) in white resin via SLA for about $20-$30 USD shipped and it was both really easy and it came out pretty nice. I had to do a second revision because I messed up with the bezel size (accidentally made it symmetric rather than the bottom having a larger lip) and the second order came out just as good or better than the first.
+I had the case [printed by JLCPCB](https://3d.jlcpcb.com/3d-printing-quote) in white resin via SLA for about $20 - $30 USD shipped and it was both really easy and it came out pretty clean. I had to do a second revision because I messed up with the bezel size (accidentally made it symmetric rather than the bottom having a larger lip) and the second order came out just as good or better than the first. [Here's the oncad project.](https://cad.onshape.com/documents/7335050833c9b0394faa498c/w/53cba50a0cfeb1391b6847f2/e/390ae9e3c38a9286a52c2ae4)
 
 I couldn't find any cheap 3D printing services in the US to do the print for me - I guess they either get outcompeted on labor costs by China or there isn't demand for them on a hobbyist level because hobbyists can buy their own or use a makerspace's printer?
+
+The case is mounted on the wall with regular Command picture hanging strips - I designed pads on the backside of the case specifically for this purpose.
 
 # Things I would like to improve
 
@@ -138,6 +139,7 @@ I couldn't find any cheap 3D printing services in the US to do the print for me 
     - I'm not really sure what's possible for resin in terms of both printability and flexibility / thin parts
 - Custom PCB with a lower quiescient current voltage regulator for improved battery life? Plus on-board battery holder.
 - The weather.gov API is occasionally flakey or provides bad JSON, maybe add a retry option via the systemd unit file
+- Add some code to note if the image from the server hasn't been updated (either via comparing to an RTC or storing the last successful update time in flash) and then maybe draw a red dot or line in the top corner or somewhere. This would be equivalent to just setting one or a couple bytes to all 1s in the binary, so it wouldn't be very difficult.
 - Minor issues with graph data
   - Make daily high/lows red and smaller
   - Show daily high/lows for current day
@@ -149,3 +151,5 @@ I couldn't find any cheap 3D printing services in the US to do the print for me 
 # Conclusions
 
 It's really easy and fun to get started writing code for microcontrollers in Rust! CAD is also pretty fun.
+
+*Thanks to Neil Chen and Stan Zhang for reviewing a draft of this post*
