@@ -35,11 +35,13 @@ For the "firmware" running on the esp32 board, I'm using esp-idf with the standa
 Setup is a tiny bit complicated, but [the esp-rs book](https://esp-rs.github.io/book/overview/using-the-standard-library.html) is a great guide and explains everything fairly clearly. Hopefully one day it will be as simple as "edit your runner in .cargo/config.toml to use espflash and then just `cargo run`" although I think for RISC-V boards with no-std it might be pretty close already. I added a Justfile that exports the libclang and esp toolchain environment variables internally so that I can `just build` and `just run`.
 
 The esp32-std embedded ecosystem is comprised of several different crates, including:
+
 - [esp-idf-sys](https://crates.io/crates/esp-idf-sys), which contains bindgen bindings to the [esp-idf C API](https://github.com/espressif/esp-idf)
 - [esp-idf-hal](https://crates.io/crates/esp-idf-hal), which contains higher-level, type-safe wrappers and drivers for hardware like GPIO and SPI 
 - [esp-idf-svc](https://crates.io/crates/esp-idf-svc), which contains implementations and wrappers for system services like Wifi and storage
 
 Additionally, the above crates use and implement traits from the following embedded-rust ecosystem crates:
+
 - [embedded-hal](https://crates.io/crates/embedded-hal)
 - [embedded-svc](https://crates.io/crates/embedded-svc)
 
