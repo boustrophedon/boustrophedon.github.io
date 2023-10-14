@@ -155,3 +155,5 @@ The case is mounted on the wall with regular Command picture hanging strips - I 
 It's really easy and fun to get started writing code for microcontrollers in Rust! CAD is also pretty fun.
 
 *Thanks to Neil Chen and Stan Zhang for reviewing a draft of this post*
+
+Update 2023-10-13: *Thanks to Hacker News commentators doodlebugging and goosinmouse for pointing out some issues with the temperature scale and min/max values that I believe I've fixed.*
