@@ -103,9 +103,9 @@ I really love how the thin lines in the precipitation graph really make it look 
 
 ### Dithering and "rendering" to the display buffer
 
-Since the display can only handle 3 colors but the text is rendered with anti-aliasing (and I couldn't find an easy way to not anti-alias) I ended up using the image crate's dithering functionality with just a manually-tuned cutoff point that looked good with the font and the display. Fortunately e-ink displays are a bit fuzzy due to their construction, so combined with the curvy font I chose it's hard to see any artifacts without looking very closely.
+Since the display can only handle 3 colors but the text is rendered with anti-aliasing (and I couldn't find an easy way to not anti-alias)(EDIT: I did end up finding a way to not anti-alias by rendering the fonts myself, basically, so this section is not correct anymore. [See the code here](https://github.com/boustrophedon/eink-esp-weather-display/blob/master/render/src/text.rs#L60)) I ended up using the image crate's dithering functionality with just a manually-tuned cutoff point that looked good with the font and the display. Fortunately e-ink displays are a bit fuzzy due to their construction, so combined with the curvy font I chose it's hard to see any artifacts without looking very closely.
 
-After the final image is dithered to white/black/red, we use the same exact crate that's used in the firmware, but this time to write the buffer instead ofread it. All we have to do is enumerate over the pixels in the image and call `set_pixel` inside the buffer, and the crate takes care of doing the bitpacking for us. It could be done more efficiently, but since we're not running on the device it doesn't matter as much.
+After the final image is dithered to white/black/red, we use the same exact crate that's used in the firmware, but this time to write the buffer instead of read it. All we have to do is enumerate over the pixels in the image and call `set_pixel` inside the buffer, and the crate takes care of doing the bitpacking for us. It could be done more efficiently, but since we're not running on the device it doesn't matter as much.
 
 ### Running the rendering software
 
@@ -156,4 +156,4 @@ It's really easy and fun to get started writing code for microcontrollers in Rus
 
 *Thanks to Neil Chen and Stan Zhang for reviewing a draft of this post*
 
-Update 2023-10-13: *Thanks to Hacker News commentators doodlebugging and goosinmouse for pointing out some issues with the temperature scale and min/max values that I believe I've fixed.*
+Update 2023-10-13: *Thanks to Hacker News commentors doodlebugging and goosinmouse for pointing out some issues with the temperature scale and min/max values that I believe I've fixed.*
