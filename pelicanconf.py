@@ -6,7 +6,7 @@ from datetime import date
 
 AUTHOR = 'Harry Stern'
 SITENAME = 'recycled math'
-SITEURL = 'http://10.0.1.211:8000'
+SITEURL = 'http://10.0.1.240:8000'
 
 THEME = 'simple_boxes-noir'
 #THEME = 'minimalXY0'
